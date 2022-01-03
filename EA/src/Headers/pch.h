@@ -10,4 +10,6 @@
 #include <iostream>
 #include <fstream>
 
+#include "math.h"
+
 #endif //PCH_H

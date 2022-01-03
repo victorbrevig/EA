@@ -1,3 +1,6 @@
+#ifndef PARSERTSP_H
+#define PARSERTSP_H
+
 #include "graph.h"
 
 namespace Utils
@@ -7,3 +10,5 @@ namespace Utils
     Graph ParseTSPGraph(const std::string& filePath);
   }
 }
+
+#endif

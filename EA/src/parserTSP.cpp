@@ -8,6 +8,7 @@ namespace Utils
   {
     Graph ParseTSPGraph(const std::string& filePath)
     {
+      Graph graph;
       std::string fileContent = Files::ReadFile(filePath);
       std::string_view fileContentView = fileContent;
       size_t offset = 0;
@@ -25,11 +26,17 @@ namespace Utils
         {
           std::string_view xStr = line.substr(firstChar, secondChar - firstChar);
           std::string_view yStr = line.substr(secondChar);
-          int x = 5;
+
+          double x = ConvertToReal(xStr);
+          double y = ConvertToReal(yStr);
+          
+          graph.Add2DCoordinate(x, y);
         }
       }
 
-      return Graph();
+      graph.ObtainEdgesFrom2DPoints();
+
+      return graph;
     }
   }
 }
