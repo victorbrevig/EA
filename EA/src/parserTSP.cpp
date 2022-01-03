@@ -25,23 +25,25 @@ namespace Utils
 
         //Parse coordinates
         size_t firstWhiteSpace = line.find(' ', firstOffset);
+        if (firstWhiteSpace == std::string::npos)
+          break;
         while (line[firstWhiteSpace + 1] == ' ') firstWhiteSpace++;
         size_t firstChar = firstWhiteSpace + 1;
 
         size_t secondWhiteSpace = line.find(' ', firstChar);
+        if (secondWhiteSpace == std::string::npos)
+          break;
         while (line[secondWhiteSpace + 1] == ' ') secondWhiteSpace++;
         size_t secondChar = secondWhiteSpace + 1;
 
-        if (firstWhiteSpace != std::string::npos && secondWhiteSpace != std::string::npos)
-        {
-          std::string_view xStr = line.substr(firstChar, secondChar - firstChar);
-          std::string_view yStr = line.substr(secondChar);
 
-          double x = ConvertToReal(xStr);
-          double y = ConvertToReal(yStr);
+        std::string_view xStr = line.substr(firstChar, secondChar - firstChar);
+        std::string_view yStr = line.substr(secondChar);
+
+        double x = ConvertToReal(xStr);
+        double y = ConvertToReal(yStr);
           
-          graph.Add2DCoordinate(x, y);
-        }
+        graph.Add2DCoordinate(x, y);
       }
 
       if (graph.GetNumberOfVertices() <= 2000)

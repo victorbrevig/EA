@@ -16,6 +16,15 @@
     <Filter Include="Header Files\MFC">
       <UniqueIdentifier>{fa411cef-1971-4661-9e07-b16560910a61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{dfc63882-f36c-4a43-ad5d-046a5286fb8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OpenGL">
+      <UniqueIdentifier>{a195bbcb-e04a-4925-a2bd-eb4dd49113bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\OpenGL">
+      <UniqueIdentifier>{f9a39ba5-117c-46bb-90d0-66ec46171f4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,6 +53,21 @@
     </ClCompile>
     <ClCompile Include="..\src\threeSATInstance.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\glad\glad.c">
+      <Filter>Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shader.cpp">
+      <Filter>Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vertexArray.cpp">
+      <Filter>Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vertexBuffer.cpp">
+      <Filter>Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\visualizer.cpp">
+      <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,5 +101,28 @@
     <ClInclude Include="..\src\Headers\parser3SAT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Headers\shader.h">
+      <Filter>Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Headers\vertexArray.h">
+      <Filter>Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Headers\vertexBuffer.h">
+      <Filter>Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Headers\visualizer.h">
+      <Filter>Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Headers\boundingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\Shaders\passthrough.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\src\Shaders\passthrough.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

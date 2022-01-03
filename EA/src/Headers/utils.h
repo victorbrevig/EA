@@ -1,3 +1,6 @@
+#ifndef UTILS_H
+#define UTILS_H
+
 #include "pch.h"
 #include "vec.h"
 #include "matrix.h"
@@ -17,4 +20,17 @@ namespace Utils
     std::string GetNextLine(const std::string& fileContent, size_t& offset);
     std::string_view GetNextLine(const std::string_view& fileContent, size_t& offset);
   }
+
+  enum class SHADER_TYPE
+  {
+    VERTEX,
+    FRAGMENT
+  };
+
+  namespace OpenGL
+  {
+    GLuint CreateShaderProgramFromFiles(const std::string& vertexShaderfilePath, const std::string& fragmentShaderfilePath);
+    GLuint CreateShaderFromFile(const std::string& filePath, SHADER_TYPE shaderType);
+  }
 }
+#endif

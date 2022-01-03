@@ -139,4 +139,35 @@ namespace Utils
       return ret;
     }
   }
+
+  namespace OpenGL
+  {
+
+    GLuint CreateShaderProgramFromFiles(const std::string& vertexShaderfilePath, const std::string& fragmentShaderfilePath)
+    {
+      GLuint vertexShader = CreateShaderFromFile(vertexShaderfilePath, Utils::SHADER_TYPE::VERTEX);
+      GLuint fragmentShader = CreateShaderFromFile(fragmentShaderfilePath, Utils::SHADER_TYPE::FRAGMENT);
+
+      GLuint shaderProgram = glCreateProgram();
+      glAttachShader(shaderProgram, vertexShader);
+      glAttachShader(shaderProgram, fragmentShader);
+
+      glLinkProgram(shaderProgram);
+
+      glDeleteShader(vertexShader);
+      glDeleteShader(fragmentShader);
+
+      return shaderProgram;
+    }
+
+    GLuint CreateShaderFromFile(const std::string& filePath, SHADER_TYPE shaderType)
+    {
+      GLuint shader = glCreateShader(shaderType == SHADER_TYPE::VERTEX ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
+      const std::string shaderSource = Files::ReadFile(filePath);
+      const char* shaderSourcePtr = shaderSource.c_str();
+      glShaderSource(shader, 1, &shaderSourcePtr, NULL);
+      glCompileShader(shader);
+      return shader;
+    }
+  }
 }

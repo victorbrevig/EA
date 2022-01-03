@@ -13,6 +13,16 @@ namespace Utils
     return { first.x - second.x, first.y - second.y };
   }
 
+  Vec2D operator+(const Vec2D& first, const Vec2D& second)
+  {
+    return { first.x + second.x, first.y + second.y };
+  }
+
+  Vec2D operator/(const Vec2D& first, const double second)
+  {
+    return { first.x / second, first.y / second };
+  }
+
   double Distance(const Vec2D& from, const Vec2D& to)
   {
     Vec2D diff = to - from;
