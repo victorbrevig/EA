@@ -176,6 +176,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="..\src\threeSATInstance.cpp" />
     <ClCompile Include="..\src\utils.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -183,8 +184,10 @@
     <ClInclude Include="..\src\Headers\graph.h" />
     <ClInclude Include="..\src\Headers\MFC\framework.h" />
     <ClInclude Include="..\src\Headers\MFC\targetver.h" />
+    <ClInclude Include="..\src\Headers\parser3SAT.h" />
     <ClInclude Include="..\src\Headers\parserTSP.h" />
     <ClInclude Include="..\src\Headers\pch.h" />
+    <ClInclude Include="..\src\Headers\threeSATinstance.h" />
     <ClInclude Include="..\src\Headers\utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
