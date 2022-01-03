@@ -7,10 +7,10 @@
 
 
 
-TSPpermutation::TSPpermutation(int size, const Graph& graph)
+TSPpermutation::TSPpermutation(const Graph& graph)
 {
 	// fill order with [size] numbers from 0 to size-1
-	std::vector<int> order(size);
+	std::vector<int> order(graph.GetNumberOfVertices());
 	std::iota(std::begin(order), std::end(order), 0);
 
 	std::shuffle(order.begin(), order.end(), std::mt19937{ std::random_device{}() });
