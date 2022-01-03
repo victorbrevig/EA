@@ -17,4 +17,5 @@ namespace Utils
     std::string GetNextLine(const std::string& fileContent, size_t& offset);
     std::string_view GetNextLine(const std::string_view& fileContent, size_t& offset);
   }
+
 }

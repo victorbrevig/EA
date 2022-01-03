@@ -1,6 +1,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 #include "utils.h"
+#include "vector"
 
 class Graph
 {
@@ -11,5 +12,6 @@ public:
   void Add2DCoordinate(double x, double y);
   void ObtainEdgesFrom2DPoints();
   unsigned int GetNumberOfVertices();
+  double calculateDistByOrder(std::vector<uint32_t>& order) const;
 };
 #endif

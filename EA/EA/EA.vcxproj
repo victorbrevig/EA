@@ -178,6 +178,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="..\src\threeSATInstance.cpp" />
+    <ClCompile Include="..\src\tspPermutation.cpp" />
     <ClCompile Include="..\src\utils.cpp" />
     <ClCompile Include="..\src\vec.cpp" />
     <ClCompile Include="main.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="..\src\Headers\parserTSP.h" />
     <ClInclude Include="..\src\Headers\pch.h" />
     <ClInclude Include="..\src\Headers\threeSATinstance.h" />
+    <ClInclude Include="..\src\Headers\tspPermutation.h" />
     <ClInclude Include="..\src\Headers\utils.h" />
     <ClInclude Include="..\src\Headers\vec.h" />
   </ItemGroup>
