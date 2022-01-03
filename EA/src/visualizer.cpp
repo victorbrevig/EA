@@ -64,7 +64,7 @@ int Visualizer::StartVisualization()
   citiesVertexArray.Bind();
 
   std::vector<GLfloat> citiesFloats = m_Graph.PointsToGLFloats();
-
+  std::vector<GLfloat> tourFloats = m_Graph.PointsToGLFloats(m_Permutation.order);
   Utils::BoundingBox boundingBox = m_Graph.GetBoundingBox();
   Utils::Vec2D center = boundingBox.GetCenter();
   Utils::Vec2D dimension = boundingBox.GetDimensions();
@@ -82,15 +82,21 @@ int Visualizer::StartVisualization()
   citiesVertexArray.LinkAttribute(citiesVertexBuffer, 0, 2, GL_FLOAT, 2 * sizeof(float), (void*)0);
   citiesVertexArray.Unbind();
 
-
-  glm::vec3 citiesColor = glm::vec3(1.0f, 1.0f, 1.0f);
   shader.Use();
-  glUniform3f(glGetUniformLocation(shader.m_ID, "color"), citiesColor.x, citiesColor.y, citiesColor.z);
   glUniformMatrix4fv(glGetUniformLocation(shader.m_ID, "model"), 1, GL_FALSE, glm::value_ptr(citiesTransform));
 
+  VertexArray tourVertexArray;
+  tourVertexArray.Bind();
+  VertexBuffer tourVertexBuffer(tourFloats.data(), tourFloats.size() * sizeof(GLfloat));
+
+  tourVertexArray.LinkAttribute(tourVertexBuffer, 0, 2, GL_FLOAT, 2 * sizeof(float), (void*)0);
+  tourVertexArray.Unbind();
 
 
   glPointSize(GetPointSize());
+  glLineWidth(std::max(GetPointSize() / 3.0, 1.0));
+  glm::vec3 citiesColor = glm::vec3(1.0f, 1.0f, 1.0f);
+  glm::vec3 tourColor = glm::vec3(1.0f, 0.5f, 0.25f);
 
   while (!glfwWindowShouldClose(window))
   {
@@ -99,9 +105,15 @@ int Visualizer::StartVisualization()
 
     shader.Use();
    // camera.Matrix(m_shaderProgram, "camMatrix");
+    glUniform3f(glGetUniformLocation(shader.m_ID, "color"), citiesColor.x, citiesColor.y, citiesColor.z);
     citiesVertexArray.Bind();
     glDrawArrays(GL_POINTS, 0, citiesFloats.size() / 2);
     citiesVertexArray.Unbind();
+
+    glUniform3f(glGetUniformLocation(shader.m_ID, "color"), tourColor.x, tourColor.y, tourColor.z);
+    tourVertexArray.Bind();
+    glDrawArrays(GL_LINE_LOOP, 0, citiesFloats.size() / 2);
+    tourVertexArray.Unbind();
 
     /* Swap front and back buffers */
     glfwSwapBuffers(window);

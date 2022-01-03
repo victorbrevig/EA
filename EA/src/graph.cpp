@@ -16,6 +16,21 @@ std::vector<GLfloat> Graph::PointsToGLFloats() const
   return ret;
 }
 
+std::vector<GLfloat> Graph::PointsToGLFloats(const std::vector<uint32_t>& order) const
+{
+  std::vector<GLfloat> ret;
+  ret.reserve(points2D.size());
+
+  for (uint32_t index : order)
+  {
+    Utils::Vec2D point = points2D[index];
+    ret.emplace_back(point.x);
+    ret.emplace_back(point.y);
+  }
+
+  return ret;
+}
+
 Utils::BoundingBox Graph::GetBoundingBox() const
 {
   Utils::BoundingBox ret;

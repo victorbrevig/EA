@@ -10,6 +10,7 @@ class Graph
 
 public:
   std::vector<GLfloat> PointsToGLFloats() const;
+  std::vector<GLfloat> PointsToGLFloats(const std::vector<uint32_t>& order) const;
   Utils::BoundingBox GetBoundingBox() const;
   void Add2DCoordinate(double x, double y);
   void ObtainEdgesFrom2DPoints();
