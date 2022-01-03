@@ -2,6 +2,7 @@
 
 #include "utils.h"
 #include "parserTSP.h"
+#include "parser3SAT.h"
 
 int main()
 {
@@ -9,7 +10,7 @@ int main()
 
   Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\d198.tsp");
 
-
+  ThreeSATInstance threeSATinstance = Utils::Parser::parse3SAT("..\\ALL_3SAT\\uf20-01.cnf");
   
 
   return 0;

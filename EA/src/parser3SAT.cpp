@@ -10,12 +10,12 @@ namespace Utils
         ThreeSATInstance parse3SAT(const std::string& filePath) {
             std::string fileContent = Files::ReadFile(filePath);
             
-            std::vector<int> numberOfVarsAndClauses = getNumberOfVarsAndClauses(fileContent);
+            auto [vars, clauses] = getNumberOfVarsAndClauses(fileContent);
             
             ThreeSATInstance threeSATinstance(
-                numberOfVarsAndClauses[1], 
-                numberOfVarsAndClauses[0], 
-                getVector3SAT(fileContent, numberOfVarsAndClauses[1])
+                vars, 
+                clauses, 
+                getVector3SAT(fileContent, clauses)
             );
             return threeSATinstance;
         }
@@ -30,18 +30,19 @@ namespace Utils
                 GetNextLine(fileContent, offset);
             }
             std::string line = GetNextLine(fileContent, offset);
-            line = GetNextLine(fileContent, offset);
             
             std::string space_delimiter = " ";
             size_t pos = 0;
             
             // Contains information about all clauses. Shift by 3.
             std::vector<int> res(numberOfClauses*3);
-
+            line = GetNextLine(fileContent, offset);
+            // first clause contains a white space as first char
+            line = line.substr(1, line.size() - 1);
             // Iterate thorugh clauses
             int count = 0;
             for (int i = 0; i < numberOfClauses; i++) {
-                line = GetNextLine(fileContent, offset);
+                
                 pos = 0;
 
                 while ((pos = line.find(space_delimiter)) != std::string::npos) {
@@ -49,31 +50,29 @@ namespace Utils
                     line.erase(0, pos + space_delimiter.length());
                     count++;
                 }
+                line = GetNextLine(fileContent, offset);
                 
             }
             return res;            
         }
 
-        std::vector<int> getNumberOfVarsAndClauses(const std::string& fileContent) {
+        std::pair<int, int> getNumberOfVarsAndClauses(const std::string& fileContent) {
             size_t offset = 0;
             // first info lines
             for (int i = 0; i < 7; i++) {
                 GetNextLine(fileContent, offset);
             }
             std::string line = GetNextLine(fileContent, offset);
-            line = GetNextLine(fileContent, offset);
-
 
             std::vector<std::string> words{};
-            std::string space_delimiter = " ";
+            char space_delimiter = ' ';
             size_t pos = 0;
             while ((pos = line.find(space_delimiter)) != std::string::npos) {
                 words.push_back(line.substr(0, pos));
-                line.erase(0, pos + space_delimiter.length());
+                line.erase(0, pos + 1);
             }
             
-            std::vector res{ std::stoi(words[2]), std::stoi(words[3]) };
-            return res;
+            return { std::stoi(words[2]), std::stoi(words[4]) };
         }
     }
 } 
