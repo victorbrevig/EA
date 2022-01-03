@@ -45,6 +45,72 @@ namespace Utils
 
   namespace Parser
   {
+    double ConvertToReal(const std::string_view& str)
+    {
+      size_t currentOffset = 0;
+
+      //Stream functions
+      auto HasNext = [&currentOffset, &str]() { return currentOffset < str.size(); };
+      auto Peak = [&currentOffset, &str]() { return str[currentOffset]; };
+      auto Consume = [&currentOffset]() { currentOffset++; };
+      auto GetNext = [&currentOffset, &str]() { return str[currentOffset++]; };
+
+      double signedMult = 1.0;
+      if (HasNext() && Peak() == '-')
+      {
+        Consume();
+        signedMult = -1;
+      }
+
+      auto GetDigit = [&GetNext]()
+      {
+        char digit = GetNext();
+        int digitVal = digit - '0';
+        return (double)digitVal;
+      };
+
+      //Get integer part
+      double result = 0.0;
+      while (HasNext() && isdigit(Peak()))
+      {
+        result *= 10;
+        result += GetDigit();
+      }
+
+      if (HasNext() && Peak() == '.')
+      {
+        //Get decimal part
+        Consume();
+        double mul = 0.1f;
+        while (HasNext() && isdigit(Peak()))
+        {
+          result += GetDigit() * mul;
+          mul *= 0.1;
+        }
+      }
+
+      double signedExponentMult = 1.0;
+      double exponent = 0.0;
+
+      if (HasNext() && Peak() == 'e')
+      {
+        Consume();
+        if (HasNext() && (Peak() == '+' || Peak() == '-'))
+        {
+          signedExponentMult = (Peak() == '+') ? 1.0 : -1.0;
+          Consume();
+          exponent = 0.0;
+          while (HasNext() && isdigit(Peak()))
+          {
+            exponent *= 10;
+            exponent += GetDigit();
+          }
+        }
+      }
+
+      return signedMult * (result * pow(10, signedExponentMult * exponent));
+    }
+
     std::string_view GetNextLine(const std::string_view& fileContent, size_t& offset)
     {
       size_t newLine = fileContent.find('\n', offset);
