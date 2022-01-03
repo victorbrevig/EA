@@ -31,6 +31,9 @@ void TSPpermutation::orderCrossover(const TSPpermutation& matePermutation)
 {
 	std::vector<uint32_t> child(order.size());
 
+
+	
+
 	// random index between 0 and permutation size - 1 (inclusive)
 	unsigned int l = rand() % order.size();
 
