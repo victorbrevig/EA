@@ -9,5 +9,8 @@ int main()
 
   Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\d198.tsp");
 
+
+  
+
   return 0;
 }
