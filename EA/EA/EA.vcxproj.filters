@@ -27,6 +27,12 @@
     <ClCompile Include="..\src\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\parserTSP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\parser3SAT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -43,6 +49,12 @@
     </ClInclude>
     <ClInclude Include="..\src\Headers\MFC\targetver.h">
       <Filter>Header Files\MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Headers\parserTSP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Headers\graph.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
