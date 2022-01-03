@@ -17,11 +17,21 @@ namespace Utils
 
       while (offset != std::string::npos && (line = GetNextLine(fileContentView, offset)) != "EOF")
       {
+        size_t firstOffset = 0;
+        if (line.size() > 0 && line[0] == ' ')
+        {
+          while (line[firstOffset] == ' ') firstOffset++; //Skip initial white spaces
+        }
+
         //Parse coordinates
-        size_t firstWhiteSpace = line.find(' ');
+        size_t firstWhiteSpace = line.find(' ', firstOffset);
+        while (line[firstWhiteSpace + 1] == ' ') firstWhiteSpace++;
         size_t firstChar = firstWhiteSpace + 1;
+
         size_t secondWhiteSpace = line.find(' ', firstChar);
+        while (line[secondWhiteSpace + 1] == ' ') secondWhiteSpace++;
         size_t secondChar = secondWhiteSpace + 1;
+
         if (firstWhiteSpace != std::string::npos && secondWhiteSpace != std::string::npos)
         {
           std::string_view xStr = line.substr(firstChar, secondChar - firstChar);
@@ -34,7 +44,8 @@ namespace Utils
         }
       }
 
-      graph.ObtainEdgesFrom2DPoints();
+      if (graph.GetNumberOfVertices() <= 2000)
+        graph.ObtainEdgesFrom2DPoints();
 
       return graph;
     }

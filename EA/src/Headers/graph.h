@@ -10,5 +10,6 @@ class Graph
 public:
   void Add2DCoordinate(double x, double y);
   void ObtainEdgesFrom2DPoints();
+  unsigned int GetNumberOfVertices();
 };
 #endif
