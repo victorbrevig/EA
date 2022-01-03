@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <numeric>
 #include <random>
+#include <stdlib.h>
 
 
 
@@ -28,6 +29,21 @@ void TSPpermutation::updateFitness(const Graph& graph)
 
 void TSPpermutation::orderCrossover(const TSPpermutation& matePermutation)
 {
+	std::vector<uint32_t> child(order.size());
+
+	// random index between 0 and permutation size - 1 (inclusive)
+	unsigned int l = rand() % order.size();
+
+	// random index between 0 and l - 1 (inclusive)
+	unsigned int k = (l == 0) ? 0 : rand() % l;
+
+	// values from index k to l (inclusive) are assigned to the same as the first parent
+	for (unsigned int i = k; i <= l; i++) {
+		child[i] = order[i];
+	}
+
+	// fill from second parent starting at l+1
+	//for(unsigned int i=l+1; )
 
 }
 
