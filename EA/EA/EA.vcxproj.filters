@@ -69,6 +69,9 @@
     <ClCompile Include="..\src\visualizer.cpp">
       <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\tspPermutation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Headers\utils.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Headers\parser3SAT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Headers\tspPermutation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Headers\shader.h">

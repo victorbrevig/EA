@@ -14,5 +14,6 @@ public:
   void Add2DCoordinate(double x, double y);
   void ObtainEdgesFrom2DPoints();
   unsigned int GetNumberOfVertices() const;
+  double calculateDistByOrder(std::vector<uint32_t>& order) const;
 };
 #endif

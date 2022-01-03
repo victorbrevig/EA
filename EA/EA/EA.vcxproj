@@ -205,6 +205,7 @@
     </ClCompile>
     <ClCompile Include="..\src\shader.cpp" />
     <ClCompile Include="..\src\threeSATInstance.cpp" />
+    <ClCompile Include="..\src\tspPermutation.cpp" />
     <ClCompile Include="..\src\utils.cpp" />
     <ClCompile Include="..\src\vec.cpp" />
     <ClCompile Include="..\src\vertexArray.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="..\src\Headers\pch.h" />
     <ClInclude Include="..\src\Headers\shader.h" />
     <ClInclude Include="..\src\Headers\threeSATinstance.h" />
+    <ClInclude Include="..\src\Headers\tspPermutation.h" />
     <ClInclude Include="..\src\Headers\utils.h" />
     <ClInclude Include="..\src\Headers\vec.h" />
     <ClInclude Include="..\src\Headers\vertexArray.h" />
