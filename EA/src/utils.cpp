@@ -45,11 +45,29 @@ namespace Utils
 
   namespace Parser
   {
+    std::string_view GetNextLine(const std::string_view& fileContent, size_t& offset)
+    {
+      size_t newLine = fileContent.find('\n', offset);
+      if (newLine == std::string::npos)
+      {
+        offset = std::string::npos;
+        return "";
+      }
+
+      std::string_view ret = fileContent.substr(offset, newLine - offset);
+      offset = newLine + 1;
+      return ret;
+    }
+
     std::string GetNextLine(const std::string& fileContent, size_t& offset)
     {
       size_t newLine = fileContent.find('\n', offset);
       if (newLine == std::string::npos)
+      {
+        offset = std::string::npos;
         return "";
+      }
+
       std::string ret = fileContent.substr(offset, newLine - offset);
       offset = newLine + 1;
       return ret;
