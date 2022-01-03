@@ -10,7 +10,7 @@ int main()
 {
   std::cout << "Hello World" << "\n";
 
-  Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\usa13509.tsp");
+  Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\berlin52.tsp");
 
   TSPpermutation permutation(graph);
 
