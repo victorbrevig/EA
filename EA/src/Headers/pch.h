@@ -7,5 +7,7 @@
 #include "afxwin.h"
 #include <string>
 #include <vector>
+#include <iostream>
+#include <fstream>
 
 #endif //PCH_H
