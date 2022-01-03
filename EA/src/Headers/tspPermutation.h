@@ -6,7 +6,7 @@
 class TSPpermutation
 {
 public:
-	TSPpermutation(int size, const Graph& graph);
+	TSPpermutation(const Graph& graph);
 	double fitness;
 	std::vector<uint32_t> order;
 	void mutate_2OPT();

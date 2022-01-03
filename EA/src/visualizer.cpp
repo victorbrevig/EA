@@ -4,8 +4,8 @@
 #include "vertexArray.h"
 #include "vertexBuffer.h"
 
-Visualizer::Visualizer(const Graph& graph)
-  : m_Graph(graph) { };
+Visualizer::Visualizer(const Graph& graph, const TSPpermutation& permutation)
+  : m_Graph(graph), m_Permutation(permutation) {};
 
 double Visualizer::GetPointSize()
 {
