@@ -49,16 +49,13 @@ void TSPpermutation::orderCrossover(const TSPpermutation& matePermutation)
 		bVec[order[i]] = true;
 	}
 
-
-
-
-
 	// fill from second parent starting at l+1 
 	unsigned int yIndex = l + 1;
 	for (unsigned int i = l + 1; i < k; i = (i + 1) % order.size()) {
 		if (!bVec[matePermutation.order[i]]) {
 			child[i] = matePermutation.order[i];
 			bVec[matePermutation.order[i]] = true;
+			yIndex++;
 		}
 		else {
 
