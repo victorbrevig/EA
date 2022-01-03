@@ -31,6 +31,9 @@ void TSPpermutation::orderCrossover(const TSPpermutation& matePermutation)
 {
 	std::vector<uint32_t> child(order.size());
 
+	// boolean vector to check if an element has been inserted in the child permutation
+	std::vector<bool> bVec(order.size());
+	std::fill(bVec.begin(), bVec.end(), false);
 
 	
 
@@ -43,10 +46,24 @@ void TSPpermutation::orderCrossover(const TSPpermutation& matePermutation)
 	// values from index k to l (inclusive) are assigned to the same as the first parent
 	for (unsigned int i = k; i <= l; i++) {
 		child[i] = order[i];
+		bVec[order[i]] = true;
 	}
 
-	// fill from second parent starting at l+1
-	//for(unsigned int i=l+1; )
+
+
+
+
+	// fill from second parent starting at l+1 
+	unsigned int yIndex = l + 1;
+	for (unsigned int i = l + 1; i < k; i = (i + 1) % order.size()) {
+		if (!bVec[matePermutation.order[i]]) {
+			child[i] = matePermutation.order[i];
+			bVec[matePermutation.order[i]] = true;
+		}
+		else {
+
+		}
+	}
 
 }
 
