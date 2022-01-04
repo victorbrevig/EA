@@ -75,6 +75,9 @@
     <ClCompile Include="..\src\blackBoxEA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\greyBoxEA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Headers\utils.h">
@@ -126,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Headers\blackBoxEA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Headers\greyBoxEA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

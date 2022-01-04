@@ -96,6 +96,31 @@ TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, c
 	return TSPpermutation(childOrder);
 }
 
+TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm)
+{
+
+	// FIND COMMON EDGES
+
+
+	// REMOVE COMMON EDGES
+
+
+	// IDENTIFY CONNECTED COMPONENTS
+
+
+	// CHOSE SHORTEST OF THE TWO PATHS IN EACH CONNECTED COMPONENT
+
+
+
+
+
+
+
+	return TSPpermutation();
+}
+
+
+
 
 
 

@@ -17,6 +17,7 @@ public:
 	bool mutate_2OPT(const Graph& graph, bool acceptWorse = false);
 	void updateFitness(const Graph& graph);
 	static TSPpermutation orderCrossover(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm);
+	static TSPpermutation GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm);
 
 };
 #endif
