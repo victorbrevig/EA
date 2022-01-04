@@ -14,7 +14,7 @@ public:
   Utils::BoundingBox GetBoundingBox() const;
   void Add2DCoordinate(double x, double y);
   void ObtainEdgesFrom2DPoints();
-  unsigned int GetNumberOfVertices() const;
+  size_t GetNumberOfVertices() const;
   double calculateDistByOrder(std::vector<uint32_t>& order) const;
 };
 #endif

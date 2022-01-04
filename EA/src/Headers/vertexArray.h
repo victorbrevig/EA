@@ -12,7 +12,7 @@ public:
   VertexArray(const VertexArray&) = delete;
   VertexArray& operator=(const VertexArray&) = delete;
   ~VertexArray();
-  void LinkAttribute(VertexBuffer& vertexBuffer, GLuint layout, GLuint components, GLenum type, GLsizeiptr stride, void* offset);
+  void LinkAttribute(VertexBuffer& vertexBuffer, GLuint layout, GLuint components, GLenum type, GLsizei stride, void* offset);
   void Bind();
   void Unbind();
 

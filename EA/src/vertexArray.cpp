@@ -5,7 +5,7 @@ VertexArray::VertexArray()
 {
   glGenVertexArrays(1, &m_ID);
 }
-void VertexArray::LinkAttribute(VertexBuffer& vertexBuffer, GLuint layout, GLuint components, GLenum type, GLsizeiptr stride, void* offset)
+void VertexArray::LinkAttribute(VertexBuffer& vertexBuffer, GLuint layout, GLuint components, GLenum type, GLsizei stride, void* offset)
 {
   vertexBuffer.Bind();
   glVertexAttribPointer(layout, components, type, GL_FALSE, stride, offset);

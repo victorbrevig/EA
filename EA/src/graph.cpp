@@ -9,8 +9,8 @@ std::vector<GLfloat> Graph::PointsToGLFloats() const
 
   for(const Utils::Vec2D& point : points2D)
   {
-    ret.emplace_back(point.x);
-    ret.emplace_back(point.y);
+    ret.emplace_back((GLfloat)point.x);
+    ret.emplace_back((GLfloat)point.y);
   }
 
   return ret;
@@ -24,8 +24,8 @@ std::vector<GLfloat> Graph::PointsToGLFloats(const std::vector<uint32_t>& order)
   for (uint32_t index : order)
   {
     Utils::Vec2D point = points2D[index];
-    ret.emplace_back(point.x);
-    ret.emplace_back(point.y);
+    ret.emplace_back((GLfloat)point.x);
+    ret.emplace_back((GLfloat)point.y);
   }
 
   return ret;
@@ -74,7 +74,7 @@ void Graph::ObtainEdgesFrom2DPoints()
   }
  }
 
-unsigned int Graph::GetNumberOfVertices() const
+size_t Graph::GetNumberOfVertices() const
 {
   return points2D.size();
 }
