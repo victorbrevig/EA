@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Headers\blackBoxTSP.h"
 
 BlackBoxTSP::BlackBoxTSP(unsigned int _populationSize, unsigned int _maxNumberOfIterations, float _mutationProb, float _crossoverProb)

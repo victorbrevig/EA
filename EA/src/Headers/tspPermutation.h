@@ -6,6 +6,7 @@
 class TSPpermutation
 {
 public:
+	TSPpermutation();
 	TSPpermutation(unsigned int numberOfVertices);
 	TSPpermutation(const std::vector<uint32_t>& _order);
 	double fitness=0.0;

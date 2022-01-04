@@ -6,6 +6,10 @@
 #include <stdlib.h>
 
 
+TSPpermutation::TSPpermutation()
+{
+}
+
 TSPpermutation::TSPpermutation(unsigned int numberOfVertices)
 	: order(numberOfVertices)
 {

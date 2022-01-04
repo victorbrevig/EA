@@ -19,7 +19,7 @@ int main()
 
   Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\usa13509.tsp");
 
-  TSPpermutation permutation(graph);
+  TSPpermutation permutation(graph.GetNumberOfVertices());
 
   //ThreeSATInstance threeSATinstance = Utils::Parser::parse3SAT("..\\ALL_3SAT\\uf20-01.cnf");
   
