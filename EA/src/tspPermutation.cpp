@@ -56,9 +56,9 @@ TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, c
 	}
 
 	// fill from second parent starting at l+1 
-	unsigned int yIndex = l + 1;
-	for (unsigned int i = l + 1; i < k; i = (i + 1u) % permSize) {
-		while (!bVec[secondPerm.order[yIndex]]) {
+	unsigned int yIndex = (l + 1u) % permSize;
+	for (unsigned int i = (l + 1u)%permSize; i != k; i = (i + 1u) % permSize) {
+		while (bVec[secondPerm.order[yIndex]]) {
 			yIndex = (yIndex + 1u) % permSize;
 		}
 		childOrder[i] = secondPerm.order[yIndex];
