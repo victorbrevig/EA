@@ -18,7 +18,7 @@ int main()
 {
   std::cout << "Hello World" << "\n";
 
-  Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\usa13509.tsp");
+  Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\berlin52.tsp");
 
   TSPpermutation permutation(graph.GetNumberOfVertices());
 
@@ -56,7 +56,7 @@ int main()
     }
 
 
-    visualizer->UpdatePermutation(population[0]);
+    visualizer->UpdatePermutation(population);
   }
 
   for (TSPpermutation& individual : population)

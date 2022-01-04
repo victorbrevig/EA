@@ -8,8 +8,10 @@ bool Visualizer::m_HasScrollCallbacks = false;
 double Visualizer::m_MouseWheelStatic = 0.0;
 
 Visualizer::Visualizer(const Graph& graph, const TSPpermutation& permutation)
-  : m_Graph(graph), m_Permutation(permutation)
+  : m_Graph(graph)
 {
+  m_Permutations.clear();
+  m_Permutations.push_back(permutation);
   m_TranslateX = 0.0;
   m_TranslateY = 0.0;
   m_Scale = 1.0;
@@ -164,7 +166,11 @@ int Visualizer::StartVisualization()
   citiesVertexArray.Bind();
 
   std::vector<GLfloat> citiesFloats = m_Graph.PointsToGLFloats();
-  std::vector<GLfloat> tourFloats = m_Graph.PointsToGLFloats(m_Permutation.order);
+  std::vector<std::vector<GLfloat>> toursFloats;
+  toursFloats.reserve(m_Permutations.size());
+  for(auto& permutation : m_Permutations)
+    toursFloats.emplace_back(m_Graph.PointsToGLFloats(permutation.order));
+
   Utils::BoundingBox boundingBox = m_Graph.GetBoundingBox();
   Utils::Vec2D center = boundingBox.GetCenter();
   Utils::Vec2D dimension = boundingBox.GetDimensions();
@@ -174,18 +180,28 @@ int Visualizer::StartVisualization()
   citiesVertexArray.LinkAttribute(citiesVertexBuffer, 0, 2, GL_FLOAT, 2 * sizeof(float), (void*)0);
   citiesVertexArray.Unbind();
 
-  VertexArray tourVertexArray;
-  tourVertexArray.Bind();
-  VertexBuffer tourVertexBuffer(tourFloats.data(), tourFloats.size() * sizeof(GLfloat));
+  std::vector<VertexArray> tourVertexArrays;
 
-  tourVertexArray.LinkAttribute(tourVertexBuffer, 0, 2, GL_FLOAT, 2 * sizeof(float), (void*)0);
-  tourVertexArray.Unbind();
+  for (std::vector<GLfloat>& tourFloats : toursFloats)
+  {
+
+    VertexArray tourVertexArray;
+    tourVertexArray.Bind();
+    VertexBuffer tourVertexBuffer(tourFloats.data(), tourFloats.size() * sizeof(GLfloat));
+
+    tourVertexArray.LinkAttribute(tourVertexBuffer, 0, 2, GL_FLOAT, 2 * sizeof(float), (void*)0);
+    tourVertexArray.Unbind();
+
+    tourVertexArrays.emplace_back(std::move(tourVertexArray));
+  }
+
 
 
   glPointSize((GLfloat)GetPointSize());
   glLineWidth((GLfloat)std::max(GetPointSize() / 3.0, 1.0));
   glm::vec3 citiesColor = glm::vec3(1.0f, 1.0f, 1.0f);
   glm::vec3 tourColor = glm::vec3(1.0f, 0.5f, 0.25f);
+  glm::vec3 tourColorSecond = glm::vec3(0.25f, 0.5f, 1.0f);
 
   while (!glfwWindowShouldClose(window))
   {
@@ -195,15 +211,31 @@ int Visualizer::StartVisualization()
 
     Inputs(window);
 
-    if (m_UpdatePermutationData)
+    if (true)
     {
       std::lock_guard<std::mutex> g(m_PermMutex);
-      tourFloats = m_Graph.PointsToGLFloats(m_Permutation.order);
 
-      tourVertexArray.Bind();
-      VertexBuffer tourVertexBuffer(tourFloats.data(), tourFloats.size() * sizeof(GLfloat));
-      tourVertexArray.LinkAttribute(tourVertexBuffer, 0, 2, GL_FLOAT, 2 * sizeof(float), (void*)0);
-      tourVertexArray.Unbind();
+
+      toursFloats.clear();
+      for (auto& permutation : m_Permutations)
+        toursFloats.emplace_back(m_Graph.PointsToGLFloats(permutation.order));
+
+      for (VertexArray& tourVertexArray : tourVertexArrays)
+        tourVertexArray.DeleteArrays();
+      tourVertexArrays.clear();
+
+      for (std::vector<GLfloat>& tourFloats : toursFloats)
+      {
+
+        VertexArray tourVertexArray;
+        tourVertexArray.Bind();
+        VertexBuffer tourVertexBuffer(tourFloats.data(), tourFloats.size() * sizeof(GLfloat));
+
+        tourVertexArray.LinkAttribute(tourVertexBuffer, 0, 2, GL_FLOAT, 2 * sizeof(float), (void*)0);
+        tourVertexArray.Unbind();
+
+        tourVertexArrays.emplace_back(std::move(tourVertexArray));
+      }
 
       m_UpdatePermutationData = false;
     }
@@ -223,9 +255,24 @@ int Visualizer::StartVisualization()
     citiesVertexArray.Unbind();
 
     glUniform3f(glGetUniformLocation(shader.m_ID, "color"), tourColor.x, tourColor.y, tourColor.z);
-    tourVertexArray.Bind();
-    glDrawArrays(GL_LINE_LOOP, 0, (GLsizei)(citiesFloats.size() / 2));
-    tourVertexArray.Unbind();
+
+    if(tourVertexArrays.size() == 2)
+      glLineWidth((GLfloat)std::max(GetPointSize() / 3.0, 1.0) * 2.0);
+
+    for (VertexArray& tourVertexArray : tourVertexArrays)
+    {
+      tourVertexArray.Bind();
+      glDrawArrays(GL_LINE_LOOP, 0, (GLsizei)(citiesFloats.size() / 2));
+      tourVertexArray.Unbind();
+
+      if (tourVertexArrays.size() == 2)
+      {
+        glUniform3f(glGetUniformLocation(shader.m_ID, "color"), tourColorSecond.x, tourColorSecond.y, tourColorSecond.z);
+        glLineWidth((GLfloat)std::max(GetPointSize() / 3.0, 1.0));
+      }
+        
+    }
+
 
     /* Swap front and back buffers */
     glfwSwapBuffers(window);
@@ -234,6 +281,9 @@ int Visualizer::StartVisualization()
     glfwPollEvents();
   }
 
+  for (VertexArray& tourVertexArray : tourVertexArrays)
+    tourVertexArray.DeleteArrays();
+
   glfwDestroyWindow(window);
   return 0;
 }
@@ -241,7 +291,15 @@ int Visualizer::StartVisualization()
 void Visualizer::UpdatePermutation(const TSPpermutation& permutation)
 {
   std::lock_guard<std::mutex> g(m_PermMutex);
-  m_Permutation = permutation;
+  m_Permutations.clear();
+  m_Permutations.push_back(permutation);
+  m_UpdatePermutationData = true;
+}
+
+void Visualizer::UpdatePermutation(const std::vector<TSPpermutation>& permutations)
+{
+  std::lock_guard<std::mutex> g(m_PermMutex);
+  m_Permutations = permutations;
   m_UpdatePermutationData = true;
 }
 

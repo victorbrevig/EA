@@ -9,9 +9,7 @@ class VertexArray
 public: 
   GLuint m_ID;
   VertexArray();
-  VertexArray(const VertexArray&) = delete;
-  VertexArray& operator=(const VertexArray&) = delete;
-  ~VertexArray();
+  void DeleteArrays();
   void LinkAttribute(VertexBuffer& vertexBuffer, GLuint layout, GLuint components, GLenum type, GLsizei stride, void* offset);
   void Bind();
   void Unbind();
