@@ -6,23 +6,19 @@
 #include <stdlib.h>
 
 
-TSPpermutation::TSPpermutation(const Graph& graph)
-	: order(graph.GetNumberOfVertices())
+TSPpermutation::TSPpermutation(unsigned int numberOfVertices)
+	: order(numberOfVertices)
 {
 	// fill order with [size] numbers from 0 to size-1
-
 	std::iota(std::begin(order), std::end(order), 0);
 
 	std::shuffle(order.begin(), order.end(), Utils::Random::engine);
 	fittnessIsValid = false;
-	updateFitness(graph);
-
 }
 
-TSPpermutation::TSPpermutation(const Graph& graph, const std::vector<uint32_t>& _order)
+TSPpermutation::TSPpermutation(const std::vector<uint32_t>& _order)
 {
 	order = _order;
-	updateFitness(graph);
 }
 
 
@@ -52,7 +48,7 @@ void TSPpermutation::updateFitness(const Graph& graph)
 	fittnessIsValid = true;
 }
 
-TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
+TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm)
 {
 	int permSize = firstPerm.order.size();
 	std::vector<uint32_t> childOrder(permSize);
@@ -84,7 +80,7 @@ TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, c
 		yIndex = (yIndex + 1u) % permSize;
 	}
 
-	return TSPpermutation(graph, childOrder);
+	return TSPpermutation(childOrder);
 }
 
 
