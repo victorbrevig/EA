@@ -9,8 +9,9 @@ public:
 	TSPpermutation(const Graph& graph);
 	TSPpermutation(const Graph& graph, const std::vector<uint32_t>& _order);
 	double fitness;
+	bool fittnessIsValid;
 	std::vector<uint32_t> order;
-	void mutate_2OPT();
+	bool mutate_2OPT(const Graph* graph = nullptr);
 	void updateFitness(const Graph& graph);
 	static TSPpermutation orderCrossover(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph);
 

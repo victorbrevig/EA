@@ -17,7 +17,7 @@ int main()
 {
   std::cout << "Hello World" << "\n";
 
-  Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\bier127.tsp");
+  Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\usa13509.tsp");
 
   TSPpermutation permutation(graph);
 
@@ -27,13 +27,13 @@ int main()
   std::thread visualizerThread(StartVisualizer, visualizer);
   visualizerThread.detach();
 
-  visualizer->WaitForSpace();
-  TSPpermutation permutation1(graph);
-  visualizer->UpdatePermutation(permutation1);
+  while(true)
+  {
+    bool res = permutation.mutate_2OPT(&graph);
+    if (res)
+      visualizer->UpdatePermutation(permutation);
+  }
 
-  visualizer->WaitForSpace();
-  TSPpermutation permutation2(graph);
-  visualizer->UpdatePermutation(permutation2);
 
   visualizer->WaitForClose();
   delete visualizer;

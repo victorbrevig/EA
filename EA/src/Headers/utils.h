@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "vec.h"
 #include "matrix.h"
+#include <random>
 
 namespace Utils
 {
@@ -31,6 +32,13 @@ namespace Utils
   {
     GLuint CreateShaderProgramFromFiles(const std::string& vertexShaderfilePath, const std::string& fragmentShaderfilePath);
     GLuint CreateShaderFromFile(const std::string& filePath, SHADER_TYPE shaderType);
+  }
+
+  namespace Random
+  {
+    extern std::mt19937 engine;
+    unsigned int Get();
+    unsigned int GetRange(unsigned int min, unsigned int max);
   }
 }
 #endif

@@ -13,7 +13,8 @@ TSPpermutation::TSPpermutation(const Graph& graph)
 
 	std::iota(std::begin(order), std::end(order), 0);
 
-	std::shuffle(order.begin(), order.end(), std::mt19937{ std::random_device{}() });
+	std::shuffle(order.begin(), order.end(), Utils::Random::engine);
+	fittnessIsValid = false;
 	updateFitness(graph);
 
 }
@@ -25,13 +26,30 @@ TSPpermutation::TSPpermutation(const Graph& graph, const std::vector<uint32_t>& 
 }
 
 
-void TSPpermutation::mutate_2OPT()
+bool TSPpermutation::mutate_2OPT(const Graph* graph)
 {
+	uint32_t k = Utils::Random::GetRange(0, (uint32_t)order.size() - 2);
+	uint32_t l = Utils::Random::GetRange(k + 1, (uint32_t)order.size() - 1);
+
+	if (graph != nullptr)
+	{
+		//See if this will lead to an improvement
+		double introducedCost = graph->GetEdge(order[k], order[l]) + graph->GetEdge(order[k + 1], order[(l + 1) % order.size()]);
+		double removedCost = graph->GetEdge(order[k], order[k + 1]) + graph->GetEdge(order[l], order[(l + 1) % order.size()]);
+		if (removedCost < introducedCost)
+			return false;
+	}
+
+	std::reverse(order.begin() + k + 1, order.begin() + l + 1);
+
+	fittnessIsValid = false;
+	return true;
 }
 
 void TSPpermutation::updateFitness(const Graph& graph)
 {
 	fitness = graph.calculateDistByOrder(order);
+	fittnessIsValid = true;
 }
 
 TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)

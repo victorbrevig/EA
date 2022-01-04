@@ -170,4 +170,19 @@ namespace Utils
       return shader;
     }
   }
+
+  namespace Random
+  {
+    std::mt19937 engine{ std::random_device{}() };
+
+    unsigned int Get()
+    {
+      return engine();
+    }
+
+    unsigned int GetRange(unsigned int min, unsigned int max)
+    {
+      return (Get() % (max - min + 1u)) + min;
+    }
+  }
 }

@@ -57,6 +57,14 @@ Utils::BoundingBox Graph::GetBoundingBox() const
   return ret;
 }
 
+double Graph::GetEdge(size_t from, size_t to) const
+{
+  if (edges != nullptr)
+    return edges->Get(from, to);
+
+  return Utils::Distance(points2D[from], points2D[to]);
+}
+
 void Graph::Add2DCoordinate(double x, double y)
 {
   points2D.emplace_back(Utils::Vec2D{ x, y });
