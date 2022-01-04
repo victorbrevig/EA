@@ -25,14 +25,15 @@ class Visualizer {
   static void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
   double GetPointSize();
-
+  double ScreenToOpenGLX(double x);
+  double ScreenToOpenGLY(double y);
   std::mutex m_Mutex;
   std::mutex m_PermMutex;
 public:
   Visualizer(const Graph& graph, const TSPpermutation& permutation);
   int StartVisualization();
   void Inputs(GLFWwindow* window);
-  void OnZoom(double amount);
+  void OnZoom(GLFWwindow* window, double amount);
   void WaitForClose();
   void WaitForSpace();
   void UpdatePermutation(const TSPpermutation& permutation);

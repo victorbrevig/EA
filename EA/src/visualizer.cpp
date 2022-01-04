@@ -51,12 +51,32 @@ void Visualizer::ScrollCallback(GLFWwindow* window, double xoffset, double yoffs
   m_MouseWheelStatic += yoffset;
 }
 
-void Visualizer::OnZoom(double amount)
+double Visualizer::ScreenToOpenGLX(double x)
+{
+  return ((double)x / (double)width * 2.0 - 1.0);
+};
+double Visualizer::ScreenToOpenGLY(double y)
+{
+  return ((double)y / (double)height * 2.0 + 1.0);
+};
+
+void Visualizer::OnZoom(GLFWwindow* window, double amount)
 {
   double scaleFrac = 1.0 / 20.0;
   double scaleFactor = (1.0 + scaleFrac);
   scaleFactor = pow(scaleFactor, amount);
   m_Scale *= scaleFactor;
+  m_TranslateX *= scaleFactor;
+  m_TranslateY *= scaleFactor;
+
+ /* double mouseX;
+  double mouseY;
+  glfwGetCursorPos(window, &mouseX, &mouseY);
+
+  double deltaX = ScreenToOpenGLX(mouseX) - ScreenToOpenGLX(m_SelectedMousePosX);
+  double deltaY = ScreenToOpenGLY(mouseY) - ScreenToOpenGLY(m_SelectedMousePosY);
+  m_TranslateX -= (1 - scaleFactor) * deltaX;
+  m_TranslateY -= (1 - scaleFactor) * deltaY;*/
 }
 
 void Visualizer::Inputs(GLFWwindow* window)
@@ -69,19 +89,12 @@ void Visualizer::Inputs(GLFWwindow* window)
 
   if (m_MouseWheel != m_MouseWheelStatic)
   {
-    OnZoom(m_MouseWheelStatic - m_MouseWheel);
+    OnZoom(window, m_MouseWheelStatic - m_MouseWheel);
     m_MouseWheel = m_MouseWheelStatic;
   }
 
   if (m_Panning)
   {
-    auto ScreenToOpenGLX = [&width = this->width](double x) {
-      return ((double)x / (double)width * 2.0 - 1.0);
-    };
-    auto ScreenToOpenGLY = [&height = this->height](double y) {
-      return ((double)y / (double)height * 2.0 + 1.0);
-    };
-
     double mouseX;
     double mouseY;
     glfwGetCursorPos(window, &mouseX, &mouseY);
