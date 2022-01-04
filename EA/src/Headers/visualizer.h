@@ -5,7 +5,7 @@
 
 class Visualizer {
   const Graph& m_Graph;
-  TSPpermutation m_Permutation;
+  std::vector<TSPpermutation> m_Permutations;
 
   int width;
   int height;
@@ -37,4 +37,5 @@ public:
   void WaitForClose();
   void WaitForSpace();
   void UpdatePermutation(const TSPpermutation& permutation);
+  void UpdatePermutation(const std::vector<TSPpermutation>& permutations);
 };

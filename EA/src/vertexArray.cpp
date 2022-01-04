@@ -23,7 +23,7 @@ void VertexArray::Unbind()
   glBindVertexArray(0);
 }
 
-VertexArray::~VertexArray()
+void VertexArray::DeleteArrays()
 {
   glDeleteVertexArrays(1, &m_ID);
 }
