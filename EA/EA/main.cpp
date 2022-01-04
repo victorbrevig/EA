@@ -19,7 +19,7 @@ int main()
 
   Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\bier127.tsp");
 
-  TSPpermutation permutation(graph);
+  TSPpermutation permutation(graph.GetNumberOfVertices());
 
   //ThreeSATInstance threeSATinstance = Utils::Parser::parse3SAT("..\\ALL_3SAT\\uf20-01.cnf");
   
@@ -28,12 +28,17 @@ int main()
   visualizerThread.detach();
 
   visualizer->WaitForSpace();
-  TSPpermutation permutation1(graph);
+  TSPpermutation permutation1(graph.GetNumberOfVertices());
   visualizer->UpdatePermutation(permutation1);
 
   visualizer->WaitForSpace();
-  TSPpermutation permutation2(graph);
+  TSPpermutation permutation2(graph.GetNumberOfVertices());
   visualizer->UpdatePermutation(permutation2);
+
+  // ORDER CROSSOVER
+  visualizer->WaitForSpace();
+  TSPpermutation oxChild = TSPpermutation::orderCrossover(permutation1, permutation2);
+  visualizer->UpdatePermutation(oxChild);
 
   visualizer->WaitForClose();
   delete visualizer;
