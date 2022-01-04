@@ -4,7 +4,7 @@
 #include <numeric>
 #include <random>
 #include <stdlib.h>
-
+#include <set>
 
 TSPpermutation::TSPpermutation()
 {
@@ -98,21 +98,25 @@ TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, c
 
 TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm)
 {
-
 	// FIND COMMON EDGES
-
+	std::set<std::pair<uint32_t, uint32_t>> firstParentEdges;
+	uint32_t permSize = firstPerm.order.size();
+	for (int i = 1; i < permSize; i++) {
+		std::pair<uint32_t, uint32_t> edge(firstPerm.order[i - 1], firstPerm.order[i]);
+		//firstParentEdges.insert
+	}
+	// remember first and last index
 
 	// REMOVE COMMON EDGES
 
 
-	// IDENTIFY CONNECTED COMPONENTS
+	// CREATE GRAPH (WITHOUT COMMON EDGES)
+
+
+	// IDENTIFY CONNECTED COMPONENTS USING BFS
 
 
 	// CHOSE SHORTEST OF THE TWO PATHS IN EACH CONNECTED COMPONENT
-
-
-
-
 
 
 
