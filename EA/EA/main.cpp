@@ -6,6 +6,7 @@
 #include "visualizer.h"
 #include "tspPermutation.h"
 #include <thread>
+#include "blackBoxEA.h"
 
 void StartVisualizer(Visualizer* visualizer)
 {
@@ -27,12 +28,57 @@ int main()
   std::thread visualizerThread(StartVisualizer, visualizer);
   visualizerThread.detach();
 
-  while(true)
+  while(false)
   {
-    bool res = permutation.mutate_2OPT(&graph);
+    bool res = permutation.mutate_2OPT(graph);
     if (res)
       visualizer->UpdatePermutation(permutation);
   }
+
+  std::vector<TSPpermutation> population;
+  population.reserve(2);
+  for (size_t i = 0; i < 2; i++)
+    population.emplace_back(graph.GetNumberOfVertices());
+
+  BlackBoxEA<TSPpermutation> ea(population, 1e8, 1.0, 0);
+
+  bool isDone = false;
+
+  while (!isDone)
+  {
+    for (size_t i = 0; i < 1000; i++)
+    {
+      if (!ea.iterate(graph))
+      {
+        isDone = true;
+        break;
+      }
+    }
+
+
+    visualizer->UpdatePermutation(population[0]);
+  }
+
+  for (TSPpermutation& individual : population)
+    individual.updateFitness(graph);
+
+  struct {
+    bool operator()(TSPpermutation a, TSPpermutation b) const { return a.GetFitness() < b.GetFitness(); }
+  } customLess;
+
+  //auto bestFitness = std::min_element(population.begin(), population.end(), customLess);
+  std::sort(population.begin(), population.end(), customLess);
+
+  uint32_t individualIndex = 0;
+  while(true)
+  {
+    std::cout << individualIndex << ": Fitness: " << population[individualIndex].GetFitness() << "\n";
+    visualizer->UpdatePermutation(population[individualIndex]);
+    individualIndex = (individualIndex + 1) % population.size();
+    if (individualIndex == 0)
+      break;
+  }
+
 
 
   visualizer->WaitForClose();

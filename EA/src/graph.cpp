@@ -87,7 +87,7 @@ size_t Graph::GetNumberOfVertices() const
   return points2D.size();
 }
 
-double Graph::calculateDistByOrder(std::vector<uint32_t>& order) const
+double Graph::calculateDistByOrder(const std::vector<uint32_t>& order) const
 {
     double sum = 0.0;
     // check if edge matrix is available
@@ -95,6 +95,7 @@ double Graph::calculateDistByOrder(std::vector<uint32_t>& order) const
         for (unsigned int i = 1; i < order.size(); i++) {
             sum += edges->Get(order[i - 1], order[i]);   
         }
+        sum += edges->Get(order[order.size() - 1], order[0]);
     }
     else {
         for (unsigned int i = 1; i < order.size(); i++) {
@@ -102,6 +103,9 @@ double Graph::calculateDistByOrder(std::vector<uint32_t>& order) const
             Utils::Vec2D secondCoord = points2D[order[i]];
             sum += Utils::Distance(firstCoord, secondCoord);
         }
+        Utils::Vec2D firstCoord = points2D[order[order.size() - 1]];
+        Utils::Vec2D secondCoord = points2D[order[0]];
+        sum += Utils::Distance(firstCoord, secondCoord);
     }
     return sum;
 }

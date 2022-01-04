@@ -184,5 +184,10 @@ namespace Utils
     {
       return (Get() % (max - min + 1u)) + min;
     }
+
+    bool WithProbability(double p)
+    {
+      return (double)Get() / (double)engine.max() < p;
+    }
   }
 }

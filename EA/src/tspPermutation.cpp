@@ -8,6 +8,7 @@
 
 TSPpermutation::TSPpermutation()
 {
+	fitnessIsValid = false;
 }
 
 TSPpermutation::TSPpermutation(unsigned int numberOfVertices)
@@ -17,39 +18,47 @@ TSPpermutation::TSPpermutation(unsigned int numberOfVertices)
 	std::iota(std::begin(order), std::end(order), 0);
 
 	std::shuffle(order.begin(), order.end(), Utils::Random::engine);
-	fittnessIsValid = false;
+
+	fitnessIsValid = false;
 }
 
 TSPpermutation::TSPpermutation(const std::vector<uint32_t>& _order)
 {
 	order = _order;
+	fitnessIsValid = false;
 }
 
 
-bool TSPpermutation::mutate_2OPT(const Graph* graph)
+bool TSPpermutation::mutate_2OPT(const Graph& graph, bool acceptWorse)
 {
 	uint32_t k = Utils::Random::GetRange(0, (uint32_t)order.size() - 2);
 	uint32_t l = Utils::Random::GetRange(k + 1, (uint32_t)order.size() - 1);
 
-	if (graph != nullptr)
+	//See if this will lead to an improvement
+	if (!acceptWorse)
 	{
-		//See if this will lead to an improvement
-		double introducedCost = graph->GetEdge(order[k], order[l]) + graph->GetEdge(order[k + 1], order[(l + 1) % order.size()]);
-		double removedCost = graph->GetEdge(order[k], order[k + 1]) + graph->GetEdge(order[l], order[(l + 1) % order.size()]);
+		double introducedCost = graph.GetEdge(order[k], order[l]) + graph.GetEdge(order[k + 1], order[(l + 1) % order.size()]);
+		double removedCost = graph.GetEdge(order[k], order[k + 1]) + graph.GetEdge(order[l], order[(l + 1) % order.size()]);
 		if (removedCost < introducedCost)
 			return false;
 	}
 
 	std::reverse(order.begin() + k + 1, order.begin() + l + 1);
 
-	fittnessIsValid = false;
+	updateFitness(graph);
+
 	return true;
 }
 
 void TSPpermutation::updateFitness(const Graph& graph)
 {
 	fitness = graph.calculateDistByOrder(order);
-	fittnessIsValid = true;
+	fitnessIsValid = true;
+}
+
+double TSPpermutation::GetFitness() const
+{
+	return fitness;
 }
 
 TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm)

@@ -189,7 +189,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\src\blackBoxTSP.cpp" />
+    <ClCompile Include="..\src\blackBoxEA.cpp" />
     <ClCompile Include="..\src\graph.cpp" />
     <ClCompile Include="..\src\matrix.cpp" />
     <ClCompile Include="..\src\parserTSP.cpp" />
@@ -215,7 +215,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\Headers\blackBoxTSP.h" />
+    <ClInclude Include="..\src\Headers\blackBoxEA.h" />
     <ClInclude Include="..\src\Headers\boundingBox.h" />
     <ClInclude Include="..\src\Headers\graph.h" />
     <ClInclude Include="..\src\Headers\matrix.h" />

@@ -72,7 +72,7 @@
     <ClCompile Include="..\src\tspPermutation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\blackBoxTSP.cpp">
+    <ClCompile Include="..\src\blackBoxEA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,7 +125,7 @@
     <ClInclude Include="..\src\Headers\boundingBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Headers\blackBoxTSP.h">
+    <ClInclude Include="..\src\Headers\blackBoxEA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
