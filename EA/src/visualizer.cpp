@@ -70,7 +70,7 @@ int Visualizer::StartVisualization()
   Utils::Vec2D dimension = boundingBox.GetDimensions();
 
   glm::mat4 citiesTransform = glm::mat4(1.0);
-  double factor = 1.8; //0.2 screen padding
+  float factor = 1.8f; //0.2 screen padding
   float scale = std::min((float)(1.0 / dimension.x) * factor, (float)(1.0 / dimension.y) * factor);
   citiesTransform = glm::scale(citiesTransform, glm::vec3(scale, -scale, 1.0f));
   //citiesTransform = glm::scale(citiesTransform, glm::vec3(10.0f, 10.0f, 1.0f));
@@ -93,8 +93,8 @@ int Visualizer::StartVisualization()
   tourVertexArray.Unbind();
 
 
-  glPointSize(GetPointSize());
-  glLineWidth(std::max(GetPointSize() / 3.0, 1.0));
+  glPointSize((GLfloat)GetPointSize());
+  glLineWidth((GLfloat)std::max(GetPointSize() / 3.0, 1.0));
   glm::vec3 citiesColor = glm::vec3(1.0f, 1.0f, 1.0f);
   glm::vec3 tourColor = glm::vec3(1.0f, 0.5f, 0.25f);
 
@@ -107,12 +107,12 @@ int Visualizer::StartVisualization()
    // camera.Matrix(m_shaderProgram, "camMatrix");
     glUniform3f(glGetUniformLocation(shader.m_ID, "color"), citiesColor.x, citiesColor.y, citiesColor.z);
     citiesVertexArray.Bind();
-    glDrawArrays(GL_POINTS, 0, citiesFloats.size() / 2);
+    glDrawArrays(GL_POINTS, 0, (GLsizei)(citiesFloats.size() / 2));
     citiesVertexArray.Unbind();
 
     glUniform3f(glGetUniformLocation(shader.m_ID, "color"), tourColor.x, tourColor.y, tourColor.z);
     tourVertexArray.Bind();
-    glDrawArrays(GL_LINE_LOOP, 0, citiesFloats.size() / 2);
+    glDrawArrays(GL_LINE_LOOP, 0, (GLsizei)(citiesFloats.size() / 2));
     tourVertexArray.Unbind();
 
     /* Swap front and back buffers */
