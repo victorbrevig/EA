@@ -192,6 +192,7 @@
     <ClCompile Include="..\src\blackBoxEA.cpp" />
     <ClCompile Include="..\src\graph.cpp" />
     <ClCompile Include="..\src\greyBoxEA.cpp" />
+    <ClCompile Include="..\src\lksearch.cpp" />
     <ClCompile Include="..\src\matrix.cpp" />
     <ClCompile Include="..\src\parserTSP.cpp" />
     <ClCompile Include="..\src\parser3SAT.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="..\src\Headers\boundingBox.h" />
     <ClInclude Include="..\src\Headers\graph.h" />
     <ClInclude Include="..\src\Headers\greyBoxEA.h" />
+    <ClInclude Include="..\src\Headers\lksearch.h" />
     <ClInclude Include="..\src\Headers\matrix.h" />
     <ClInclude Include="..\src\Headers\MFC\framework.h" />
     <ClInclude Include="..\src\Headers\MFC\targetver.h" />

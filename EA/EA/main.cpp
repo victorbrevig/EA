@@ -63,7 +63,7 @@ int main()
     individual.updateFitness(graph);
 
   struct {
-    bool operator()(TSPpermutation a, TSPpermutation b) const { return a.GetFitness() < b.GetFitness(); }
+    bool operator()(TSPpermutation& a, TSPpermutation& b) const { return a.GetFitness() < b.GetFitness(); }
   } customLess;
 
   //auto bestFitness = std::min_element(population.begin(), population.end(), customLess);

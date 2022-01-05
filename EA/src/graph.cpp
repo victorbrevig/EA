@@ -110,4 +110,45 @@ double Graph::calculateDistByOrder(const std::vector<uint32_t>& order) const
     return sum;
 }
 
+void Graph::UpdateNearNeighbors() const
+{
+  m_NearNeighbors.resize(points2D.size());
+  for (uint32_t i = 0; i < points2D.size(); i++)
+  {
+    auto& neighbors = m_NearNeighbors[i];
+    const std::vector<Graph::VertexDist>& orderedIncidence = GetOrderedIncidence(i);
+    for (uint32_t j = 0; j < neighbors.size(); j++)
+      neighbors[j] = orderedIncidence[j + 1];
+  }
+}
 
+std::vector<Graph::VertexDist> Graph::GetOrderedIncidence(uint32_t vertex) const
+{
+  std::vector<Graph::VertexDist> ret(points2D.size());
+
+  if (edges != nullptr)
+  {
+    for (uint32_t i = 0; i < points2D.size(); i++)
+      ret[i] = { i, edges->Get(vertex, i) };
+  }
+  else
+  {
+    for (uint32_t i = 0; i < points2D.size(); i++)
+      ret[i] = { i, Utils::Distance(points2D[vertex], points2D[i]) };
+  }
+
+  struct {
+    bool operator()(const Graph::VertexDist& a, const Graph::VertexDist& b) const { return a.distance < b.distance; }
+  } customLess;
+
+  std::sort(ret.begin(), ret.end(), customLess);
+
+  return ret;
+}
+
+const std::array<Graph::VertexDist, Graph::NUMBER_OF_NEAR_NEIGHBORS>& Graph::GetNearNeighborsOf(uint32_t vertex) const
+{
+  if (m_NearNeighbors.size() == 0)
+    UpdateNearNeighbors();
+  return m_NearNeighbors[vertex];
+}
