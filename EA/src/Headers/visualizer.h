@@ -1,3 +1,6 @@
+#ifndef VISUALIZER_H
+#define VISUALIZER_H
+
 #include "graph.h"
 #include "tspPermutation.h"
 #include <mutex>
@@ -39,3 +42,4 @@ public:
   void UpdatePermutation(const TSPpermutation& permutation);
   void UpdatePermutation(const std::vector<TSPpermutation>& permutations);
 };
+#endif

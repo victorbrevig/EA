@@ -4,12 +4,16 @@
 #include "tspPermutation.h"
 #include <stack>
 #include <queue>
+#include <optional>
+#include "visualizer.h"
 
 class LKSearch {
   
   struct Flip {
-    uint32_t start;
-    uint32_t end;
+    uint32_t orderFrom;
+    uint32_t orderTo;
+    uint32_t vertexFrom;
+    uint32_t vertexTo;
   };
 
   struct PromissingVertex {
@@ -25,17 +29,16 @@ class LKSearch {
   public:
     bool operator() (const LKSearch::PromissingVertex& a, const LKSearch::PromissingVertex& b)
     {
-      return a.reward > b.reward;
+      return a.reward < b.reward;
     }
   };
 
   const Graph& m_Graph;
-  const TSPpermutation& m_InitialTour;
   std::vector<uint32_t> m_CurrentOrder;
   std::vector<uint32_t> m_CurrentOrderFromVertex;
   std::stack<Flip> m_FlipSequence;
-
   uint32_t m_Base;
+  Visualizer* m_Visualizer;
 
   void UpdateOrderFromVertex();
 
@@ -49,17 +52,22 @@ class LKSearch {
 
   uint32_t Breadth(uint32_t level);
 
-  LKSearch(const Graph& graph, const TSPpermutation& initialTour);
   std::priority_queue<PromissingVertex, std::vector<PromissingVertex>, LKSearch::Compare> GetLKOrdering(double delta);
   double Step(uint32_t level, double delta);
 
   void PerformFlipToCurrentTour(Flip flip);
-  void AddToFlipSequence(Flip flip);
+  void AddToFlipSequence(uint32_t from, uint32_t to);
   void DeleteFromFlipSequence();
 
-public:
+  struct SearchResult {
+    std::vector<uint32_t> new_Tour;
+    double improvement;
+  };
 
-  bool Search(uint32_t base);
+public:
+  LKSearch(const Graph& graph, Visualizer* visualizer);
+  SearchResult Search(uint32_t base, const std::vector<uint32_t>& initialTour);
+  std::vector<uint32_t> LinKernighan(const TSPpermutation& initialTour);
 };
 
 #endif
