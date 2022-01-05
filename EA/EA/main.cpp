@@ -18,9 +18,10 @@ int main()
 {
   std::cout << "Hello World" << "\n";
 
-  Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\berlin52.tsp");
+  Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\burma14.tsp");
 
   TSPpermutation permutation(graph.GetNumberOfVertices());
+
 
   //ThreeSATInstance threeSATinstance = Utils::Parser::parse3SAT("..\\ALL_3SAT\\uf20-01.cnf");
   

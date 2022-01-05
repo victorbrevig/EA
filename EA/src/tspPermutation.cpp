@@ -1,10 +1,12 @@
 #include "pch.h"
 #include "tspPermutation.h"
+#include "undirectedGraph.h"
 #include <algorithm>
 #include <numeric>
 #include <random>
 #include <stdlib.h>
-#include <set>
+#include <unordered_set>
+#include <tuple>
 
 TSPpermutation::TSPpermutation()
 {
@@ -96,31 +98,125 @@ TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, c
 	return TSPpermutation(childOrder);
 }
 
-TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm)
+TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
 {
-	// FIND COMMON EDGES
-	std::set<std::pair<uint32_t, uint32_t>> firstParentEdges;
+
+	struct triplet_hash {
+		inline std::size_t operator()(const std::tuple<uint32_t, uint32_t, bool>& v) const {
+			return std::get<0>(v) * 31 + std::get<1>(v);
+		}
+	};
+
+
+	// REMOVE ALL COMMON EDGES
+	std::unordered_set<std::tuple<uint32_t, uint32_t, bool>, triplet_hash> nonCommonEdges;
+	// Insert all edges from first parent in a set
+	
+	std::unordered_set<std::tuple<uint32_t, uint32_t, bool>, triplet_hash> firstParentEdges;
 	uint32_t permSize = firstPerm.order.size();
-	for (int i = 1; i < permSize; i++) {
-		std::pair<uint32_t, uint32_t> edge(firstPerm.order[i - 1], firstPerm.order[i]);
-		//firstParentEdges.insert
+
+	
+	std::tuple<uint32_t, uint32_t, bool> edge;
+	edge = std::make_tuple(firstPerm.order[0], firstPerm.order[1 % permSize], true);
+	firstParentEdges.insert(edge);
+
+	
+	for (int i = 1; i <= permSize; i++) {
+		edge = std::make_tuple(firstPerm.order[i - 1], firstPerm.order[i%permSize], true);
+		firstParentEdges.insert(edge);
 	}
-	// remember first and last index
+	
+	
+	
+	// Loop through edges of second parent and check whether they (or the reverse) are contained in the set
+	std::tuple<uint32_t, uint32_t, bool> edgeReverse;
+	for (int i = 1; i <= permSize; i++) {
+		edge = std::make_tuple(secondPerm.order[i - 1], secondPerm.order[i%permSize], false);
+		edgeReverse = std::make_tuple(secondPerm.order[i%permSize], secondPerm.order[i-1], false);
+		std::unordered_set<std::tuple<uint32_t, uint32_t, bool>>::iterator it = firstParentEdges.find(edge);
+		std::unordered_set<std::tuple<uint32_t, uint32_t, bool>>::iterator itR = firstParentEdges.find(edgeReverse);
 
-	// REMOVE COMMON EDGES
+		if (it != firstParentEdges.end()) {
+			// remove edge if common
+			firstParentEdges.erase(it);
+		}
+		else if (itR != firstParentEdges.end()) {
+			// remove edge if common
+			firstParentEdges.erase(itR);
+		}
+		else {
+			// insert if non common
+			nonCommonEdges.insert(edge);
+		}
+	}
+	
 
+	nonCommonEdges.insert(firstParentEdges.begin(), firstParentEdges.end());
+	
+	// CREATE GRAPH (WITH NON COMMON EDGES)
+	UndirectedGraph undirGraph(permSize);
 
-	// CREATE GRAPH (WITHOUT COMMON EDGES)
+	for (const auto& e : nonCommonEdges) {
+		undirGraph.addEdge(std::get<0>(e), std::get<1>(e), std::get<2>(e));
+	}
 
 
 	// IDENTIFY CONNECTED COMPONENTS USING BFS
+	std::unordered_set<uint32_t> remainingVertices(permSize);
+	// fill remainingVertices with all vertices to begin with
+	// CORRECT!!
+	//std::iota(std::begin(remainingVertices), std::end(remainingVertices), 0);
 
+	while (remainingVertices.size() > 0) {
+		// take first vertex in remainingVertices as start vertex for BFS
+		uint32_t startVertex = *begin(remainingVertices);
+		std::vector<uint32_t> connectedComponent = undirGraph.BFS(startVertex);
+
+		// remove vertices in connectedComponent from remainingVertices
+		for (const auto& v : connectedComponent) {
+			std::unordered_set<uint32_t>::iterator it = remainingVertices.find(v);
+			remainingVertices.erase(it);
+		}
+
+		if (connectedComponent.size() == 1) {
+			// nothing to chose if the connected component is just one vertex
+			continue;
+		}
+		
+		// compute total length of each parent paths in connected component
+		// note this will be times 2 since it is an adjacency list for an undirected graph
+		double sumFirstParent = 0;
+		double sumSecondParent = 0;
+		std::list<std::pair<uint32_t, bool>>::iterator i;
+		// loop over vertices
+		for (const auto& v : connectedComponent) {
+			// loop over edges associated with that vertex
+			for (i = undirGraph.adjLists[v].begin(); i != undirGraph.adjLists[v].end(); ++i) {
+				std::pair<uint32_t, bool> edgeInfo = *i;
+				if (edgeInfo.second) {
+					// add to sumFirstParent
+					//sumFirstParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
+				}
+				else {
+					// add to sumSecondParent
+					//sumSecondParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
+				}
+			}
+			
+		}
+
+
+	}
+
+	
 
 	// CHOSE SHORTEST OF THE TWO PATHS IN EACH CONNECTED COMPONENT
 
 
+	
+	// CONVERT TO NEW PATH
 
-	return TSPpermutation();
+	return TSPpermutation(4);
 }
 
 
