@@ -114,40 +114,40 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		bool isFirstParent;
 	};
 
-
-	struct triplet_hash {
-		inline std::size_t operator()(const std::tuple<uint32_t, uint32_t, bool>& v) const {
-			return std::get<0>(v) * 31 + std::get<1>(v);
+	
+	struct Edge_hash {
+		inline std::size_t operator()(const Edge& v) const {
+			return v.from > v.to ? (v.from * 31 + v.to) : (v.from * 31 + v.to);
 		}
 	};
-	struct triplet_equals {
-		bool operator()(const std::tuple<uint32_t, uint32_t, bool>& v1, const std::tuple<uint32_t, uint32_t, bool>& v2) const {
-			return std::get<0>(v1) == std::get<0>(v2) && std::get<1>(v1) == std::get<1>(v2);
+	struct Edge_equals {
+		bool operator()(const Edge& v1, const Edge& v2) const {
+			return (v1.from == v2.to && v1.from == v2.to) || (v1.from == v2.to && v1.from == v2.to);
 		}
 	};
-	struct pair_hash {
-		inline std::size_t operator()(const std::pair<uint32_t, uint32_t>& v) const {
-			return v.first > v.second ? (v.first * 31 + v.second) : (v.second * 31 + v.first);
+	struct EdgeOwner_hash {
+		inline std::size_t operator()(const EdgeOwner& v) const {
+			return v.from > v.to ? (v.from * 31 + v.to) : (v.from * 31 + v.to);
 		}
 	};
-	struct pair_equals {
-		bool operator()(const std::pair<uint32_t, uint32_t>& v1, const std::pair<uint32_t, uint32_t>& v2) const {
-			return (v1.first == v2.first && v1.second == v2.second) || (v1.first == v2.second && v1.second == v2.first);;
+	struct EdgeOwner_equals {
+		bool operator()(const EdgeOwner& v1, const EdgeOwner& v2) const {
+			return (v1.from == v2.to && v1.from == v2.to) || (v1.from == v2.to && v1.from == v2.to);
 		}
 	};
 	
 
 
 	// REMOVE ALL COMMON EDGES
-	std::unordered_set<std::tuple<uint32_t, uint32_t, bool>, triplet_hash, triplet_equals> nonCommonEdges;
-	std::unordered_set<std::pair<uint32_t, uint32_t>, pair_hash> commonEdges;
+	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> nonCommonEdges;
+	std::unordered_set<Edge, Edge_hash, Edge_equals> commonEdges;
 	// Insert all edges from first parent in a set
 	
-	std::unordered_set<std::tuple<uint32_t, uint32_t, bool>, triplet_hash, triplet_equals> firstParentEdges;
+	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> firstParentEdges;
 	uint32_t permSize = firstPerm.order.size();
 
 	
-	std::tuple<uint32_t, uint32_t, bool> edge;
+	EdgeOwner edge;
 	firstParentEdges.emplace(firstPerm.order[0], firstPerm.order[1], true);
 
 	
@@ -160,10 +160,8 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 	// Loop through edges of second parent and check whether they (or the reverse) are contained in the set
 	std::tuple<uint32_t, uint32_t, bool> edgeReverse;
 	for (int i = 1; i <= permSize; i++) {
-		edge = std::make_tuple(secondPerm.order[i - 1], secondPerm.order[i%permSize], false);
-		edgeReverse = std::make_tuple(secondPerm.order[i%permSize], secondPerm.order[i-1], false);
-		std::unordered_set<std::tuple<uint32_t, uint32_t, bool>>::iterator it = firstParentEdges.find(edge);
-		std::unordered_set<std::tuple<uint32_t, uint32_t, bool>>::iterator itR = firstParentEdges.find(edgeReverse);
+		edge = { secondPerm.order[i - 1], secondPerm.order[i % permSize], false };
+		std::unordered_set<EdgeOwner>::iterator it = firstParentEdges.find(edge);
 
 		if (it != firstParentEdges.end()) {
 			// remove edge if common
