@@ -103,6 +103,18 @@ TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, c
 
 TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
 {
+
+	struct Edge {
+		uint32_t from;
+		uint32_t to;
+	};
+	struct EdgeOwner {
+		uint32_t from;
+		uint32_t to;
+		bool isFirstParent;
+	};
+
+
 	struct triplet_hash {
 		inline std::size_t operator()(const std::tuple<uint32_t, uint32_t, bool>& v) const {
 			return std::get<0>(v) * 31 + std::get<1>(v);
@@ -115,17 +127,15 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 	};
 	struct pair_hash {
 		inline std::size_t operator()(const std::pair<uint32_t, uint32_t>& v) const {
-			return v.first * 31 + v.second;
+			return v.first > v.second ? (v.first * 31 + v.second) : (v.second * 31 + v.first);
 		}
 	};
 	struct pair_equals {
 		bool operator()(const std::pair<uint32_t, uint32_t>& v1, const std::pair<uint32_t, uint32_t>& v2) const {
-			return v1.first == v2.first && v1.second == v2.second;
+			return (v1.first == v2.first && v1.second == v2.second) || (v1.first == v2.second && v1.second == v2.first);;
 		}
 	};
 	
-
-	std::unordered_set<std::pair<uint32_t, uint32_t>, pair_hash, pair_equals> childEdges;
 
 
 	// REMOVE ALL COMMON EDGES
@@ -191,6 +201,8 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		remainingVertices.insert(i);
 	}
 
+	std::unordered_set<std::pair<uint32_t, uint32_t>, pair_hash, pair_equals> childEdges;
+
 	while (remainingVertices.size() > 0) {
 		// take first vertex in remainingVertices as start vertex for BFS
 		uint32_t startVertex = *begin(remainingVertices);
@@ -215,11 +227,10 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		std::unordered_set<std::pair<uint32_t, uint32_t>, pair_hash, pair_equals> firstParentCompEdges;
 		std::unordered_set<std::pair<uint32_t, uint32_t>, pair_hash, pair_equals> secondParentCompEdges;
 
-		std::list<std::pair<uint32_t, bool>>::iterator i;
 		// loop over vertices
 		for (const auto& v : connectedComponent) {
 			// loop over edges associated with that vertex
-			for (i = undirGraph.adjLists[v].begin(); i != undirGraph.adjLists[v].end(); ++i) {
+			for (auto i = undirGraph.adjLists[v].begin(); i != undirGraph.adjLists[v].end(); ++i) {
 				std::pair<uint32_t, bool> edgeInfo = *i;
 				if (edgeInfo.second) {
 					// add to sumFirstParent
@@ -236,6 +247,7 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 			}
 		}
 
+		// append instead of loop vector to vector !
 		// pick parent path with smallest sum:
 		if (sumFirstParent <= sumSecondParent) {
 			for (const auto& e : firstParentCompEdges) {
@@ -255,13 +267,13 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		
 	}
 
-	// UNION WITH COMMON EDGES
+	// UNION WITH COMMON EDGES, append instead
 	for (const auto& e : commonEdges) {
 		childEdges.insert(e);
 	}
 
 	// CONVERT TO NEW PATH
-
+	// vector of all vertices, every vertex tells the next one (constrct from edges)
 
 	return TSPpermutation(4);
 }
