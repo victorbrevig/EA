@@ -4,11 +4,20 @@
 #include "graph.h"
 #include "tspPermutation.h"
 #include <functional>
+#include "visualizer.h"
 
 template<class T>
 class BlackBoxEA
 {
 public:
+
+	struct Parameters {
+		uint32_t population = 10;
+		uint32_t iterations = 10000000;
+		double mutationProb = 1.0;
+		double crossoverProb = 0.3;
+	};
+
 	BlackBoxEA(
 		std::vector<TSPpermutation>& population,
 		unsigned int _maxNumberOfIterations,
@@ -23,5 +32,6 @@ public:
 	double crossoverProb;
 
 	bool iterate(const Graph& graph);
+	static void Run(const Graph& graph, Parameters parameters, Visualizer* visualizer = nullptr);
 };
 #endif

@@ -5,6 +5,8 @@
 #include "tspPermutation.h"
 #include <mutex>
 #include <thread>
+#include <ctime>
+#include <chrono>
 
 class Visualizer {
   const Graph& m_Graph;
@@ -25,6 +27,7 @@ class Visualizer {
   volatile bool m_UpdatePermutationData;
   volatile bool m_IsStarted;
   volatile bool m_WaitingForSpace;
+  std::chrono::milliseconds m_LastUpdate;
   static void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
   double GetPointSize();
@@ -39,8 +42,9 @@ public:
   void OnZoom(GLFWwindow* window, double amount);
   void WaitForClose();
   void WaitForSpace();
-  void UpdatePermutation(const TSPpermutation& permutation);
-  void UpdatePermutation(const std::vector<TSPpermutation>& permutations);
-  void UpdatePermutation(const std::vector<uint32_t>& order);
+  bool PruneUpdate();
+  void UpdatePermutation(const TSPpermutation& permutation, bool limitUpdates = false);
+  void UpdatePermutation(const std::vector<TSPpermutation>& permutations, bool limitUpdates = false);
+  void UpdatePermutation(const std::vector<uint32_t>& order, bool limitUpdates = false);
 };
 #endif

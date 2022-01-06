@@ -21,9 +21,10 @@ private:
 
   mutable std::vector<std::array<Graph::VertexDist, NUMBER_OF_NEAR_NEIGHBORS>> m_NearNeighbors;
 
-  void UpdateNearNeighbors() const;
+  
   std::vector<VertexDist> GetOrderedIncidence(uint32_t vertex) const;
 public:
+  void UpdateNearNeighbors() const;
   std::vector<GLfloat> PointsToGLFloats() const;
   std::vector<GLfloat> PointsToGLFloats(const std::vector<uint32_t>& order) const;
   Utils::BoundingBox GetBoundingBox() const;

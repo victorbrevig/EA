@@ -452,7 +452,7 @@ std::vector<uint32_t> LKSearch::LinKernighan(const TSPpermutation& initialTour)
 	std::set<uint32_t> markedVertices;
 	for (uint32_t i = 0; i < initialTour.order.size(); i++)
 		markedVertices.insert(i);
-
+	uint32_t updateCounter = 0;
 	while (!markedVertices.empty())
 	{
 		uint32_t markedVertex = *(markedVertices.begin());
@@ -472,6 +472,8 @@ std::vector<uint32_t> LKSearch::LinKernighan(const TSPpermutation& initialTour)
 			ASSERT(newDist < oldDist);
 #endif _DEBUG
 			lk_tour = newOrder.new_Tour;
+			updateCounter++;
+			m_Visualizer->UpdatePermutation(lk_tour, true);
 		}
 		else
 		{

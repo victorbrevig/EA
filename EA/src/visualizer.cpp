@@ -25,6 +25,7 @@ Visualizer::Visualizer(const Graph& graph, const TSPpermutation& permutation)
   m_IsStarted = false;
   m_WaitingForSpace = false;
   m_PressingSpace = false;
+  m_LastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 };
 
 double Visualizer::GetPointSize()
@@ -288,28 +289,46 @@ int Visualizer::StartVisualization()
   return 0;
 }
 
-void Visualizer::UpdatePermutation(const TSPpermutation& permutation)
+bool Visualizer::PruneUpdate()
 {
+  auto timenow = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+
+  if ((timenow - m_LastUpdate).count() < 100)
+    true;
+  return false;
+}
+
+void Visualizer::UpdatePermutation(const TSPpermutation& permutation, bool limitUpdates)
+{
+  if (PruneUpdate())
+    return;
   std::lock_guard<std::mutex> g(m_PermMutex);
   m_Permutations.clear();
   m_Permutations.push_back(permutation);
   m_UpdatePermutationData = true;
+  m_LastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 }
 
-void Visualizer::UpdatePermutation(const std::vector<TSPpermutation>& permutations)
+void Visualizer::UpdatePermutation(const std::vector<TSPpermutation>& permutations, bool limitUpdates)
 {
+  if (PruneUpdate())
+    return;
   std::lock_guard<std::mutex> g(m_PermMutex);
   m_Permutations = permutations;
   m_UpdatePermutationData = true;
+  m_LastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 }
 
-void Visualizer::UpdatePermutation(const std::vector<uint32_t>& order)
+void Visualizer::UpdatePermutation(const std::vector<uint32_t>& order, bool limitUpdates)
 {
+  if (PruneUpdate())
+    return;
   std::lock_guard<std::mutex> g(m_PermMutex);
   TSPpermutation newOrder(order);
   m_Permutations.clear();
   m_Permutations.push_back(newOrder);
   m_UpdatePermutationData = true;
+  m_LastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 }
 
 void Visualizer::WaitForClose()

@@ -55,3 +55,52 @@ bool BlackBoxEA<TSPpermutation>::iterate(const Graph& graph)
 
   return true;
 }
+
+
+void BlackBoxEA<TSPpermutation>::Run(const Graph& graph, Parameters parameters, Visualizer* visualizer)
+{
+  std::vector<TSPpermutation> population;
+  population.reserve(parameters.population);
+  for (size_t i = 0; i < parameters.population; i++)
+    population.emplace_back((unsigned int)graph.GetNumberOfVertices());
+
+  BlackBoxEA<TSPpermutation> ea(population, (unsigned int)parameters.iterations, 1.0, 0);
+
+
+  while (true)
+  {
+    if (!ea.iterate(graph))
+      break;
+
+    if (visualizer)
+      visualizer->UpdatePermutation(population[0], true);
+  }
+
+  if (visualizer)
+    visualizer->UpdatePermutation(population[0]);
+
+  for (TSPpermutation& individual : population)
+    individual.updateFitness(graph);
+
+  struct {
+    bool operator()(TSPpermutation& a, TSPpermutation& b) const { return a.GetFitness() < b.GetFitness(); }
+  } customLess;
+
+  //auto bestFitness = std::min_element(population.begin(), population.end(), customLess);
+  std::sort(population.begin(), population.end(), customLess);
+
+  uint32_t individualIndex = 0;
+  while (true)
+  {
+    std::cout << individualIndex << ": Fitness: " << population[individualIndex].GetFitness() << "\n";
+    if (visualizer)
+    {
+      visualizer->UpdatePermutation(population[individualIndex]);
+      visualizer->WaitForSpace();
+    }
+
+    individualIndex = (individualIndex + 1) % population.size();
+    if (individualIndex == 0)
+      break;
+  }
+}
