@@ -63,7 +63,7 @@ double TSPpermutation::GetFitness() const
 
 TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm)
 {
-	int permSize = firstPerm.order.size();
+	int permSize = (int)firstPerm.order.size();
 	std::vector<uint32_t> childOrder(permSize);
 
 	// boolean vector to check if an element has been inserted in the child permutation
@@ -100,8 +100,8 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 {
 	// FIND COMMON EDGES
 	std::set<std::pair<uint32_t, uint32_t>> firstParentEdges;
-	uint32_t permSize = firstPerm.order.size();
-	for (int i = 1; i < permSize; i++) {
+	uint32_t permSize = (uint32_t)firstPerm.order.size();
+	for (uint32_t i = 1; i < permSize; i++) {
 		std::pair<uint32_t, uint32_t> edge(firstPerm.order[i - 1], firstPerm.order[i]);
 		//firstParentEdges.insert
 	}

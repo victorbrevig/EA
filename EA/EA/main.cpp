@@ -21,7 +21,7 @@ int main()
 
   Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\bier127.tsp");
 
-  TSPpermutation permutation(graph.GetNumberOfVertices());
+  TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
 
   //ThreeSATInstance threeSATinstance = Utils::Parser::parse3SAT("..\\ALL_3SAT\\uf20-01.cnf");
   
@@ -31,11 +31,9 @@ int main()
 
   while(true)
   {
-    TSPpermutation permutation(graph.GetNumberOfVertices());
+    TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
     LKSearch lkSearch(graph, visualizer);
 
-    permutation.order = lkSearch.LinKernighan(permutation.order);
-    permutation.order = lkSearch.LinKernighan(permutation.order);
     permutation.order = lkSearch.LinKernighan(permutation.order);
     permutation.order = lkSearch.LinKernighan(permutation.order);
     permutation.updateFitness(graph);
@@ -50,9 +48,9 @@ int main()
     std::vector<TSPpermutation> population;
     population.reserve(2);
     for (size_t i = 0; i < 2; i++)
-      population.emplace_back(graph.GetNumberOfVertices());
+      population.emplace_back((unsigned int)graph.GetNumberOfVertices());
 
-    BlackBoxEA<TSPpermutation> ea(population, 1e8, 1.0, 0);
+    BlackBoxEA<TSPpermutation> ea(population, (unsigned int)1e8, 1.0, 0);
 
     bool isDone = false;
 

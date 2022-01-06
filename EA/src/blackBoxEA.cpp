@@ -18,8 +18,8 @@ bool BlackBoxEA<TSPpermutation>::iterate(const Graph& graph)
   currentNumberOfIterations++;
 
   // SELECTION - FIND TWO PARENTS
-  uint32_t rand1 = Utils::Random::GetRange(0, population.size() - 2);
-  uint32_t rand2 = Utils::Random::GetRange(rand1 + 1, population.size() - 1);
+  uint32_t rand1 = Utils::Random::GetRange(0, (unsigned int)population.size() - 2);
+  uint32_t rand2 = Utils::Random::GetRange(rand1 + 1, (unsigned int)population.size() - 1);
   TSPpermutation& p1 = population[rand1];
   TSPpermutation& p2 = population[rand2];
 

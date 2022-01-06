@@ -41,5 +41,6 @@ public:
   void WaitForSpace();
   void UpdatePermutation(const TSPpermutation& permutation);
   void UpdatePermutation(const std::vector<TSPpermutation>& permutations);
+  void UpdatePermutation(const std::vector<uint32_t>& order);
 };
 #endif

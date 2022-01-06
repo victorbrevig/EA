@@ -257,7 +257,7 @@ int Visualizer::StartVisualization()
     glUniform3f(glGetUniformLocation(shader.m_ID, "color"), tourColor.x, tourColor.y, tourColor.z);
 
     if(tourVertexArrays.size() == 2)
-      glLineWidth((GLfloat)std::max(GetPointSize() / 3.0, 1.0) * 2.0);
+      glLineWidth((GLfloat)(std::max(GetPointSize() / 3.0, 1.0) * 2.0));
 
     for (VertexArray& tourVertexArray : tourVertexArrays)
     {
@@ -300,6 +300,15 @@ void Visualizer::UpdatePermutation(const std::vector<TSPpermutation>& permutatio
 {
   std::lock_guard<std::mutex> g(m_PermMutex);
   m_Permutations = permutations;
+  m_UpdatePermutationData = true;
+}
+
+void Visualizer::UpdatePermutation(const std::vector<uint32_t>& order)
+{
+  std::lock_guard<std::mutex> g(m_PermMutex);
+  TSPpermutation newOrder(order);
+  m_Permutations.clear();
+  m_Permutations.push_back(newOrder);
   m_UpdatePermutationData = true;
 }
 

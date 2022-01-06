@@ -21,7 +21,13 @@ class LKSearch {
       : vertex(v), reward(r), isMakMorton(mm) {};
     uint32_t vertex;
     double reward;
-    bool isMakMorton;
+    union
+    {
+      bool isMakMorton;
+      bool b1IsPrev;
+      bool d1IsPrev;
+    };
+
   };
 
   class Compare
@@ -50,13 +56,21 @@ class LKSearch {
     return m_CurrentOrder[(m_CurrentOrderFromVertex[vertex] + 1) % m_CurrentOrder.size()];
   };
 
-  uint32_t Breadth(uint32_t level);
+  bool IsOnPath(uint32_t vertex, uint32_t from, uint32_t to);
 
+  uint32_t Breadth(uint32_t level);
+  uint32_t BreadthA();
+  uint32_t BreadthB();
+  uint32_t BreadthD();
+  std::priority_queue<PromissingVertex, std::vector<PromissingVertex>, LKSearch::Compare> GetAOrdering();
+  std::priority_queue<PromissingVertex, std::vector<PromissingVertex>, LKSearch::Compare> GetBOrdering(uint32_t a1);
+  std::priority_queue<PromissingVertex, std::vector<PromissingVertex>, LKSearch::Compare> GetDOrdering(uint32_t a1, uint32_t b1);
   std::priority_queue<PromissingVertex, std::vector<PromissingVertex>, LKSearch::Compare> GetLKOrdering(double delta);
   double Step(uint32_t level, double delta);
+  double StepAlternate();
 
   void PerformFlipToCurrentTour(Flip flip);
-  void AddToFlipSequence(uint32_t from, uint32_t to);
+  double AddToFlipSequence(uint32_t from, uint32_t to);
   void DeleteFromFlipSequence();
 
   struct SearchResult {
