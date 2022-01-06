@@ -22,6 +22,12 @@ int main()
 
   TSPpermutation permutation(graph.GetNumberOfVertices());
 
+  std::vector<uint32_t> order1 = { 4,13,5,9,0,11,1,12,6,7,2,3,10,8 };
+  TSPpermutation p1(order1);
+  std::vector<uint32_t> order2 = { 9,2,3,4,0,1,12,13,5,11,10,6,7,8 };
+  TSPpermutation p2(order2);
+  TSPpermutation p3 = TSPpermutation::GPX(p1, p2, graph);
+
 
   //ThreeSATInstance threeSATinstance = Utils::Parser::parse3SAT("..\\ALL_3SAT\\uf20-01.cnf");
   

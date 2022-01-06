@@ -17,6 +17,6 @@ public:
   void ObtainEdgesFrom2DPoints();
   size_t GetNumberOfVertices() const;
   double calculateDistByOrder(const std::vector<uint32_t>& order) const;
-  double calculateDistBetweenTwoVertices(uint32_t v1, uint32_t v2);
+  double calculateDistBetweenTwoVertices(uint32_t v1, uint32_t v2) const;
 };
 #endif

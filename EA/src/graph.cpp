@@ -110,7 +110,7 @@ double Graph::calculateDistByOrder(const std::vector<uint32_t>& order) const
     return sum;
 }
 
-double Graph::calculateDistBetweenTwoVertices(uint32_t v1, uint32_t v2) {
+double Graph::calculateDistBetweenTwoVertices(uint32_t v1, uint32_t v2) const {
     return Utils::Distance(points2D[v1], points2D[v2]);
 }
 

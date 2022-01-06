@@ -98,32 +98,51 @@ TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, c
 	return TSPpermutation(childOrder);
 }
 
+
+
+
 TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
 {
-
 	struct triplet_hash {
 		inline std::size_t operator()(const std::tuple<uint32_t, uint32_t, bool>& v) const {
 			return std::get<0>(v) * 31 + std::get<1>(v);
 		}
 	};
+	struct triplet_equals {
+		bool operator()(const std::tuple<uint32_t, uint32_t, bool>& v1, const std::tuple<uint32_t, uint32_t, bool>& v2) const {
+			return std::get<0>(v1) == std::get<0>(v2) && std::get<1>(v1) == std::get<1>(v2);
+		}
+	};
+	struct pair_hash {
+		inline std::size_t operator()(const std::pair<uint32_t, uint32_t>& v) const {
+			return v.first * 31 + v.second;
+		}
+	};
+	struct pair_equals {
+		bool operator()(const std::pair<uint32_t, uint32_t>& v1, const std::pair<uint32_t, uint32_t>& v2) const {
+			return v1.first == v2.first && v1.second == v2.second;
+		}
+	};
+	
+
+	std::unordered_set<std::pair<uint32_t, uint32_t>, pair_hash, pair_equals> childEdges;
 
 
 	// REMOVE ALL COMMON EDGES
-	std::unordered_set<std::tuple<uint32_t, uint32_t, bool>, triplet_hash> nonCommonEdges;
+	std::unordered_set<std::tuple<uint32_t, uint32_t, bool>, triplet_hash, triplet_equals> nonCommonEdges;
+	std::unordered_set<std::pair<uint32_t, uint32_t>, pair_hash> commonEdges;
 	// Insert all edges from first parent in a set
 	
-	std::unordered_set<std::tuple<uint32_t, uint32_t, bool>, triplet_hash> firstParentEdges;
+	std::unordered_set<std::tuple<uint32_t, uint32_t, bool>, triplet_hash, triplet_equals> firstParentEdges;
 	uint32_t permSize = firstPerm.order.size();
 
 	
 	std::tuple<uint32_t, uint32_t, bool> edge;
-	edge = std::make_tuple(firstPerm.order[0], firstPerm.order[1 % permSize], true);
-	firstParentEdges.insert(edge);
+	firstParentEdges.emplace(firstPerm.order[0], firstPerm.order[1], true);
 
 	
 	for (int i = 1; i <= permSize; i++) {
-		edge = std::make_tuple(firstPerm.order[i - 1], firstPerm.order[i%permSize], true);
-		firstParentEdges.insert(edge);
+		firstParentEdges.emplace(firstPerm.order[i - 1], firstPerm.order[i % permSize], true);
 	}
 	
 	
@@ -139,20 +158,24 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		if (it != firstParentEdges.end()) {
 			// remove edge if common
 			firstParentEdges.erase(it);
+			std::pair<uint32_t, uint32_t> commonEdge(secondPerm.order[i - 1], secondPerm.order[i % permSize]);
+			commonEdges.insert(commonEdge);
 		}
 		else if (itR != firstParentEdges.end()) {
 			// remove edge if common
 			firstParentEdges.erase(itR);
+			std::pair<uint32_t, uint32_t> commonEdge(secondPerm.order[i % permSize], secondPerm.order[i - 1]);
+			commonEdges.insert(commonEdge);
 		}
 		else {
 			// insert if non common
 			nonCommonEdges.insert(edge);
 		}
 	}
-	
-
+	// insert edges from first parent that was not removed in loop above
 	nonCommonEdges.insert(firstParentEdges.begin(), firstParentEdges.end());
 	
+
 	// CREATE GRAPH (WITH NON COMMON EDGES)
 	UndirectedGraph undirGraph(permSize);
 
@@ -164,8 +187,9 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 	// IDENTIFY CONNECTED COMPONENTS USING BFS
 	std::unordered_set<uint32_t> remainingVertices(permSize);
 	// fill remainingVertices with all vertices to begin with
-	// CORRECT!!
-	//std::iota(std::begin(remainingVertices), std::end(remainingVertices), 0);
+	for (uint32_t i = 0; i < permSize; i++) {
+		remainingVertices.insert(i);
+	}
 
 	while (remainingVertices.size() > 0) {
 		// take first vertex in remainingVertices as start vertex for BFS
@@ -187,6 +211,10 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		// note this will be times 2 since it is an adjacency list for an undirected graph
 		double sumFirstParent = 0;
 		double sumSecondParent = 0;
+
+		std::unordered_set<std::pair<uint32_t, uint32_t>, pair_hash, pair_equals> firstParentCompEdges;
+		std::unordered_set<std::pair<uint32_t, uint32_t>, pair_hash, pair_equals> secondParentCompEdges;
+
 		std::list<std::pair<uint32_t, bool>>::iterator i;
 		// loop over vertices
 		for (const auto& v : connectedComponent) {
@@ -195,26 +223,45 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 				std::pair<uint32_t, bool> edgeInfo = *i;
 				if (edgeInfo.second) {
 					// add to sumFirstParent
-					//sumFirstParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
+					sumFirstParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
+					std::pair<uint32_t, uint32_t> edge(v, edgeInfo.first);
+					firstParentCompEdges.insert(edge);
 				}
 				else {
 					// add to sumSecondParent
-					//sumSecondParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
+					sumSecondParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
+					std::pair<uint32_t, uint32_t> edge(v, edgeInfo.first);
+					secondParentCompEdges.insert(edge);
 				}
 			}
-			
+		}
+
+		// pick parent path with smallest sum:
+		if (sumFirstParent <= sumSecondParent) {
+			for (const auto& e : firstParentCompEdges) {
+				childEdges.insert(e);
+			}
+		}
+		else {
+			for (const auto& e : secondParentCompEdges) {
+				childEdges.insert(e);
+			}
 		}
 
 
+
+		firstParentCompEdges.clear();
+		secondParentCompEdges.clear();
+		
 	}
 
-	
+	// UNION WITH COMMON EDGES
+	for (const auto& e : commonEdges) {
+		childEdges.insert(e);
+	}
 
-	// CHOSE SHORTEST OF THE TWO PATHS IN EACH CONNECTED COMPONENT
-
-
-	
 	// CONVERT TO NEW PATH
+
 
 	return TSPpermutation(4);
 }
