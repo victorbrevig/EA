@@ -275,6 +275,51 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 	// CONVERT TO NEW PATH
 	// vector of all vertices, every vertex tells the next one (constrct from edges)
 
+	std::vector<Edge> edges = {
+		{0, 1},
+		{1, 2},
+		{3, 2},
+		{4, 0},
+		{4, 3},
+	};
+
+	struct AdjVertex
+	{
+		uint32_t a = INT32_MAX;
+		uint32_t b = INT32_MAX;
+	};
+
+	std::vector<AdjVertex> adjVertices(edges.size() - 1);
+
+	for (Edge edge : edges)
+	{
+		AdjVertex v1 = adjVertices[edge.from];
+		if (v1.a == INT32_MAX)
+			v1.a = edge.to;
+		else
+			v1.b = edge.to;
+
+		AdjVertex v2 = adjVertices[edge.to];
+		if (v2.a == INT32_MAX)
+			v2.a = edge.from;
+		else
+			v2.b = edge.from;
+	}
+
+	std::vector<uint32_t> finalOrder;
+	finalOrder.reserve(adjVertices.size());
+	uint32_t visiting = 0;
+	finalOrder.emplace_back(visiting);
+	while (finalOrder.size() < adjVertices.size())
+	{
+		AdjVertex v = adjVertices[visiting];
+		if (v.a == visiting)
+			visiting = v.b;
+		else
+			visiting = v.a;
+		finalOrder.emplace_back(visiting);
+	}
+
 	return TSPpermutation(4);
 }
 
