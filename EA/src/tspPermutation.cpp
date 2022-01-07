@@ -103,7 +103,6 @@ TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, c
 
 TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
 {
-
 	struct Edge {
 		uint32_t from;
 		uint32_t to;
@@ -114,45 +113,42 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		bool isFirstParent;
 	};
 
-	
 	struct Edge_hash {
 		inline std::size_t operator()(const Edge& v) const {
-			return v.from > v.to ? (v.from * 31 + v.to) : (v.from * 31 + v.to);
+			return v.from > v.to ? (v.from * 31 + v.to) : (v.to * 31 + v.from);
 		}
 	};
 	struct Edge_equals {
 		bool operator()(const Edge& v1, const Edge& v2) const {
-			return (v1.from == v2.to && v1.from == v2.to) || (v1.from == v2.to && v1.from == v2.to);
+			return (v1.from == v2.from && v1.to == v2.to) || (v1.from == v2.to && v1.to == v2.from);
 		}
 	};
 	struct EdgeOwner_hash {
 		inline std::size_t operator()(const EdgeOwner& v) const {
-			return v.from > v.to ? (v.from * 31 + v.to) : (v.from * 31 + v.to);
+			return v.from > v.to ? (v.from * 31 + v.to) : (v.to * 31 + v.from);
 		}
 	};
 	struct EdgeOwner_equals {
 		bool operator()(const EdgeOwner& v1, const EdgeOwner& v2) const {
-			return (v1.from == v2.to && v1.from == v2.to) || (v1.from == v2.to && v1.from == v2.to);
+			return (v1.from == v2.from && v1.to == v2.to) || (v1.from == v2.to && v1.to == v2.from);
 		}
 	};
 	
-
-
 	// REMOVE ALL COMMON EDGES
 	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> nonCommonEdges;
 	std::unordered_set<Edge, Edge_hash, Edge_equals> commonEdges;
 	// Insert all edges from first parent in a set
-	
 	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> firstParentEdges;
 	uint32_t permSize = firstPerm.order.size();
 
 	
-	EdgeOwner edge;
-	firstParentEdges.emplace(firstPerm.order[0], firstPerm.order[1], true);
+	EdgeOwner edge = { firstPerm.order[0], firstPerm.order[1], true };
+	firstParentEdges.emplace(edge);
 
 	
 	for (int i = 1; i <= permSize; i++) {
-		firstParentEdges.emplace(firstPerm.order[i - 1], firstPerm.order[i % permSize], true);
+		EdgeOwner edge = { firstPerm.order[i - 1], firstPerm.order[i % permSize], true };
+		firstParentEdges.emplace(edge);
 	}
 	
 	
@@ -160,20 +156,14 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 	// Loop through edges of second parent and check whether they (or the reverse) are contained in the set
 	std::tuple<uint32_t, uint32_t, bool> edgeReverse;
 	for (int i = 1; i <= permSize; i++) {
-		edge = { secondPerm.order[i - 1], secondPerm.order[i % permSize], false };
+		EdgeOwner edge = { secondPerm.order[i - 1], secondPerm.order[i % permSize], false };
 		std::unordered_set<EdgeOwner>::iterator it = firstParentEdges.find(edge);
 
 		if (it != firstParentEdges.end()) {
 			// remove edge if common
 			firstParentEdges.erase(it);
-			std::pair<uint32_t, uint32_t> commonEdge(secondPerm.order[i - 1], secondPerm.order[i % permSize]);
-			commonEdges.insert(commonEdge);
-		}
-		else if (itR != firstParentEdges.end()) {
-			// remove edge if common
-			firstParentEdges.erase(itR);
-			std::pair<uint32_t, uint32_t> commonEdge(secondPerm.order[i % permSize], secondPerm.order[i - 1]);
-			commonEdges.insert(commonEdge);
+			Edge e = { secondPerm.order[i - 1], secondPerm.order[i % permSize] };
+			commonEdges.insert(e);
 		}
 		else {
 			// insert if non common
@@ -188,7 +178,7 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 	UndirectedGraph undirGraph(permSize);
 
 	for (const auto& e : nonCommonEdges) {
-		undirGraph.addEdge(std::get<0>(e), std::get<1>(e), std::get<2>(e));
+		undirGraph.addEdge(e.from, e.to, e.isFirstParent);
 	}
 
 
@@ -199,7 +189,7 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		remainingVertices.insert(i);
 	}
 
-	std::unordered_set<std::pair<uint32_t, uint32_t>, pair_hash, pair_equals> childEdges;
+	std::unordered_set<Edge, Edge_hash, Edge_equals> childEdges;
 
 	while (remainingVertices.size() > 0) {
 		// take first vertex in remainingVertices as start vertex for BFS
@@ -222,8 +212,8 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		double sumFirstParent = 0;
 		double sumSecondParent = 0;
 
-		std::unordered_set<std::pair<uint32_t, uint32_t>, pair_hash, pair_equals> firstParentCompEdges;
-		std::unordered_set<std::pair<uint32_t, uint32_t>, pair_hash, pair_equals> secondParentCompEdges;
+		std::unordered_set<Edge, Edge_hash, Edge_equals> firstParentCompEdges;
+		std::unordered_set<Edge, Edge_hash, Edge_equals> secondParentCompEdges;
 
 		// loop over vertices
 		for (const auto& v : connectedComponent) {
@@ -233,13 +223,13 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 				if (edgeInfo.second) {
 					// add to sumFirstParent
 					sumFirstParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
-					std::pair<uint32_t, uint32_t> edge(v, edgeInfo.first);
+					Edge edge = { v, edgeInfo.first };
 					firstParentCompEdges.insert(edge);
 				}
 				else {
 					// add to sumSecondParent
 					sumSecondParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
-					std::pair<uint32_t, uint32_t> edge(v, edgeInfo.first);
+					Edge edge = { v, edgeInfo.first };
 					secondParentCompEdges.insert(edge);
 				}
 			}
@@ -270,55 +260,60 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		childEdges.insert(e);
 	}
 
-	// CONVERT TO NEW PATH
-	// vector of all vertices, every vertex tells the next one (constrct from edges)
 
-	std::vector<Edge> edges = {
-		{0, 1},
-		{1, 2},
-		{3, 2},
-		{4, 0},
-		{4, 3},
-	};
 
+
+
+
+
+
+
+
+
+
+
+	// CONVERT TO NEW PERMUTATION
 	struct AdjVertex
 	{
 		uint32_t a = INT32_MAX;
 		uint32_t b = INT32_MAX;
 	};
 
-	std::vector<AdjVertex> adjVertices(edges.size() - 1);
+	std::vector<AdjVertex> adjVertices(childEdges.size());
 
-	for (Edge edge : edges)
+	for (Edge edge : childEdges)
 	{
-		AdjVertex v1 = adjVertices[edge.from];
-		if (v1.a == INT32_MAX)
-			v1.a = edge.to;
+		if (adjVertices[edge.from].a == INT32_MAX)
+			adjVertices[edge.from].a = edge.to;
 		else
-			v1.b = edge.to;
+			adjVertices[edge.from].b = edge.to;
 
-		AdjVertex v2 = adjVertices[edge.to];
-		if (v2.a == INT32_MAX)
-			v2.a = edge.from;
+		if (adjVertices[edge.to].a == INT32_MAX)
+			adjVertices[edge.to].a = edge.from;
 		else
-			v2.b = edge.from;
+			adjVertices[edge.to].b = edge.from;
 	}
 
 	std::vector<uint32_t> finalOrder;
 	finalOrder.reserve(adjVertices.size());
 	uint32_t visiting = 0;
+	uint32_t prevVisiting = 0;
 	finalOrder.emplace_back(visiting);
 	while (finalOrder.size() < adjVertices.size())
 	{
 		AdjVertex v = adjVertices[visiting];
-		if (v.a == visiting)
+		if (v.a == prevVisiting) {
+			prevVisiting = visiting;
 			visiting = v.b;
-		else
+		}
+		else {
+			prevVisiting = visiting;
 			visiting = v.a;
+		}
 		finalOrder.emplace_back(visiting);
 	}
 
-	return TSPpermutation(4);
+	return TSPpermutation(finalOrder);
 }
 
 
