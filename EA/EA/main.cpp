@@ -22,11 +22,13 @@ int main()
 
   TSPpermutation permutation(graph.GetNumberOfVertices());
 
+  /*
   std::vector<uint32_t> order1 = { 4,13,5,9,0,11,1,12,6,7,2,3,10,8 };
   TSPpermutation p1(order1);
   std::vector<uint32_t> order2 = { 9,2,3,4,0,1,12,13,5,11,10,6,7,8 };
   TSPpermutation p2(order2);
   TSPpermutation p3 = TSPpermutation::GPX(p1, p2, graph);
+  */
 
 
   //ThreeSATInstance threeSATinstance = Utils::Parser::parse3SAT("..\\ALL_3SAT\\uf20-01.cnf");
@@ -63,7 +65,7 @@ int main()
     }
 
 
-    visualizer->UpdatePermutation(population);
+    //visualizer->UpdatePermutation(population);
   }
 
   for (TSPpermutation& individual : population)
@@ -76,17 +78,27 @@ int main()
   //auto bestFitness = std::min_element(population.begin(), population.end(), customLess);
   std::sort(population.begin(), population.end(), customLess);
 
-  /*
-  TSPpermutation p1 = population[0];
-  TSPpermutation p2 = population[4];
+  
+  //TSPpermutation p1 = population[0];
+  std::vector<uint32_t> order1 = { 4,13,5,9,0,11,1,12,6,7,2,3,10,8 };
+  TSPpermutation p1(order1);
+  TSPpermutation p2 = population[100];
   TSPpermutation p3 = TSPpermutation::GPX(p1, p2, graph);
 
+  std::vector<TSPpermutation> parentPerms = { p1,p2 };
+
   visualizer->UpdatePermutation(p1);
-  visualizer->UpdatePermutation(p2);
-  visualizer->UpdatePermutation(p3);
+  /*
+  while (true) {
+      visualizer->UpdatePermutation(parentPerms);
+      visualizer->WaitForSpace();
+      visualizer->UpdatePermutation(p3);
+      visualizer->WaitForSpace();
+  }
   */
+  
 
-
+  /*
   uint32_t individualIndex = 0;
   while(true)
   {
@@ -96,6 +108,8 @@ int main()
     if (individualIndex == 0)
       break;
   }
+  */
+  
   
   
 
