@@ -41,7 +41,7 @@ int main()
     if (res)
       visualizer->UpdatePermutation(permutation);
   }
-
+  
   std::vector<TSPpermutation> population;
   population.reserve(2);
   for (size_t i = 0; i < 2; i++)
@@ -76,6 +76,17 @@ int main()
   //auto bestFitness = std::min_element(population.begin(), population.end(), customLess);
   std::sort(population.begin(), population.end(), customLess);
 
+  /*
+  TSPpermutation p1 = population[0];
+  TSPpermutation p2 = population[4];
+  TSPpermutation p3 = TSPpermutation::GPX(p1, p2, graph);
+
+  visualizer->UpdatePermutation(p1);
+  visualizer->UpdatePermutation(p2);
+  visualizer->UpdatePermutation(p3);
+  */
+
+
   uint32_t individualIndex = 0;
   while(true)
   {
@@ -85,11 +96,15 @@ int main()
     if (individualIndex == 0)
       break;
   }
+  
+  
 
 
 
   visualizer->WaitForClose();
   delete visualizer;
+
+
 
   return 0;
 }

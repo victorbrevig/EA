@@ -136,7 +136,7 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 	
 	// REMOVE ALL COMMON EDGES
 	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> nonCommonEdges;
-	std::unordered_set<Edge, Edge_hash, Edge_equals> commonEdges;
+	std::vector<Edge> commonEdges;
 	// Insert all edges from first parent in a set
 	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> firstParentEdges;
 	uint32_t permSize = firstPerm.order.size();
@@ -152,7 +152,6 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 	}
 	
 	
-	
 	// Loop through edges of second parent and check whether they (or the reverse) are contained in the set
 	std::tuple<uint32_t, uint32_t, bool> edgeReverse;
 	for (int i = 1; i <= permSize; i++) {
@@ -163,7 +162,7 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 			// remove edge if common
 			firstParentEdges.erase(it);
 			Edge e = { secondPerm.order[i - 1], secondPerm.order[i % permSize] };
-			commonEdges.insert(e);
+			commonEdges.push_back(e);
 		}
 		else {
 			// insert if non common
@@ -212,6 +211,7 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		double sumFirstParent = 0;
 		double sumSecondParent = 0;
 
+		// These are sets because we dont want to insert duplicates (which rise in the adjacency list since it is an undirected graph)
 		std::unordered_set<Edge, Edge_hash, Edge_equals> firstParentCompEdges;
 		std::unordered_set<Edge, Edge_hash, Edge_equals> secondParentCompEdges;
 
@@ -315,10 +315,3 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 
 	return TSPpermutation(finalOrder);
 }
-
-
-
-
-
-
-
