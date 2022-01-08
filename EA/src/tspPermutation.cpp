@@ -65,7 +65,7 @@ double TSPpermutation::GetFitness() const
 
 TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm)
 {
-	int permSize = firstPerm.order.size();
+	int permSize = (int)firstPerm.order.size();
 	std::vector<uint32_t> childOrder(permSize);
 
 	// boolean vector to check if an element has been inserted in the child permutation
@@ -104,6 +104,8 @@ TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, c
 TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
 {
 	struct Edge {
+		Edge(uint32_t f, uint32_t t)
+			: from(t), to(t) {}
 		uint32_t from;
 		uint32_t to;
 	};
@@ -139,14 +141,14 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 	std::vector<Edge> commonEdges;
 	// Insert all edges from first parent in a set
 	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> firstParentEdges;
-	uint32_t permSize = firstPerm.order.size();
+	uint32_t permSize = (uint32_t)firstPerm.order.size();
 
 	
 	EdgeOwner edge = { firstPerm.order[0], firstPerm.order[1], true };
 	firstParentEdges.emplace(edge);
 
 	
-	for (int i = 1; i <= permSize; i++) {
+	for (uint32_t i = 1; i <= permSize; i++) {
 		EdgeOwner edge = { firstPerm.order[i - 1], firstPerm.order[i % permSize], true };
 		firstParentEdges.emplace(edge);
 	}
@@ -154,7 +156,7 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 	
 	// Loop through edges of second parent and check whether they (or the reverse) are contained in the set
 	std::tuple<uint32_t, uint32_t, bool> edgeReverse;
-	for (int i = 1; i <= permSize; i++) {
+	for (uint32_t i = 1; i <= permSize; i++) {
 		EdgeOwner edge = { secondPerm.order[i - 1], secondPerm.order[i % permSize], false };
 		std::unordered_set<EdgeOwner>::iterator it = firstParentEdges.find(edge);
 
@@ -226,13 +228,12 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 				if (edgeInfo.second) {
 					// add to sumFirstParent
 					sumFirstParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
-					firstParentCompEdges.emplace_back({ (uint32_t)v, (uint32_t)edgeInfo.first });
+					firstParentCompEdges.emplace_back(v, edgeInfo.first);
 				}
 				else {
 					// add to sumSecondParent
 					sumSecondParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
-					secondParentCompEdges.emplace_back({ (uint32_t) v, (uint32_t) edgeInfo.first });
-				});
+					secondParentCompEdges.emplace_back(v, edgeInfo.first);
 				}
 			}
 		}
