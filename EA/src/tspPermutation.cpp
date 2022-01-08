@@ -212,25 +212,27 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		double sumSecondParent = 0;
 
 		// These are sets because we dont want to insert duplicates (which rise in the adjacency list since it is an undirected graph)
-		std::unordered_set<Edge, Edge_hash, Edge_equals> firstParentCompEdges;
-		std::unordered_set<Edge, Edge_hash, Edge_equals> secondParentCompEdges;
+		std::vector<Edge> firstParentCompEdges;
+		std::vector<Edge> secondParentCompEdges;
 
 		// loop over vertices
 		for (const auto& v : connectedComponent) {
 			// loop over edges associated with that vertex
 			for (auto i = undirGraph.adjLists[v].begin(); i != undirGraph.adjLists[v].end(); ++i) {
 				std::pair<uint32_t, bool> edgeInfo = *i;
+				if (v > edgeInfo.first) {
+					continue;
+				}
 				if (edgeInfo.second) {
 					// add to sumFirstParent
 					sumFirstParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
-					Edge edge = { v, edgeInfo.first };
-					firstParentCompEdges.insert(edge);
+					firstParentCompEdges.emplace_back({ (uint32_t)v, (uint32_t)edgeInfo.first });
 				}
 				else {
 					// add to sumSecondParent
 					sumSecondParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
-					Edge edge = { v, edgeInfo.first };
-					secondParentCompEdges.insert(edge);
+					secondParentCompEdges.emplace_back({ (uint32_t) v, (uint32_t) edgeInfo.first });
+				});
 				}
 			}
 		}
