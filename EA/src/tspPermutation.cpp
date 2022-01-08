@@ -110,6 +110,8 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		uint32_t to;
 	};
 	struct EdgeOwner {
+		EdgeOwner(uint32_t f, uint32_t t, bool i)
+			: from(f), to(t), isFirstParent(i) {}
 		uint32_t from;
 		uint32_t to;
 		bool isFirstParent;
@@ -144,13 +146,8 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 	uint32_t permSize = (uint32_t)firstPerm.order.size();
 
 	
-	EdgeOwner edge = { firstPerm.order[0], firstPerm.order[1], true };
-	firstParentEdges.emplace(edge);
-
-	
 	for (uint32_t i = 1; i <= permSize; i++) {
-		EdgeOwner edge = { firstPerm.order[i - 1], firstPerm.order[i % permSize], true };
-		firstParentEdges.emplace(edge);
+		firstParentEdges.emplace(firstPerm.order[i - 1], firstPerm.order[i % permSize], true);
 	}
 	
 	
@@ -252,12 +249,8 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 				childEdges.insert(e);
 			}
 		}
-
-
-
 		firstParentCompEdges.clear();
 		secondParentCompEdges.clear();
-		
 	}
 
 	if (numberOfConnectedComponents == 1) {
@@ -265,13 +258,10 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		return std::nullopt;
 	}
 
-
-
 	// UNION WITH COMMON EDGES, append instead
 	for (const auto& e : commonEdges) {
 		childEdges.insert(e);
 	}
-
 
 	ASSERT(childEdges.size() == firstPerm.order.size());
 
@@ -315,9 +305,6 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		}
 		finalOrder.emplace_back(visiting);
 	}
-
-
-
 
 	return { TSPpermutation(finalOrder) };
 }
