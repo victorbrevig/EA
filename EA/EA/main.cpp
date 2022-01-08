@@ -81,11 +81,22 @@ int main()
   
 
   //TSPpermutation p1 = population[0];
-  //TSPpermutation p2 = population[100];
+  //TSPpermutation p2 = population[1];
+  
+  // TEST14.tsp
+  /*
+  std::vector<uint32_t> order1 = { 0,1,2,3,4,5,6,7,9,8,10,11,12,13 };
+  TSPpermutation p1(order1);
+  std::vector<uint32_t> order2 = { 0,2,1,3,4,12,5,6,8,7,9,10,11,13 };
+  TSPpermutation p2(order2);
+  */
+
+  // BURMA14.tsp
   std::vector<uint32_t> order1 = { 4,13,5,9,0,11,1,12,6,7,2,3,10,8 };
   TSPpermutation p1(order1);
   std::vector<uint32_t> order2 = { 9,2,3,4,0,1,12,13,5,11,10,6,7,8 };
   TSPpermutation p2(order2);
+  
   TSPpermutation p3 = TSPpermutation::GPX(p1, p2, graph);
 
   std::vector<TSPpermutation> parentPerms = { p1,p2 };

@@ -105,7 +105,7 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 {
 	struct Edge {
 		Edge(uint32_t f, uint32_t t)
-			: from(t), to(t) {}
+			: from(f), to(t) {}
 		uint32_t from;
 		uint32_t to;
 	};
@@ -155,7 +155,6 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 	
 	
 	// Loop through edges of second parent and check whether they (or the reverse) are contained in the set
-	std::tuple<uint32_t, uint32_t, bool> edgeReverse;
 	for (uint32_t i = 1; i <= permSize; i++) {
 		EdgeOwner edge = { secondPerm.order[i - 1], secondPerm.order[i % permSize], false };
 		std::unordered_set<EdgeOwner>::iterator it = firstParentEdges.find(edge);
@@ -163,8 +162,7 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		if (it != firstParentEdges.end()) {
 			// remove edge if common
 			firstParentEdges.erase(it);
-			Edge e = { secondPerm.order[i - 1], secondPerm.order[i % permSize] };
-			commonEdges.push_back(e);
+			commonEdges.emplace_back(secondPerm.order[i - 1], secondPerm.order[i % permSize]);
 		}
 		else {
 			// insert if non common
@@ -192,11 +190,13 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 
 	std::unordered_set<Edge, Edge_hash, Edge_equals> childEdges;
 
+	uint32_t numberOfConnectedComponents = 0;
+
 	while (remainingVertices.size() > 0) {
 		// take first vertex in remainingVertices as start vertex for BFS
 		uint32_t startVertex = *begin(remainingVertices);
 		std::vector<uint32_t> connectedComponent = undirGraph.BFS(startVertex);
-
+		numberOfConnectedComponents++;
 		// remove vertices in connectedComponent from remainingVertices
 		for (const auto& v : connectedComponent) {
 			std::unordered_set<uint32_t>::iterator it = remainingVertices.find(v);
@@ -258,22 +258,20 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		
 	}
 
+	if (numberOfConnectedComponents == 1) {
+		// NOT POSSIBLE TO DO CUT OF VALUE 2 - RETURN NOTHING
+
+	}
+
+
+
 	// UNION WITH COMMON EDGES, append instead
 	for (const auto& e : commonEdges) {
 		childEdges.insert(e);
 	}
 
 
-
-
-
-
-
-
-
-
-
-	ASSERT(childEdges.size() + 1 == firstPerm.order.size());
+	ASSERT(childEdges.size() == firstPerm.order.size());
 
 	// CONVERT TO NEW PERMUTATION
 	struct AdjVertex
@@ -315,6 +313,9 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		}
 		finalOrder.emplace_back(visiting);
 	}
+
+
+
 
 	return TSPpermutation(finalOrder);
 }
