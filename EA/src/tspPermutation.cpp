@@ -101,7 +101,7 @@ TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, c
 
 
 
-TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
+std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
 {
 	struct Edge {
 		Edge(uint32_t f, uint32_t t)
@@ -196,7 +196,7 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 		// take first vertex in remainingVertices as start vertex for BFS
 		uint32_t startVertex = *begin(remainingVertices);
 		std::vector<uint32_t> connectedComponent = undirGraph.BFS(startVertex);
-		numberOfConnectedComponents++;
+		
 		// remove vertices in connectedComponent from remainingVertices
 		for (const auto& v : connectedComponent) {
 			std::unordered_set<uint32_t>::iterator it = remainingVertices.find(v);
@@ -207,6 +207,8 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 			// nothing to chose if the connected component is just one vertex
 			continue;
 		}
+		// Only count component if size>1 (effecitively same as fusing common edges)
+		numberOfConnectedComponents++;
 		
 		// compute total length of each parent paths in connected component
 		// note this will be times 2 since it is an adjacency list for an undirected graph
@@ -260,7 +262,7 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 
 	if (numberOfConnectedComponents == 1) {
 		// NOT POSSIBLE TO DO CUT OF VALUE 2 - RETURN NOTHING
-
+		return std::nullopt;
 	}
 
 
@@ -317,5 +319,5 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 
 
 
-	return TSPpermutation(finalOrder);
+	return { TSPpermutation(finalOrder) };
 }

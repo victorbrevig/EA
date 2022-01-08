@@ -2,6 +2,7 @@
 #define TSPPERMUTATION_H
 #include "vector"
 #include "graph.h"
+#include <optional>
 
 class TSPpermutation
 {
@@ -17,7 +18,7 @@ public:
 	bool mutate_2OPT(const Graph& graph, bool acceptWorse = false);
 	void updateFitness(const Graph& graph);
 	static TSPpermutation orderCrossover(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm);
-	static TSPpermutation GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph);
+	static std::optional<TSPpermutation> GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph);
 
 };
 #endif

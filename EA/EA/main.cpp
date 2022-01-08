@@ -18,7 +18,7 @@ int main()
 {
   std::cout << "Hello World" << "\n";
 
-  Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\burma14.tsp");
+  Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\test14.tsp");
 
   TSPpermutation permutation(graph.GetNumberOfVertices());
 
@@ -49,7 +49,7 @@ int main()
   for (size_t i = 0; i < 2; i++)
     population.emplace_back(graph.GetNumberOfVertices());
 
-  BlackBoxEA<TSPpermutation> ea(population, 1e5, 1.0, 0);
+  BlackBoxEA<TSPpermutation> ea(population, 1e6, 1.0, 0);
 
   bool isDone = true;
 
@@ -84,29 +84,39 @@ int main()
   //TSPpermutation p2 = population[1];
   
   // TEST14.tsp
-  /*
   std::vector<uint32_t> order1 = { 0,1,2,3,4,5,6,7,9,8,10,11,12,13 };
+  //std::vector<uint32_t> order1 = { 0,1,2,3,12,10,11,8,9,6,7,4,5,13 };
   TSPpermutation p1(order1);
   std::vector<uint32_t> order2 = { 0,2,1,3,4,12,5,6,8,7,9,10,11,13 };
+  //std::vector<uint32_t> order2 = { 0,1,2,3,4,11,9,10,8,7,5,6,12,13 };
   TSPpermutation p2(order2);
-  */
+  
 
   // BURMA14.tsp
+  /*
   std::vector<uint32_t> order1 = { 4,13,5,9,0,11,1,12,6,7,2,3,10,8 };
   TSPpermutation p1(order1);
   std::vector<uint32_t> order2 = { 9,2,3,4,0,1,12,13,5,11,10,6,7,8 };
   TSPpermutation p2(order2);
+  */
   
-  TSPpermutation p3 = TSPpermutation::GPX(p1, p2, graph);
 
   std::vector<TSPpermutation> parentPerms = { p1,p2 };
+  
+  std::optional<TSPpermutation> p3opt = TSPpermutation::GPX(p1, p2, graph);
 
+  TSPpermutation p3;
+  if (p3opt) {
+      p3 = *p3opt;
+  }
   
   while (true) {
       visualizer->UpdatePermutation(parentPerms);
       visualizer->WaitForSpace();
-      visualizer->UpdatePermutation(p3);
-      visualizer->WaitForSpace();
+      if (p3opt) {
+          visualizer->UpdatePermutation(p3);
+          visualizer->WaitForSpace();
+      }
   }
   
   
