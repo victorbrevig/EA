@@ -273,7 +273,7 @@ TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPper
 
 
 
-	ASSERT(childEdges.size() + 1 == firstPerm.size());
+	ASSERT(childEdges.size() + 1 == firstPerm.order.size());
 
 	// CONVERT TO NEW PERMUTATION
 	struct AdjVertex
