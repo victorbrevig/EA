@@ -121,6 +121,9 @@ void Graph::UpdateNearNeighbors() const
       neighbors[j] = orderedIncidence[j + 1];
   }
 }
+double Graph::calculateDistBetweenTwoVertices(uint32_t v1, uint32_t v2) const {
+    return Utils::Distance(points2D[v1], points2D[v2]);
+}
 
 std::vector<Graph::VertexDist> Graph::GetOrderedIncidence(uint32_t vertex) const
 {

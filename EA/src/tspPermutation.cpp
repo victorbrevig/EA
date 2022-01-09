@@ -1,10 +1,12 @@
 #include "pch.h"
 #include "tspPermutation.h"
+#include "undirectedGraph.h"
 #include <algorithm>
 #include <numeric>
 #include <random>
 #include <stdlib.h>
-#include <set>
+#include <unordered_set>
+#include <tuple>
 
 TSPpermutation::TSPpermutation()
 {
@@ -96,36 +98,213 @@ TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, c
 	return TSPpermutation(childOrder);
 }
 
-TSPpermutation TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm)
+
+
+
+std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
 {
-	// FIND COMMON EDGES
-	std::set<std::pair<uint32_t, uint32_t>> firstParentEdges;
-	uint32_t permSize = (uint32_t)firstPerm.order.size();
-	for (uint32_t i = 1; i < permSize; i++) {
-		std::pair<uint32_t, uint32_t> edge(firstPerm.order[i - 1], firstPerm.order[i]);
-		//firstParentEdges.insert
+	struct Edge {
+		Edge(uint32_t f, uint32_t t)
+			: from(f), to(t) {}
+		uint32_t from;
+		uint32_t to;
+	};
+	struct EdgeOwner {
+		EdgeOwner(uint32_t f, uint32_t t, bool i)
+			: from(f), to(t), isFirstParent(i) {}
+		uint32_t from;
+		uint32_t to;
+		bool isFirstParent;
+	};
+
+	struct Edge_hash {
+		inline std::size_t operator()(const Edge& v) const {
+			return v.from > v.to ? (v.from * 31 + v.to) : (v.to * 31 + v.from);
 	}
-	// remember first and last index
+	};
+	struct Edge_equals {
+		bool operator()(const Edge& v1, const Edge& v2) const {
+			return (v1.from == v2.from && v1.to == v2.to) || (v1.from == v2.to && v1.to == v2.from);
+		}
+	};
+	struct EdgeOwner_hash {
+		inline std::size_t operator()(const EdgeOwner& v) const {
+			return v.from > v.to ? (v.from * 31 + v.to) : (v.to * 31 + v.from);
+		}
+	};
+	struct EdgeOwner_equals {
+		bool operator()(const EdgeOwner& v1, const EdgeOwner& v2) const {
+			return (v1.from == v2.from && v1.to == v2.to) || (v1.from == v2.to && v1.to == v2.from);
+		}
+	};
 
-	// REMOVE COMMON EDGES
+	// REMOVE ALL COMMON EDGES
+	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> nonCommonEdges;
+	std::vector<Edge> commonEdges;
+	// Insert all edges from first parent in a set
+	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> firstParentEdges;
+	uint32_t permSize = (uint32_t)firstPerm.order.size();
 
 
-	// CREATE GRAPH (WITHOUT COMMON EDGES)
+	for (uint32_t i = 1; i <= permSize; i++) {
+		firstParentEdges.emplace(firstPerm.order[i - 1], firstPerm.order[i % permSize], true);
+	}
+
+
+	// Loop through edges of second parent and check whether they (or the reverse) are contained in the set
+	for (uint32_t i = 1; i <= permSize; i++) {
+		EdgeOwner edge = { secondPerm.order[i - 1], secondPerm.order[i % permSize], false };
+		std::unordered_set<EdgeOwner>::iterator it = firstParentEdges.find(edge);
+
+		if (it != firstParentEdges.end()) {
+			// remove edge if common
+			firstParentEdges.erase(it);
+			commonEdges.emplace_back(secondPerm.order[i - 1], secondPerm.order[i % permSize]);
+		}
+		else {
+			// insert if non common
+			nonCommonEdges.insert(edge);
+		}
+	}
+	// insert edges from first parent that was not removed in loop above
+	nonCommonEdges.insert(firstParentEdges.begin(), firstParentEdges.end());
+	
+
+	// CREATE GRAPH (WITH NON COMMON EDGES)
+	UndirectedGraph undirGraph(permSize);
+
+	for (const auto& e : nonCommonEdges) {
+		undirGraph.addEdge(e.from, e.to, e.isFirstParent);
+	}
 
 
 	// IDENTIFY CONNECTED COMPONENTS USING BFS
+	std::unordered_set<uint32_t> remainingVertices(permSize);
+	// fill remainingVertices with all vertices to begin with
+	for (uint32_t i = 0; i < permSize; i++) {
+		remainingVertices.insert(i);
+	}
 
+	std::unordered_set<Edge, Edge_hash, Edge_equals> childEdges;
 
-	// CHOSE SHORTEST OF THE TWO PATHS IN EACH CONNECTED COMPONENT
+	uint32_t numberOfConnectedComponents = 0;
 
+	while (remainingVertices.size() > 0) {
+		// take first vertex in remainingVertices as start vertex for BFS
+		uint32_t startVertex = *begin(remainingVertices);
+		std::vector<uint32_t> connectedComponent = undirGraph.BFS(startVertex);
 
+		// remove vertices in connectedComponent from remainingVertices
+		for (const auto& v : connectedComponent) {
+			std::unordered_set<uint32_t>::iterator it = remainingVertices.find(v);
+			remainingVertices.erase(it);
+		}
 
-	return TSPpermutation();
+		if (connectedComponent.size() == 1) {
+			// nothing to chose if the connected component is just one vertex
+			continue;
 }
+		// Only count component if size>1 (effecitively same as fusing common edges)
+		numberOfConnectedComponents++;
 
+		// compute total length of each parent paths in connected component
+		// note this will be times 2 since it is an adjacency list for an undirected graph
+		double sumFirstParent = 0;
+		double sumSecondParent = 0;
 
+		// These are sets because we dont want to insert duplicates (which rise in the adjacency list since it is an undirected graph)
+		std::vector<Edge> firstParentCompEdges;
+		std::vector<Edge> secondParentCompEdges;
 
+		// loop over vertices
+		for (const auto& v : connectedComponent) {
+			// loop over edges associated with that vertex
+			for (auto i = undirGraph.adjLists[v].begin(); i != undirGraph.adjLists[v].end(); ++i) {
+				std::pair<uint32_t, bool> edgeInfo = *i;
+				if (v > edgeInfo.first) {
+					continue;
+				}
+				if (edgeInfo.second) {
+					// add to sumFirstParent
+					sumFirstParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
+					firstParentCompEdges.emplace_back(v, edgeInfo.first);
+				}
+				else {
+					// add to sumSecondParent
+					sumSecondParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
+					secondParentCompEdges.emplace_back(v, edgeInfo.first);
+				}
+			}
+		}
 
+		// append instead of loop vector to vector !
+		// pick parent path with smallest sum:
+		if (sumFirstParent <= sumSecondParent) {
+			for (const auto& e : firstParentCompEdges) {
+				childEdges.insert(e);
+			}
+		}
+		else {
+			for (const auto& e : secondParentCompEdges) {
+				childEdges.insert(e);
+			}
+		}
+		firstParentCompEdges.clear();
+		secondParentCompEdges.clear();
+	}
 
+	if (numberOfConnectedComponents == 1) {
+		// NOT POSSIBLE TO DO CUT OF VALUE 2 - RETURN NOTHING
+		return std::nullopt;
+	}
 
+	// UNION WITH COMMON EDGES, append instead
+	for (const auto& e : commonEdges) {
+		childEdges.insert(e);
+	}
 
+	ASSERT(childEdges.size() == firstPerm.order.size());
+
+	// CONVERT TO NEW PERMUTATION
+	struct AdjVertex
+	{
+		uint32_t a = INT32_MAX;
+		uint32_t b = INT32_MAX;
+	};
+
+	std::vector<AdjVertex> adjVertices(childEdges.size());
+
+	for (Edge edge : childEdges)
+	{
+		if (adjVertices[edge.from].a == INT32_MAX)
+			adjVertices[edge.from].a = edge.to;
+		else
+			adjVertices[edge.from].b = edge.to;
+
+		if (adjVertices[edge.to].a == INT32_MAX)
+			adjVertices[edge.to].a = edge.from;
+		else
+			adjVertices[edge.to].b = edge.from;
+	}
+
+	std::vector<uint32_t> finalOrder;
+	finalOrder.reserve(adjVertices.size());
+	uint32_t visiting = 0;
+	uint32_t prevVisiting = 0;
+	finalOrder.emplace_back(visiting);
+	while (finalOrder.size() < adjVertices.size())
+	{
+		AdjVertex v = adjVertices[visiting];
+		if (v.a == prevVisiting) {
+			prevVisiting = visiting;
+			visiting = v.b;
+		}
+		else {
+			prevVisiting = visiting;
+			visiting = v.a;
+		}
+		finalOrder.emplace_back(visiting);
+	}
+
+	return { TSPpermutation(finalOrder) };
+}

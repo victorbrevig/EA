@@ -34,5 +34,6 @@ public:
   size_t GetNumberOfVertices() const;
   double calculateDistByOrder(const std::vector<uint32_t>& order) const;
   const std::array<Graph::VertexDist, NUMBER_OF_NEAR_NEIGHBORS>& GetNearNeighborsOf(uint32_t vertex) const;
+  double calculateDistBetweenTwoVertices(uint32_t v1, uint32_t v2) const;
 };
 #endif
