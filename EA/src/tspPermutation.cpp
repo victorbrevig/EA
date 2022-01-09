@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <unordered_set>
 #include <tuple>
+#include <unordered_map>
 
 TSPpermutation::TSPpermutation()
 {
@@ -141,6 +142,9 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 	// REMOVE ALL COMMON EDGES
 	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> nonCommonEdges;
 	std::vector<Edge> commonEdges;
+	// used to look up common edge when checking cut sizes
+	std::unordered_map<uint32_t, uint32_t> vertToACommonEdgeNeighbor;
+	
 	// Insert all edges from first parent in a set
 	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> firstParentEdges;
 	uint32_t permSize = (uint32_t)firstPerm.order.size();
@@ -160,6 +164,8 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 			// remove edge if common
 			firstParentEdges.erase(it);
 			commonEdges.emplace_back(secondPerm.order[i - 1], secondPerm.order[i % permSize]);
+			vertToACommonEdgeNeighbor[secondPerm.order[i - 1]] = secondPerm.order[i % permSize];
+			vertToACommonEdgeNeighbor[secondPerm.order[i % permSize]] = secondPerm.order[i - 1];
 		}
 		else {
 			// insert if non common
@@ -234,7 +240,30 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		std::vector<Edge> firstParentCompEdges;
 		std::vector<Edge> secondParentCompEdges;
 
-		// loop over vertices
+		// get set of vertices in connectedComponent for fast lookup
+		std::unordered_set<uint32_t> connectedComponentVerts;
+		for (const auto& v : connectedComponent) {
+			connectedComponentVerts.insert(v);
+		}
+
+		uint32_t cutCount = 0;
+		// check if partition has cut = 2 or more
+		for (const auto& v : connectedComponent) {
+			std::unordered_map<uint32_t, uint32_t>::const_iterator inCommonEdgeIt = vertToACommonEdgeNeighbor.find(v);
+			if (inCommonEdgeIt != vertToACommonEdgeNeighbor.end()) {
+				// v is part of a common edge, check if the other end is in the component
+				uint32_t endPoint = inCommonEdgeIt->second;
+				std::unordered_set<uint32_t>::const_iterator inConnectedComponentIt = connectedComponentVerts.find(endPoint);
+				if (inConnectedComponentIt == connectedComponentVerts.end()) {
+					// if endPoint not in connectedComponentVerts, increment cutCount
+					cutCount++;
+				}
+
+			}
+		}
+
+
+		// if cut==2, find best path over vertices
 		for (const auto& v : connectedComponent) {
 			// loop over edges associated with that vertex
 			for (auto i = undirGraph.adjLists[v].begin(); i != undirGraph.adjLists[v].end(); ++i) {
