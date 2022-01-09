@@ -163,12 +163,30 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		}
 		else {
 			// insert if non common
-			nonCommonEdges.insert(edge);
+		 	nonCommonEdges.insert(edge);
 		}
 	}
 	// insert edges from first parent that was not removed in loop above
 	nonCommonEdges.insert(firstParentEdges.begin(), firstParentEdges.end());
 	
+#ifdef DEBUG
+	uint32_t countCommon = 0;
+	for (uint32_t i = 0; i < permSize; i++)
+	{
+		uint32_t from1 = firstPerm.order[i];
+		uint32_t to1 = firstPerm.order[(i + 1) % permSize];
+		for (uint32_t j = 0; j < permSize; j++)
+		{
+			uint32_t from2 = secondPerm.order[j];
+			uint32_t to2 = secondPerm.order[(j + 1) % permSize];
+			if (from1 == from2 && to1 == to2)
+				countCommon++;
+			else if (from1 == to2 && from2 == to1)
+				countCommon++;
+		}
+	}
+	ASSERT(countCommon == commonEdges.size());
+#endif
 
 	// CREATE GRAPH (WITH NON COMMON EDGES)
 	UndirectedGraph undirGraph(permSize);
@@ -260,6 +278,38 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 	// UNION WITH COMMON EDGES, append instead
 	childEdges.insert(childEdges.end(), commonEdges.begin(), commonEdges.end());
 
+#ifdef DEBUG
+
+	for (Edge edge : childEdges)
+	{
+		bool found = false;
+		for (uint32_t i = 0; i < permSize; i++)
+		{
+			if (firstPerm.order[i] == edge.from && firstPerm.order[(i + 1) % permSize] == edge.to)
+				found = true;
+			if (firstPerm.order[i] == edge.to && firstPerm.order[(i + 1) % permSize] == edge.from)
+				found = true;
+			if (secondPerm.order[i] == edge.from && secondPerm.order[(i + 1) % permSize] == edge.to)
+				found = true;
+			if (secondPerm.order[i] == edge.to && secondPerm.order[(i + 1) % permSize] == edge.from)
+				found = true;
+		}
+		ASSERT(found);
+	}
+
+	for (uint32_t i = 0; i < permSize; i++)
+	{
+		uint32_t count = 0;
+		for (Edge edge : childEdges)
+		{
+			if (edge.from == i)
+				count++;
+			else if (edge.to == i)
+				count++;
+		}
+		ASSERT(count == 2);
+	}
+#endif
 
 	ASSERT(childEdges.size() == firstPerm.order.size());
 
@@ -292,6 +342,21 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		}
 	}
 
+#ifdef DEBUG
+	for (uint32_t i = 0; i < permSize; i++)
+	{
+		uint32_t count = 0;
+		for (AdjVertex adjVertex : adjVertices)
+		{
+			if (adjVertex.a == i)
+				count++;
+			else if (adjVertex.b == i)
+				count++;
+		}
+		ASSERT(count == 2);
+	}
+#endif
+
 	std::vector<uint32_t> finalOrder;
 	finalOrder.reserve(adjVertices.size());
 	uint32_t visiting = 0;
@@ -299,7 +364,7 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 	finalOrder.emplace_back(visiting);
 	while (finalOrder.size() < adjVertices.size())
 	{
-		AdjVertex v = adjVertices[visiting];
+		AdjVertex& v = adjVertices[visiting];
 		if (v.a == prevVisiting) {
 			prevVisiting = visiting;
 			visiting = v.b;
@@ -311,9 +376,10 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		else
 		{
 			ASSERT(FALSE /*This should not happen*/);
+			break;
 		}
 		finalOrder.emplace_back(visiting);
 	}
 
-	return { TSPpermutation(finalOrder) };
+ 	return { TSPpermutation(finalOrder) };
 }
