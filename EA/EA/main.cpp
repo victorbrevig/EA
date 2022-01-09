@@ -25,7 +25,7 @@ int main()
 
   if (lkSearch)
   {
-    Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\usa13509.tsp");
+    Graph graph = Utils::Parser::ParseTSPGraph("..\\ALL_TSP\\ch130.tsp");
     TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
     Visualizer* visualizer = new Visualizer(graph, permutation);
     std::thread visualizerThread(StartVisualizer, visualizer);
@@ -39,13 +39,51 @@ int main()
     LKSearch lkSearch(graph, visualizer);
 
     permutation.order = lkSearch.LinKernighan(permutation.order);
-    permutation.order = lkSearch.LinKernighan(permutation.order);
     permutation.updateFitness(graph);
-    std::cout << ": Fitness: " << permutation.GetFitness() << "\n";
+    std::cout << "Parent 1 fitness: " << permutation.GetFitness() << "\n";
     visualizer->UpdatePermutation(permutation);
+    visualizer->WaitForSpace();
 
-    
+    TSPpermutation permutation2((unsigned int)graph.GetNumberOfVertices());
+    permutation2.order = lkSearch.LinKernighan(permutation2.order);
+    permutation2.updateFitness(graph);
+    std::cout << "Parent 2 fitness: " << permutation2.GetFitness() << "\n";
+    visualizer->UpdatePermutation(permutation2);
+    visualizer->WaitForSpace();
+
+    visualizer->UpdatePermutation(std::vector<TSPpermutation>({ permutation, permutation2 }));
+    visualizer->WaitForSpace();
+
+    auto optionalChild = TSPpermutation::GPX(permutation, permutation2, graph);
+    if (optionalChild.has_value())
+    {
+      TSPpermutation child = *optionalChild;
+      child.updateFitness(graph);
+      std::cout << "Child fitness: " << child.GetFitness() << "\n";
+      visualizer->UpdatePermutation(child);
+      visualizer->WaitForSpace();
+
+      while (true)
+      {
+        std::cout << "Parent 1 fitness: " << permutation.GetFitness() << "\n";
+        visualizer->UpdatePermutation(permutation);
+        visualizer->WaitForSpace();
+
+        std::cout << "Parent 2 fitness: " << permutation2.GetFitness() << "\n";
+        visualizer->UpdatePermutation(permutation2);
+        visualizer->WaitForSpace();
+
+        visualizer->UpdatePermutation(std::vector<TSPpermutation>({ permutation, permutation2 }));
+        visualizer->WaitForSpace();
+
+        std::cout << "Child fitness: " << child.GetFitness() << "\n";
+        visualizer->UpdatePermutation(child);
+        visualizer->WaitForSpace();
+      }
+    }
+
     visualizer->WaitForClose();
+
     delete visualizer;
   }
   else

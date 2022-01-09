@@ -253,6 +253,8 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		secondParentCompEdges.clear();
 	}
 
+	std::cout << "Number of components: " << numberOfConnectedComponents << "\n";
+
 	if (numberOfConnectedComponents == 1) {
 		// NOT POSSIBLE TO DO CUT OF VALUE 2 - RETURN NOTHING
 		return std::nullopt;

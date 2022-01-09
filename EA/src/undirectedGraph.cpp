@@ -4,9 +4,8 @@
 
 
 UndirectedGraph::UndirectedGraph(uint32_t _numOfVertices)
+  : adjLists(std::vector<std::list<std::pair<uint32_t, bool>>>(_numOfVertices)), numOfVertices(_numOfVertices)
 {
-	numOfVertices = _numOfVertices;
-	adjLists = new std::list<std::pair<uint32_t,bool>>[_numOfVertices];
 }
 
 void UndirectedGraph::addEdge(uint32_t src, uint32_t dest, bool parent)
@@ -22,11 +21,8 @@ std::vector<uint32_t> UndirectedGraph::BFS(uint32_t startVertex)
 
     std::vector<uint32_t> res;
 
-    visited = new bool[numOfVertices];
-    for (int i = 0; i < numOfVertices; i++) {
-        visited[i] = false;
-    }
-        
+    std::vector<bool> visited(numOfVertices, false);
+
     std::list<int> queue;
 
     res.push_back(startVertex);
