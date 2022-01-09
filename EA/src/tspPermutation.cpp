@@ -185,7 +185,7 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		remainingVertices.insert(i);
 	}
 
-	std::unordered_set<Edge, Edge_hash, Edge_equals> childEdges;
+	std::vector<Edge> childEdges;
 
 	uint32_t numberOfConnectedComponents = 0;
 
@@ -239,15 +239,12 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 
 		// append instead of loop vector to vector !
 		// pick parent path with smallest sum:
+		ASSERT(firstParentCompEdges.size() == secondParentCompEdges.size());
 		if (sumFirstParent <= sumSecondParent) {
-			for (const auto& e : firstParentCompEdges) {
-				childEdges.insert(e);
-			}
+			childEdges.insert(childEdges.end(), firstParentCompEdges.begin(), firstParentCompEdges.end());
 		}
 		else {
-			for (const auto& e : secondParentCompEdges) {
-				childEdges.insert(e);
-			}
+			childEdges.insert(childEdges.end(), secondParentCompEdges.begin(), secondParentCompEdges.end());
 		}
 		firstParentCompEdges.clear();
 		secondParentCompEdges.clear();
@@ -261,9 +258,8 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 	}
 
 	// UNION WITH COMMON EDGES, append instead
-	for (const auto& e : commonEdges) {
-		childEdges.insert(e);
-	}
+	childEdges.insert(childEdges.end(), commonEdges.begin(), commonEdges.end());
+
 
 	ASSERT(childEdges.size() == firstPerm.order.size());
 
@@ -280,19 +276,26 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 	{
 		if (adjVertices[edge.from].a == INT32_MAX)
 			adjVertices[edge.from].a = edge.to;
-		else
+		else if (adjVertices[edge.from].b == INT32_MAX)
 			adjVertices[edge.from].b = edge.to;
-
+		else
+		{
+			ASSERT(FALSE /* This should not happen*/);
+		}
 		if (adjVertices[edge.to].a == INT32_MAX)
 			adjVertices[edge.to].a = edge.from;
-		else
+		else if (adjVertices[edge.to].b == INT32_MAX)
 			adjVertices[edge.to].b = edge.from;
+		else
+		{
+			ASSERT(FALSE /* This should not happen*/);
+		}
 	}
 
 	std::vector<uint32_t> finalOrder;
 	finalOrder.reserve(adjVertices.size());
 	uint32_t visiting = 0;
-	uint32_t prevVisiting = 0;
+	uint32_t prevVisiting = adjVertices[visiting].b;
 	finalOrder.emplace_back(visiting);
 	while (finalOrder.size() < adjVertices.size())
 	{
@@ -301,9 +304,13 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 			prevVisiting = visiting;
 			visiting = v.b;
 		}
-		else {
+		else if (v.b == prevVisiting) {
 			prevVisiting = visiting;
 			visiting = v.a;
+		}
+		else
+		{
+			ASSERT(FALSE /*This should not happen*/);
 		}
 		finalOrder.emplace_back(visiting);
 	}
