@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <unordered_set>
 #include <tuple>
-#include <unordered_map>
 
 TSPpermutation::TSPpermutation()
 {
@@ -138,12 +137,15 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 			return (v1.from == v2.from && v1.to == v2.to) || (v1.from == v2.to && v1.to == v2.from);
 		}
 	};
+	struct AdjVertex
+	{
+		uint32_t a = INT32_MAX;
+		uint32_t b = INT32_MAX;
+	};
 
 	// REMOVE ALL COMMON EDGES
 	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> nonCommonEdges;
 	std::vector<Edge> commonEdges;
-	// used to look up common edge when checking cut sizes
-	std::unordered_map<uint32_t, uint32_t> vertToACommonEdgeNeighbor;
 	
 	// Insert all edges from first parent in a set
 	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> firstParentEdges;
@@ -164,8 +166,6 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 			// remove edge if common
 			firstParentEdges.erase(it);
 			commonEdges.emplace_back(secondPerm.order[i - 1], secondPerm.order[i % permSize]);
-			vertToACommonEdgeNeighbor[secondPerm.order[i - 1]] = secondPerm.order[i % permSize];
-			vertToACommonEdgeNeighbor[secondPerm.order[i % permSize]] = secondPerm.order[i - 1];
 		}
 		else {
 			// insert if non common
@@ -174,6 +174,30 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 	}
 	// insert edges from first parent that was not removed in loop above
 	nonCommonEdges.insert(firstParentEdges.begin(), firstParentEdges.end());
+
+	// used to identify consecutive common edges
+	std::vector<AdjVertex> commonEdgesOfVerts(firstPerm.order.size());
+	for (Edge edge : commonEdges)
+	{
+		if (commonEdgesOfVerts[edge.from].a == INT32_MAX)
+			commonEdgesOfVerts[edge.from].a = edge.to;
+		else if (commonEdgesOfVerts[edge.from].b == INT32_MAX)
+			commonEdgesOfVerts[edge.from].b = edge.to;
+		else
+		{
+			ASSERT(FALSE /* This should not happen*/);
+		}
+		if (commonEdgesOfVerts[edge.to].a == INT32_MAX)
+			commonEdgesOfVerts[edge.to].a = edge.from;
+		else if (commonEdgesOfVerts[edge.to].b == INT32_MAX)
+			commonEdgesOfVerts[edge.to].b = edge.from;
+		else
+		{
+			ASSERT(FALSE /* This should not happen*/);
+		}
+	}
+
+
 	
 #ifdef DEBUG
 	uint32_t countCommon = 0;
@@ -212,6 +236,7 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 	std::vector<Edge> childEdges;
 
 	uint32_t numberOfConnectedComponents = 0;
+	std::vector<uint32_t> componentCutCounts;
 
 	while (remainingVertices.size() > 0) {
 		// take first vertex in remainingVertices as start vertex for BFS
@@ -249,19 +274,47 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		uint32_t cutCount = 0;
 		// check if partition has cut = 2 or more
 		for (const auto& v : connectedComponent) {
-			std::unordered_map<uint32_t, uint32_t>::const_iterator inCommonEdgeIt = vertToACommonEdgeNeighbor.find(v);
-			if (inCommonEdgeIt != vertToACommonEdgeNeighbor.end()) {
-				// v is part of a common edge, check if the other end is in the component
-				uint32_t endPoint = inCommonEdgeIt->second;
-				std::unordered_set<uint32_t>::const_iterator inConnectedComponentIt = connectedComponentVerts.find(endPoint);
-				if (inConnectedComponentIt == connectedComponentVerts.end()) {
-					// if endPoint not in connectedComponentVerts, increment cutCount
-					cutCount++;
-				}
+			// if v has a common edge, check if the final endpoint (over consecutive common edges) is in the connected component as well
+			AdjVertex current = commonEdgesOfVerts[v];
+			uint32_t nextVert;
+			if (current.a == INT32_MAX && current.b == INT32_MAX) {
+				continue;
+			}
+			else if (current.a != INT32_MAX && current.b != INT32_MAX) {
+				// At this point, we should not be looking at vertices with two common edges
+				ASSERT(false);
+			}
+			else if (current.a != INT32_MAX) {
+				nextVert = current.a;
+			}
+			else {
+				nextVert = current.b;
+			}
 
+			// loop through common edges to find end of chain
+			uint32_t cameFrom = v;
+			current = commonEdgesOfVerts[nextVert];
+			while (current.a != INT32_MAX && current.b != INT32_MAX) {
+				// both edges of current are common
+				if (current.a == cameFrom) {
+					cameFrom = nextVert;
+					nextVert = current.b;
+				}
+				else {
+					cameFrom = nextVert;
+					nextVert = current.a;
+				}
+				current = commonEdgesOfVerts[nextVert];
+			}
+			// now nextVert is end of chain. Check if its in the connected component
+			std::unordered_set<uint32_t>::const_iterator inConnectedComponentIt = connectedComponentVerts.find(nextVert);
+			if (inConnectedComponentIt == connectedComponentVerts.end()) {
+				// if endPoint not in connectedComponentVerts, increment cutCount
+				cutCount++;
 			}
 		}
 
+		componentCutCounts.push_back(cutCount);
 
 		// if cut==2, find best path over vertices
 		for (const auto& v : connectedComponent) {
@@ -296,6 +349,7 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		firstParentCompEdges.clear();
 		secondParentCompEdges.clear();
 	}
+
 
 	std::cout << "Number of components: " << numberOfConnectedComponents << "\n";
 
@@ -343,12 +397,6 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 	ASSERT(childEdges.size() == firstPerm.order.size());
 
 	// CONVERT TO NEW PERMUTATION
-	struct AdjVertex
-	{
-		uint32_t a = INT32_MAX;
-		uint32_t b = INT32_MAX;
-	};
-
 	std::vector<AdjVertex> adjVertices(childEdges.size());
 
 	for (Edge edge : childEdges)
