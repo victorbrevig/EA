@@ -13,8 +13,8 @@ namespace Utils
             auto [vars, clauses] = getNumberOfVarsAndClauses(fileContent);
             
             ThreeSATInstance threeSATinstance(
+                clauses,
                 vars, 
-                clauses, 
                 getVector3SAT(fileContent, clauses)
             );
             return threeSATinstance;

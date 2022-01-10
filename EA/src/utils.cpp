@@ -173,7 +173,7 @@ namespace Utils
 
   namespace Random
   {
-    std::mt19937 engine{ 5/*std::random_device{}()*/};
+    std::mt19937 engine{ std::random_device{}()};
 
     unsigned int Get()
     {

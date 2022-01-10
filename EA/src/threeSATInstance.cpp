@@ -2,9 +2,36 @@
 #include "threeSATinstance.h"
 
 
-ThreeSATInstance::ThreeSATInstance(int _numberOfClauses, int _numberOfVariables, std::vector<int> _clauses)
+ThreeSATInstance::ThreeSATInstance(int _numberOfClauses, int _numberOfVariables, std::vector<int> _clauseLiterals)
 {
 	numberOfClauses = _numberOfClauses;
 	numberOfVariables = _numberOfVariables;
-	clauses = _clauses;
+	allClauseLiterals = _clauseLiterals;
+}
+
+uint32_t ThreeSATInstance::GetSatisfiedClauses(const std::vector<bool>& variableAssignments) const
+{
+	ASSERT(variableAssignments.size() == numberOfVariables);
+	uint32_t count = 0;
+	for (uint32_t i = 0; i < numberOfClauses; i++)
+	{
+		bool satisfied = false;
+		uint32_t offset = i * 3;
+		int literal1 = allClauseLiterals[offset];
+		int literal2 = allClauseLiterals[offset + 1];
+		int literal3 = allClauseLiterals[offset + 2];
+		bool assignment1 = variableAssignments[std::abs(literal1) - 1];
+		bool assignment2 = variableAssignments[std::abs(literal2) - 1];
+		bool assignment3 = variableAssignments[std::abs(literal3) - 1];
+
+		auto IsNonNegated = [](int literal) {
+			ASSERT(literal != 0);
+			return literal > 0;
+		};
+		
+		if ((IsNonNegated(literal1) == assignment1) || (IsNonNegated(literal2) == assignment2) || (IsNonNegated(literal3) == assignment3))
+			count++;
+	}
+
+	return count;
 }

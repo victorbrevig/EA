@@ -8,6 +8,7 @@
 #include <thread>
 #include "blackBoxEA.h"
 #include "lksearch.h"
+#include "bitstringProblems.h"
 
 void StartVisualizer(Visualizer* visualizer)
 {
@@ -19,7 +20,37 @@ int main()
 {
   std::cout << "Hello World" << "\n";
 
+  enum class Job {
+    TSP_BLACK_BOX,
+    TSP_GRAY_BOX,
+    TSP_BLACK_BOX_GENERATIONAL,
+    SAT3__BLACK_BOX,
+    SAT3__GRAY_BOX,
+    SAT3__BLACK_BOX_GENERATIONAL
+  };
 
+  Job job = Job::SAT3__GRAY_BOX;
+
+  switch (job)
+  {
+  case Job::TSP_BLACK_BOX:
+    break;
+  case Job::TSP_GRAY_BOX:
+    break;
+  case Job::TSP_BLACK_BOX_GENERATIONAL:
+    break;
+  case Job::SAT3__BLACK_BOX:
+    break;
+  case Job::SAT3__GRAY_BOX:
+    BitstringProblems::RunGraybox("..\\ALL_3SAT\\UF250.1065.100\\uf250-03.cnf");
+    break;
+  case Job::SAT3__BLACK_BOX_GENERATIONAL:
+    break;
+  default:
+    break;
+  }
+
+  return 0;
 
   bool lkSearch = true;
 

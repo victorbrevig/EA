@@ -4,10 +4,10 @@
 class ThreeSATInstance
 {
 public:
-	ThreeSATInstance(int _numberOfClauses, int _numberOfVariables, std::vector<int> _clauses);
+	ThreeSATInstance(int _numberOfClauses, int _numberOfVariables, std::vector<int> _clauseLiterals);
 	int numberOfClauses;
 	int numberOfVariables;
-	std::vector<int> clauses;
-
+	std::vector<int> allClauseLiterals;
+	uint32_t GetSatisfiedClauses(const std::vector<bool>& variableAssignments) const;
 };
 #endif
