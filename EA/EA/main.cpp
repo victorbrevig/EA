@@ -16,7 +16,7 @@ int main()
     SAT3__BLACK_BOX_GENERATIONAL
   };
 
-  Job job = Job::TSP_GRAY_BOX;
+  Job job = Job::SAT3__GRAY_BOX;
 
   switch (job)
   {
@@ -31,7 +31,7 @@ int main()
   case Job::SAT3__BLACK_BOX:
     break;
   case Job::SAT3__GRAY_BOX:
-    BitstringProblems::RunGraybox("..\\ALL_3SAT\\UF250.1065.100\\uf250-04.cnf");
+    BitstringProblems::RunGraybox("..\\ALL_3SAT\\uf20-01.cnf");
     break;
   case Job::SAT3__BLACK_BOX_GENERATIONAL:
     break;

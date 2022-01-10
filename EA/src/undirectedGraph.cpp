@@ -10,11 +10,25 @@ UndirectedGraph::UndirectedGraph(uint32_t _numOfVertices)
 
 void UndirectedGraph::addEdge(uint32_t src, uint32_t dest, uint32_t parent)
 {
-    // parent: 0 = first parent, 1 = second parent, 2 = both parents
-    std::pair<uint32_t, uint32_t> e1(dest, parent);
-    std::pair<uint32_t, uint32_t> e2(src, parent);
+  // parent: 0 = first parent, 1 = second parent, 2 = both parents
+  std::pair<uint32_t, uint32_t> e1(dest, parent);
+  std::pair<uint32_t, uint32_t> e2(src, parent);
 	adjLists[src].push_back(e1);
 	adjLists[dest].push_back(e2);
+}
+
+void UndirectedGraph::addEdgeUnique(uint32_t src, uint32_t dest, uint32_t parent)
+{
+  // parent: 0 = first parent, 1 = second parent, 2 = both parents
+  std::pair<uint32_t, uint32_t> e1(dest, parent);
+  std::pair<uint32_t, uint32_t> e2(src, parent);
+  for (auto& v : adjLists[src])
+  {
+    if (v.first == dest)
+      return;
+  }
+  adjLists[src].push_back(e1);
+  adjLists[dest].push_back(e2);
 }
 void UndirectedGraph::ImportEdges(const UndirectedGraph& graph, const std::vector<bool>& mask)
 {

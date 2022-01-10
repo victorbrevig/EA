@@ -13,6 +13,7 @@ public:
   std::vector<bool> content;
   Bitstring();
   Bitstring(uint32_t size);
+  Bitstring(uint32_t size, bool defaultValue);
   void Flip(uint32_t index);
   void MutationLSFI(const ThreeSATInstance& threeSATInstance);
   void Mutation(double mutationRate);

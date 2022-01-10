@@ -47,9 +47,9 @@ void ThreeSATInstance::GenerateVariableInteractionGraph() const
 		uint32_t var1 = std::abs(allClauseLiterals[offset]) - 1;
 		uint32_t var2 = std::abs(allClauseLiterals[offset + 1]) - 1;
 		uint32_t var3 = std::abs(allClauseLiterals[offset + 2]) - 1;
-		variableInteractionGraph->addEdge(var1, var2);
-		variableInteractionGraph->addEdge(var1, var3);
-		variableInteractionGraph->addEdge(var2, var3);
+		variableInteractionGraph->addEdgeUnique(var1, var2);
+		variableInteractionGraph->addEdgeUnique(var1, var3);
+		variableInteractionGraph->addEdgeUnique(var2, var3);
 	}
 }
 

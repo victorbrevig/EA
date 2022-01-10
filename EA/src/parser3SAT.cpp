@@ -26,19 +26,23 @@ namespace Utils
             
             size_t offset = 0;
             // first info lines
-            for (int i = 0; i < 7; i++) {
-                GetNextLine(fileContent, offset);
-            }
-            std::string line = GetNextLine(fileContent, offset);
-            
+            std::string line;
+            do
+            {
+              line = GetNextLine(fileContent, offset);
+            } while (line[0] != 'p');
+
+
             std::string space_delimiter = " ";
             size_t pos = 0;
             
             // Contains information about all clauses. Shift by 3.
-            std::vector<int> res(numberOfClauses*3);
+            std::vector<int> res(numberOfClauses * 3);
             line = GetNextLine(fileContent, offset);
-            // first clause contains a white space as first char
-            line = line.substr(1, line.size() - 1);
+            // first clause might contain a white space as first char
+            while(line[0] == ' ')
+              line = line.substr(1, line.size() - 1);
+
             // Iterate thorugh clauses
             int count = 0;
             for (int i = 0; i < numberOfClauses; i++) {
@@ -46,9 +50,9 @@ namespace Utils
                 pos = 0;
 
                 while ((pos = line.find(space_delimiter)) != std::string::npos) {
-                    res[count] = std::stoi(line.substr(0, pos));
-                    line.erase(0, pos + space_delimiter.length());
-                    count++;
+                  if (line[0] != ' ')
+                    res[count++] = std::stoi(line.substr(0, pos));
+                  line.erase(0, pos + space_delimiter.length());
                 }
                 line = GetNextLine(fileContent, offset);
                 
@@ -59,20 +63,24 @@ namespace Utils
         std::pair<int, int> getNumberOfVarsAndClauses(const std::string& fileContent) {
             size_t offset = 0;
             // first info lines
-            for (int i = 0; i < 7; i++) {
-                GetNextLine(fileContent, offset);
-            }
-            std::string line = GetNextLine(fileContent, offset);
+            std::string line;
+            do
+            {
+              line = GetNextLine(fileContent, offset);
+            } while (line[0] != 'p');
 
             std::vector<std::string> words{};
             char space_delimiter = ' ';
             size_t pos = 0;
             while ((pos = line.find(space_delimiter)) != std::string::npos) {
+              if (line[0] != ' ')
                 words.push_back(line.substr(0, pos));
-                line.erase(0, pos + 1);
+              line.erase(0, pos + 1);
             }
+
+            words.push_back(line);
             
-            return { std::stoi(words[2]), std::stoi(words[4]) };
+            return { std::stoi(words[2]), std::stoi(words[3]) };
         }
     }
 } 
