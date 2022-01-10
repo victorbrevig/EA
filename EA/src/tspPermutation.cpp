@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <unordered_set>
 #include <tuple>
+#include "lksearch.h"
 
 TSPpermutation::TSPpermutation()
 {
@@ -50,6 +51,13 @@ bool TSPpermutation::mutate_2OPT(const Graph& graph, bool acceptWorse)
 	updateFitness(graph);
 
 	return true;
+}
+
+void TSPpermutation::LinKernighan(const Graph& graph, Visualizer* visualizer)
+{
+	LKSearch lkSearch(graph, visualizer);
+	order = lkSearch.LinKernighan(order);
+	updateFitness(graph);
 }
 
 void TSPpermutation::updateFitness(const Graph& graph)

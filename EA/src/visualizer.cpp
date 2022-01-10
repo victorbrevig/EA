@@ -7,7 +7,7 @@
 bool Visualizer::m_HasScrollCallbacks = false;
 double Visualizer::m_MouseWheelStatic = 0.0;
 
-Visualizer::Visualizer(const Graph& graph, const TSPpermutation& permutation)
+Visualizer::Visualizer(const Graph& graph, const std::vector<uint32_t>& permutation)
   : m_Graph(graph)
 {
   m_Permutations.clear();
@@ -170,7 +170,7 @@ int Visualizer::StartVisualization()
   std::vector<std::vector<GLfloat>> toursFloats;
   toursFloats.reserve(m_Permutations.size());
   for(auto& permutation : m_Permutations)
-    toursFloats.emplace_back(m_Graph.PointsToGLFloats(permutation.order));
+    toursFloats.emplace_back(m_Graph.PointsToGLFloats(permutation));
 
   Utils::BoundingBox boundingBox = m_Graph.GetBoundingBox();
   Utils::Vec2D center = boundingBox.GetCenter();
@@ -219,7 +219,7 @@ int Visualizer::StartVisualization()
 
       toursFloats.clear();
       for (auto& permutation : m_Permutations)
-        toursFloats.emplace_back(m_Graph.PointsToGLFloats(permutation.order));
+        toursFloats.emplace_back(m_Graph.PointsToGLFloats(permutation));
 
       for (VertexArray& tourVertexArray : tourVertexArrays)
         tourVertexArray.DeleteArrays();
@@ -298,18 +298,8 @@ bool Visualizer::PruneUpdate()
   return false;
 }
 
-void Visualizer::UpdatePermutation(const TSPpermutation& permutation, bool limitUpdates)
-{
-  if (PruneUpdate())
-    return;
-  std::lock_guard<std::mutex> g(m_PermMutex);
-  m_Permutations.clear();
-  m_Permutations.push_back(permutation);
-  m_UpdatePermutationData = true;
-  m_LastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
-}
 
-void Visualizer::UpdatePermutation(const std::vector<TSPpermutation>& permutations, bool limitUpdates)
+void Visualizer::UpdatePermutation(const std::vector<std::vector<uint32_t>>& permutations, bool limitUpdates)
 {
   if (PruneUpdate())
     return;
@@ -324,9 +314,8 @@ void Visualizer::UpdatePermutation(const std::vector<uint32_t>& order, bool limi
   if (PruneUpdate())
     return;
   std::lock_guard<std::mutex> g(m_PermMutex);
-  TSPpermutation newOrder(order);
   m_Permutations.clear();
-  m_Permutations.push_back(newOrder);
+  m_Permutations.push_back(order);
   m_UpdatePermutationData = true;
   m_LastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 }

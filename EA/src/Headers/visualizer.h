@@ -2,7 +2,6 @@
 #define VISUALIZER_H
 
 #include "graph.h"
-#include "tspPermutation.h"
 #include <mutex>
 #include <thread>
 #include <ctime>
@@ -10,7 +9,7 @@
 
 class Visualizer {
   const Graph& m_Graph;
-  std::vector<TSPpermutation> m_Permutations;
+  std::vector<std::vector<uint32_t>> m_Permutations;
 
   int width;
   int height;
@@ -36,15 +35,14 @@ class Visualizer {
   std::mutex m_Mutex;
   std::mutex m_PermMutex;
 public:
-  Visualizer(const Graph& graph, const TSPpermutation& permutation);
+  Visualizer(const Graph& graph, const std::vector<uint32_t>& permutation);
   int StartVisualization();
   void Inputs(GLFWwindow* window);
   void OnZoom(GLFWwindow* window, double amount);
   void WaitForClose();
   void WaitForSpace();
   bool PruneUpdate();
-  void UpdatePermutation(const TSPpermutation& permutation, bool limitUpdates = false);
-  void UpdatePermutation(const std::vector<TSPpermutation>& permutations, bool limitUpdates = false);
-  void UpdatePermutation(const std::vector<uint32_t>& order, bool limitUpdates = false);
+  void UpdatePermutation(const std::vector<uint32_t>& permutation, bool limitUpdates = false);
+  void UpdatePermutation(const std::vector<std::vector<uint32_t>>& permutations, bool limitUpdates = false);
 };
 #endif
