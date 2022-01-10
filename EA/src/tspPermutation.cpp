@@ -218,19 +218,33 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 	ASSERT(countCommon == commonEdges.size());
 #endif
 
-	// CREATE GRAPH (WITH NON COMMON EDGES)
-	UndirectedGraph undirGraph(permSize);
+	// CREATE Gu - GRAPH WITH NO COMMON EDGES
+	UndirectedGraph Gu(permSize);
+	// CREATE G - FULL GRAPH WITH COMMON EDGES (to remove components from)
+	UndirectedGraph G(permSize);
 
 	for (const auto& e : nonCommonEdges) {
-		undirGraph.addEdge(e.from, e.to, e.isFirstParent);
+		if (e.isFirstParent) {
+			Gu.addEdge(e.from, e.to, 0);
+			G.addEdge(e.from, e.to, 0);
+		}
+		else if (!e.isFirstParent) {
+			Gu.addEdge(e.from, e.to, 1);
+			G.addEdge(e.from, e.to, 1);
+		}
+	}
+	for (const auto& e : commonEdges) {
+		G.addEdge(e.from, e.to, 2);
 	}
 
 
 	// IDENTIFY CONNECTED COMPONENTS USING BFS
 	std::unordered_set<uint32_t> remainingVertices(permSize);
+	std::unordered_set<uint32_t> remainingVerticesInG(permSize);
 	// fill remainingVertices with all vertices to begin with
 	for (uint32_t i = 0; i < permSize; i++) {
 		remainingVertices.insert(i);
+		remainingVerticesInG.insert(i);
 	}
 
 	std::vector<Edge> childEdges;
@@ -238,10 +252,12 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 	uint32_t numberOfConnectedComponents = 0;
 	std::vector<uint32_t> componentCutCounts;
 
+	uint32_t numberOfComponentsRemoved = 0;
+
 	while (remainingVertices.size() > 0) {
 		// take first vertex in remainingVertices as start vertex for BFS
 		uint32_t startVertex = *begin(remainingVertices);
-		std::vector<uint32_t> connectedComponent = undirGraph.BFS(startVertex);
+		std::vector<uint32_t> connectedComponent = Gu.BFS(startVertex);
 
 		// remove vertices in connectedComponent from remainingVertices
 		for (const auto& v : connectedComponent) {
@@ -306,6 +322,7 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 				}
 				current = commonEdgesOfVerts[nextVert];
 			}
+
 			// now nextVert is end of chain. Check if its in the connected component
 			std::unordered_set<uint32_t>::const_iterator inConnectedComponentIt = connectedComponentVerts.find(nextVert);
 			if (inConnectedComponentIt == connectedComponentVerts.end()) {
@@ -316,20 +333,33 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 
 		componentCutCounts.push_back(cutCount);
 
+		if (cutCount != 2) {
+			// do nothing if cut size != 2
+			continue;
+		}
+		// if cutCount == 2 remove all vertices and their edges from G
+		for (const auto& v : connectedComponent) {
+			std::unordered_set<uint32_t>::iterator it = remainingVerticesInG.find(v);
+			remainingVerticesInG.erase(it);
+			G.removeVertexAndEdges(v);
+		}
+
+		numberOfComponentsRemoved++;
+
 		// if cut==2, find best path over vertices
 		for (const auto& v : connectedComponent) {
 			// loop over edges associated with that vertex
-			for (auto i = undirGraph.adjLists[v].begin(); i != undirGraph.adjLists[v].end(); ++i) {
-				std::pair<uint32_t, bool> edgeInfo = *i;
+			for (auto i = Gu.adjLists[v].begin(); i != Gu.adjLists[v].end(); ++i) {
+				std::pair<uint32_t, uint32_t> edgeInfo = *i;
 				if (v > edgeInfo.first) {
 					continue;
 				}
-				if (edgeInfo.second) {
+				if (edgeInfo.second == 0) {
 					// add to sumFirstParent
 					sumFirstParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
 					firstParentCompEdges.emplace_back(v, edgeInfo.first);
 				}
-				else {
+				else if (edgeInfo.second == 1) {
 					// add to sumSecondParent
 					sumSecondParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
 					secondParentCompEdges.emplace_back(v, edgeInfo.first);
@@ -337,7 +367,67 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 			}
 		}
 
-		// append instead of loop vector to vector !
+		// pick parent path with smallest sum:
+		ASSERT(firstParentCompEdges.size() == secondParentCompEdges.size());
+		if (sumFirstParent <= sumSecondParent) {
+			childEdges.insert(childEdges.end(), firstParentCompEdges.begin(), firstParentCompEdges.end());
+		}
+		else {
+			childEdges.insert(childEdges.end(), secondParentCompEdges.begin(), secondParentCompEdges.end());
+		}
+		firstParentCompEdges.clear();
+		secondParentCompEdges.clear();
+	}
+
+	// AT THIS POINT ALL CONNECTED COMPONENTS WITH CUT SIZE 2 HAS BEEN REMOVED FROM G
+	// AND THE BEST PATHS FOR THESE HAVE BEEN APPENDED TO CHILDEDGES
+
+	std::cout << "Number of components: (not necessarily cut 2)" << numberOfConnectedComponents << "\n";
+
+	// IF NO COMPONENTS WERE REMOVED WE CANNOT PARTITION WITH CUT 2, SO GPX NOT APPLICABLE
+	if (numberOfComponentsRemoved == 0) {
+		return std::nullopt;
+	}
+
+	// GO THROUGH THE REST OF G AND RUN BFS. APPEND BEST PATHS
+	// need to find remaining vertices to start from
+	while (remainingVerticesInG.size() > 0) {
+		// take first vertex in remainingVertices as start vertex for BFS
+		uint32_t startVert = *begin(remainingVerticesInG);
+		std::vector<uint32_t> connectedComp = G.BFS(startVert);
+
+		// remove vertices in connectedComponent from remainingVertices
+		for (const auto& v : connectedComp) {
+			std::unordered_set<uint32_t>::iterator it = remainingVerticesInG.find(v);
+			remainingVerticesInG.erase(it);
+		}
+
+		// add best path
+		double sumFirstParent = 0;
+		double sumSecondParent = 0;
+		std::vector<Edge> firstParentCompEdges;
+		std::vector<Edge> secondParentCompEdges;
+
+		for (const auto& v : connectedComp) {
+			// loop over edges associated with that vertex
+			for (auto i = G.adjLists[v].begin(); i != G.adjLists[v].end(); ++i) {
+				std::pair<uint32_t, uint32_t> edgeInfo = *i;
+				if (v > edgeInfo.first) {
+					continue;
+				}
+				if (edgeInfo.second == 0) {
+					// add to sumFirstParent
+					sumFirstParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
+					firstParentCompEdges.emplace_back(v, edgeInfo.first);
+				}
+				else if (edgeInfo.second == 1) {
+					// add to sumSecondParent
+					sumSecondParent += graph.calculateDistBetweenTwoVertices(v, edgeInfo.first);
+					secondParentCompEdges.emplace_back(v, edgeInfo.first);
+				}
+			}
+		}
+
 		// pick parent path with smallest sum:
 		ASSERT(firstParentCompEdges.size() == secondParentCompEdges.size());
 		if (sumFirstParent <= sumSecondParent) {
@@ -351,12 +441,6 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 	}
 
 
-	std::cout << "Number of components: " << numberOfConnectedComponents << "\n";
-
-	if (numberOfConnectedComponents == 1) {
-		// NOT POSSIBLE TO DO CUT OF VALUE 2 - RETURN NOTHING
-		return std::nullopt;
-	}
 
 	// UNION WITH COMMON EDGES, append instead
 	childEdges.insert(childEdges.end(), commonEdges.begin(), commonEdges.end());

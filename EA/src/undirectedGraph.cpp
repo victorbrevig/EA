@@ -4,16 +4,47 @@
 
 
 UndirectedGraph::UndirectedGraph(uint32_t _numOfVertices)
-  : adjLists(std::vector<std::list<std::pair<uint32_t, bool>>>(_numOfVertices)), numOfVertices(_numOfVertices)
+  : adjLists(std::vector<std::list<std::pair<uint32_t, uint32_t>>>(_numOfVertices)), numOfVertices(_numOfVertices)
 {
 }
 
-void UndirectedGraph::addEdge(uint32_t src, uint32_t dest, bool parent)
-{
-    std::pair<uint32_t, bool> e1(dest, parent);
-    std::pair<uint32_t, bool> e2(src, parent);
+void UndirectedGraph::addEdge(uint32_t src, uint32_t dest, uint32_t parent)
+{   
+    // parent: 0 = first parent, 1 = second parent, 2 = both parents
+    std::pair<uint32_t, uint32_t> e1(dest, parent);
+    std::pair<uint32_t, uint32_t> e2(src, parent);
 	adjLists[src].push_back(e1);
 	adjLists[dest].push_back(e2);
+}
+
+
+void UndirectedGraph::removeVertexFromList(uint32_t v, uint32_t toRemove)
+{
+    std::list<std::pair<uint32_t, uint32_t>>::iterator iter = adjLists[v].begin();
+    std::list<std::pair<uint32_t, uint32_t>>::iterator end = adjLists[v].end();
+
+    while (iter != end)
+    {
+        std::pair<uint32_t, uint32_t> listItem = *iter;
+
+        if (listItem.first == toRemove) {
+            iter = adjLists[v].erase(iter);
+        }
+        else {
+            ++iter;
+        }
+    }
+    
+}
+
+void UndirectedGraph::removeVertexAndEdges(uint32_t v)
+{
+    std::list<std::pair<uint32_t, uint32_t>> lst = adjLists[v];
+    for (const auto& p : lst) {
+        removeVertexFromList(p.first, v);
+    }
+    std::list<std::pair<uint32_t, uint32_t>> emptyList;
+    adjLists[v] = emptyList;
 }
 
 std::vector<uint32_t> UndirectedGraph::BFS(uint32_t startVertex)
@@ -29,7 +60,7 @@ std::vector<uint32_t> UndirectedGraph::BFS(uint32_t startVertex)
     visited[startVertex] = true;
     queue.push_back(startVertex);
 
-    std::list<std::pair<uint32_t, bool>>::iterator i;
+    std::list<std::pair<uint32_t, uint32_t>>::iterator i;
 
     while (!queue.empty()) {
         int currVertex = queue.front();
@@ -37,7 +68,7 @@ std::vector<uint32_t> UndirectedGraph::BFS(uint32_t startVertex)
         queue.pop_front();
 
         for (i = adjLists[currVertex].begin(); i != adjLists[currVertex].end(); ++i) {
-            std::pair<uint32_t,bool> adjVertex = *i;
+            std::pair<uint32_t,uint32_t> adjVertex = *i;
             if (!visited[adjVertex.first]) {
                 res.push_back(adjVertex.first);
                 visited[adjVertex.first] = true;
