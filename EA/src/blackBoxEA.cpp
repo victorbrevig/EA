@@ -73,11 +73,11 @@ void BlackBoxEA<TSPpermutation>::Run(const Graph& graph, Parameters parameters, 
       break;
 
     if (visualizer)
-      visualizer->UpdatePermutation(population[0], true);
+      visualizer->UpdatePermutation(population[0].order, true);
   }
 
   if (visualizer)
-    visualizer->UpdatePermutation(population[0]);
+    visualizer->UpdatePermutation(population[0].order);
 
   for (TSPpermutation& individual : population)
     individual.updateFitness(graph);
@@ -95,7 +95,7 @@ void BlackBoxEA<TSPpermutation>::Run(const Graph& graph, Parameters parameters, 
     std::cout << individualIndex << ": Fitness: " << population[individualIndex].GetFitness() << "\n";
     if (visualizer)
     {
-      visualizer->UpdatePermutation(population[individualIndex]);
+      visualizer->UpdatePermutation(population[individualIndex].order);
       visualizer->WaitForSpace();
     }
 
