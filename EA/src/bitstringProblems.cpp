@@ -11,8 +11,8 @@ namespace BitstringProblems
     ThreeSATInstance instance = Utils::Parser::parse3SAT(file);
 
     uint32_t iterations = 10000;
-    uint32_t population = 50;
-    double crossoverProb = 0.0; //0.6
+    uint32_t population = 5; //50
+    double crossoverProb = 1.0; //0.6
 
     Hybrid hybrid(population, crossoverProb, instance);
 
@@ -43,19 +43,22 @@ namespace BitstringProblems
     {
       auto [p1, p2] = Selection();
 
-      Bitstring parent1Bitstring = population[p1];
+      
 
       if (Utils::Random::WithProbability(crossoverProb))
       {
         //Crossover
+        Bitstring::GPX(population[p1], population[p2], threeSATInstance);
       }
       else
       {
         //Mutation
-        parent1Bitstring.Mutation(1.0 / population.size());
+        Bitstring parent1Bitstring = population[p1];
+        parent1Bitstring.Mutation(3.0 / (double)parent1Bitstring.content.size());
+        newPopulation.emplace_back(std::move(parent1Bitstring));
       }
 
-      newPopulation.emplace_back(std::move(parent1Bitstring));
+      
     }
 
     if (iteration % 10 == 0)
@@ -116,7 +119,7 @@ namespace BitstringProblems
       }
     }
 
-    return {parent1, parent1};
+    return {parent1, parent2};
   }
 
   uint32_t Hybrid::GetBestSolution()

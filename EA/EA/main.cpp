@@ -42,7 +42,7 @@ int main()
   case Job::SAT3__BLACK_BOX:
     break;
   case Job::SAT3__GRAY_BOX:
-    BitstringProblems::RunGraybox("..\\ALL_3SAT\\UF250.1065.100\\uf250-03.cnf");
+    BitstringProblems::RunGraybox("..\\ALL_3SAT\\UF250.1065.100\\uf250-04.cnf");
     break;
   case Job::SAT3__BLACK_BOX_GENERATIONAL:
     break;

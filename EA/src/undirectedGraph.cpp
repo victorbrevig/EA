@@ -10,10 +10,29 @@ UndirectedGraph::UndirectedGraph(uint32_t _numOfVertices)
 
 void UndirectedGraph::addEdge(uint32_t src, uint32_t dest, bool parent)
 {
-    std::pair<uint32_t, bool> e1(dest, parent);
-    std::pair<uint32_t, bool> e2(src, parent);
+  std::pair<uint32_t, bool> e1(dest, parent);
+  std::pair<uint32_t, bool> e2(src, parent);
 	adjLists[src].push_back(e1);
 	adjLists[dest].push_back(e2);
+}
+void UndirectedGraph::ImportEdges(const UndirectedGraph& graph, const std::vector<bool>& mask)
+{
+  //Get vertices from graph but only between vertices where mask[v] = 1
+  ASSERT(mask.size() == adjLists.size());
+  ASSERT(mask.size() == graph.adjLists.size());
+
+  for (uint32_t i = 0; i < mask.size(); i++)
+  {
+    if (mask[i])
+    {
+      auto& edges = graph.adjLists[i];
+      for (auto& edge : edges)
+      {
+        if (mask[edge.first])
+          addEdge(i, edge.first);
+      }
+    }
+  }
 }
 
 std::vector<uint32_t> UndirectedGraph::BFS(uint32_t startVertex)

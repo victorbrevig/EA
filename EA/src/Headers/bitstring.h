@@ -18,5 +18,6 @@ public:
   void Mutation(double mutationRate);
   uint32_t GetFitness(const ThreeSATInstance& threeSATInstance) const;
   static uint32_t HammingDistance(const Bitstring& a, const Bitstring& b);
+  static Bitstring GPX(const Bitstring& a, const Bitstring& b, const ThreeSATInstance& threeSATInstance);
 };
 #endif
