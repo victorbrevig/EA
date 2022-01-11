@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "graph.h"
 #include "utils.h"
+#include <omp.h>
 
 std::vector<GLfloat> Graph::PointsToGLFloats() const
 {
@@ -112,33 +113,42 @@ double Graph::calculateDistByOrder(const std::vector<uint32_t>& order) const
 
 void Graph::UpdateNearNeighbors() const
 {
+  
   m_NearNeighbors.resize(points2D.size());
-  for (uint32_t i = 0; i < points2D.size(); i++)
+#pragma omp parallel
   {
-    auto& neighbors = m_NearNeighbors[i];
-    const std::vector<Graph::VertexDist>& orderedIncidence = GetOrderedIncidence(i);
-    for (uint32_t j = 0; j < neighbors.size(); j++)
-      neighbors[j] = orderedIncidence[j + 1];
+#pragma omp single
+  {
+    std::cout << "Preprocessing nearest neighbors with " << omp_get_num_threads() << " threads\n";
   }
+
+    const std::vector<Utils::Vec2D> pointsCopy = points2D;
+#pragma omp for
+    for (int i = 0; i < points2D.size(); i++)
+    {
+      auto& neighbors = m_NearNeighbors[i];
+      const std::vector<Graph::VertexDist>& orderedIncidence = GetOrderedIncidence(i, &pointsCopy);
+      for (uint32_t j = 0; j < neighbors.size(); j++)
+        neighbors[j] = orderedIncidence[j + 1];
+    }
+  }
+  std::cout << "Preprocessing done\n";
 }
+
 double Graph::calculateDistBetweenTwoVertices(uint32_t v1, uint32_t v2) const {
     return Utils::Distance(points2D[v1], points2D[v2]);
 }
 
-std::vector<Graph::VertexDist> Graph::GetOrderedIncidence(uint32_t vertex) const
+std::vector<Graph::VertexDist> Graph::GetOrderedIncidence(uint32_t vertex, const std::vector<Utils::Vec2D>* customPoints) const
 {
-  std::vector<Graph::VertexDist> ret(points2D.size());
+  //Custom points can be provided to eliminate false sharing
 
-  if (edges != nullptr)
-  {
-    for (uint32_t i = 0; i < points2D.size(); i++)
-      ret[i] = { i, edges->Get(vertex, i) };
-  }
-  else
-  {
-    for (uint32_t i = 0; i < points2D.size(); i++)
-      ret[i] = { i, Utils::Distance(points2D[vertex], points2D[i]) };
-  }
+  const std::vector<Utils::Vec2D>& points = (customPoints == nullptr) ? points2D : *customPoints;
+
+  std::vector<Graph::VertexDist> ret(points.size());
+
+  for (uint32_t i = 0; i < points.size(); i++)
+    ret[i] = { i, Utils::Distance(points[vertex], points[i]) };
 
   struct {
     bool operator()(const Graph::VertexDist& a, const Graph::VertexDist& b) const { return a.distance < b.distance; }

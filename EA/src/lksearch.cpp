@@ -173,7 +173,7 @@ uint32_t LKSearch::Breadth(uint32_t level)
 	switch (level)
 	{
 	case 1:
-		return 10;
+		return 18;
 	case 2:
 		return 5;
 	case 3:
@@ -462,8 +462,8 @@ std::vector<uint32_t> LKSearch::LinKernighan(const TSPpermutation& initialTour)
 			while (!m_FlipSequence.empty())
 			{
 				Flip flip = m_FlipSequence.top();
-				markedVertices.insert(flip.vertexFrom);
-				markedVertices.insert(flip.vertexTo);
+					markedVertices.insert(flip.vertexFrom);
+					markedVertices.insert(flip.vertexTo);
 				m_FlipSequence.pop();
 			}
 #ifdef _DEBUG
@@ -476,10 +476,10 @@ std::vector<uint32_t> LKSearch::LinKernighan(const TSPpermutation& initialTour)
 			m_Visualizer->UpdatePermutation(lk_tour, true);
 		}
 		else
-		{
+			{
 			markedVertices.erase(markedVertex);
+			}
 		}
-	}
 
 	return lk_tour;
 }
