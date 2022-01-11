@@ -173,7 +173,7 @@ namespace Utils
 
   namespace Random
   {
-    std::mt19937 engine{ std::random_device{}()};
+    std::mt19937 engine{ 1/*std::random_device{}()*/};
 
     unsigned int Get()
     {
@@ -183,6 +183,20 @@ namespace Utils
     unsigned int GetRange(unsigned int min, unsigned int max)
     {
       return (Get() % (max - min + 1u)) + min;
+    }
+
+    std::pair<uint32_t, uint32_t> GetTwoDistinct(unsigned int min, unsigned int max)
+    {
+      ASSERT(max > min);
+      uint32_t a = GetRange(min, max);
+      uint32_t b = GetRange(a + 1, a + (max - min));
+      if (b > max)
+      {
+        b -= (max - min);
+        std::swap(a, b);
+      } 
+      
+      return { a, b };
     }
 
     bool WithProbability(double p)

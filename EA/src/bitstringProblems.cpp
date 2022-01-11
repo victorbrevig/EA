@@ -11,8 +11,8 @@ namespace BitstringProblems
     ThreeSATInstance instance = Utils::Parser::parse3SAT(file);
 
     uint32_t iterations = 10000;
-    uint32_t population = 50;
-    double crossoverProb = 0.0; //0.6
+    uint32_t population = 50; //50
+    double crossoverProb = 0.6; //0.6
 
     Hybrid hybrid(population, crossoverProb, instance);
 
@@ -43,19 +43,19 @@ namespace BitstringProblems
     {
       auto [p1, p2] = Selection();
 
-      Bitstring parent1Bitstring = population[p1];
-
       if (Utils::Random::WithProbability(crossoverProb))
       {
         //Crossover
+        newPopulation.emplace_back(Bitstring::TwoPointCrossover(population[p1], population[p2]));
+        //newPopulation.back().MutationLSFI(threeSATInstance); Uncomment this for better performance
       }
       else
       {
         //Mutation
-        parent1Bitstring.Mutation(1.0 / population.size());
+        Bitstring parent1Bitstring = population[p1];
+        parent1Bitstring.Mutation(3.0 / (double)parent1Bitstring.NumberOfBits());
+        newPopulation.emplace_back(std::move(parent1Bitstring));
       }
-
-      newPopulation.emplace_back(std::move(parent1Bitstring));
     }
 
     if (iteration % 10 == 0)
@@ -68,7 +68,7 @@ namespace BitstringProblems
       }
       for (uint32_t i = (uint32_t)population.size() / 10 + 1; i < population.size(); i++)
       {
-        newPopulation[i] = Bitstring((uint32_t)newPopulation[i].content.size());
+        newPopulation[i] = Bitstring((uint32_t)newPopulation[i].NumberOfBits());
         newPopulation[i].MutationLSFI(threeSATInstance);
       }
     }
@@ -116,7 +116,7 @@ namespace BitstringProblems
       }
     }
 
-    return {parent1, parent1};
+    return {parent1, parent2};
   }
 
   uint32_t Hybrid::GetBestSolution()
