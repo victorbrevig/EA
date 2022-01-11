@@ -46,13 +46,13 @@ namespace BitstringProblems
       if (Utils::Random::WithProbability(crossoverProb))
       {
         //Crossover
-        newPopulation.emplace_back(Bitstring::GPX(population[p1], population[p2], threeSATInstance));
+        newPopulation.emplace_back(Bitstring::TwoPointCrossover(population[p1], population[p2]));
       }
       else
       {
         //Mutation
         Bitstring parent1Bitstring = population[p1];
-        parent1Bitstring.Mutation(3.0 / (double)parent1Bitstring.content.size());
+        parent1Bitstring.Mutation(3.0 / (double)parent1Bitstring.NumberOfBits());
         newPopulation.emplace_back(std::move(parent1Bitstring));
       }
     }
@@ -67,7 +67,7 @@ namespace BitstringProblems
       }
       for (uint32_t i = (uint32_t)population.size() / 10 + 1; i < population.size(); i++)
       {
-        newPopulation[i] = Bitstring((uint32_t)newPopulation[i].content.size());
+        newPopulation[i] = Bitstring((uint32_t)newPopulation[i].NumberOfBits());
         newPopulation[i].MutationLSFI(threeSATInstance);
       }
     }

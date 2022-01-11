@@ -39,6 +39,7 @@ namespace Utils
     extern std::mt19937 engine;
     unsigned int Get();
     unsigned int GetRange(unsigned int min, unsigned int max);
+    std::pair<uint32_t, uint32_t> GetTwoDistinct(unsigned int min, unsigned int max);
     bool WithProbability(double p); //p must be [0:1]
   }
 }

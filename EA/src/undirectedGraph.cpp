@@ -44,7 +44,7 @@ void UndirectedGraph::ImportEdges(const UndirectedGraph& graph, const std::vecto
       for (auto& edge : edges)
       {
         if (mask[edge.first])
-          addEdge(i, edge.first);
+          addEdgeUnique(i, edge.first);
       }
     }
   }

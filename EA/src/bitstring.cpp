@@ -38,6 +38,17 @@ uint32_t Bitstring::GetFitness(const ThreeSATInstance& threeSATInstance) const
   return cachedFitness;
 }
 
+void Bitstring::Setbit(uint32_t index, bool bit)
+{
+  content[index] = bit;
+  cachedFitnessIsValid = false;
+}
+
+uint32_t Bitstring::NumberOfBits() const
+{
+  return (uint32_t)content.size();
+}
+
 void Bitstring::Flip(uint32_t index)
 {
   content[index] = !content[index];
@@ -88,15 +99,43 @@ uint32_t Bitstring::HammingDistance(const Bitstring& a, const Bitstring& b)
   return hammingDistance;
 }
 
+Bitstring Bitstring::TwoPointCrossover(const Bitstring& a, const Bitstring& b)
+{
+  bool p1IsA = Utils::Random::WithProbability(0.5);
+  const Bitstring& p1 = p1IsA ? a : b;
+  const Bitstring& p2 = p1IsA ? b : a;
+
+  auto [point1, point2] = Utils::Random::GetTwoDistinct(0, a.NumberOfBits());
+
+  uint32_t bitstringSize = (uint32_t)a.NumberOfBits();
+
+  Bitstring child(bitstringSize);
+
+  for (uint32_t i = 0; i < point1; i++)
+    child.Setbit(i, p1.content[i]);
+
+  for (uint32_t i = point1; i < point2; i++)
+    child.Setbit(i, p2.content[i]);
+
+  for (uint32_t i = point2; i < bitstringSize; i++)
+    child.Setbit(i, p1.content[i]);
+
+  return child;
+}
+
 Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATInstance& threeSATInstance)
 {
   ASSERT(a.content.size() == b.content.size());
 
-  uint32_t bitstringSize = a.content.size();
+  uint32_t bitstringSize = (uint32_t)a.NumberOfBits();
 
   Bitstring child(bitstringSize);
   Bitstring f1(bitstringSize, false);
   Bitstring f2(bitstringSize, false);
+
+#ifdef DEBUG
+  std::vector<bool> setChildBits(bitstringSize, false);
+#endif // DEBUG
 
   std::vector<bool> uncommonBits(bitstringSize, false);
   std::unordered_set<uint32_t> remainingVertices;
@@ -110,37 +149,19 @@ Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATI
     }
     else
     {
-      child.content[i] = a.content[i];
+      child.Setbit(i, a.content[i]);
+#ifdef DEBUG
+      setChildBits[i] = true;
+#endif // DEBUG
     }
   }
 
-  /*UndirectedGraph test(8);
-  test.addEdge(0, 5);
-  test.addEdge(0, 1);
-  test.addEdge(0, 3);
-  test.addEdge(0, 7);
-  test.addEdge(5, 1);
-  test.addEdge(7, 3);
-  test.addEdge(7, 6);
-  test.addEdge(3, 6);
-  test.addEdge(3, 4);
-  test.addEdge(3, 1);
-  test.addEdge(6, 4);
-  test.addEdge(6, 2);
-  test.addEdge(4, 2);
-  test.addEdge(4, 1);
-  test.addEdge(1, 2);
-
-  UndirectedGraph test2(8);
-  test2.ImportEdges(test, {1, 0, 0, 0, 1, 1, 1, 0});
-  remainingVertices = { 0, 4, 5, 6 };*/
   UndirectedGraph variableInteractionGraph = threeSATInstance.GetVariableInteractionGraph();
   UndirectedGraph VIGSharedRemoved(bitstringSize);
   VIGSharedRemoved.ImportEdges(variableInteractionGraph, uncommonBits);
 
 
 
-#define DEBUG
 #ifdef DEBUG
   uint32_t numberOfConnectedComponents = 0;
   uint32_t numberOfLargeConnectedComponents = 0;
@@ -154,7 +175,8 @@ Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATI
 
     //All other vertices equals out as they are disconnected from the component
     //So whatever f1 and f2 is they just need to be equal here
-    f1 = f2;
+    f1 = a;
+    f2 = a;
 
     // remove vertices in connectedComponent from remainingVertices
     for (const auto& v : connectedComponent) {
@@ -163,20 +185,31 @@ Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATI
       remainingVertices.erase(it);
 
       ASSERT(a.content[v] != b.content[v]);
-      f1.content[v] = a.content[v];
-      f2.content[v] = b.content[v];
+      f1.Setbit(v, a.content[v]);
+      f2.Setbit(v, b.content[v]);
     }
 
     if (f1.GetFitness(threeSATInstance) > f2.GetFitness(threeSATInstance))
     {
       for (const auto& v : connectedComponent)
-        child.content[v] = a.content[v];
+      {
+        child.Setbit(v, a.content[v]);
+#ifdef DEBUG
+        setChildBits[v] = true;
+#endif // DEBUG
+      }
       choice1 = true;
     }
     else 
     {
       for (const auto& v : connectedComponent)
-        child.content[v] = b.content[v];
+      {
+        child.Setbit(v, b.content[v]);
+#ifdef DEBUG
+        setChildBits[v] = true;
+#endif // DEBUG
+      }
+
       if (f1.GetFitness(threeSATInstance) < f2.GetFitness(threeSATInstance))
         choice2 = true;
     }
@@ -189,8 +222,12 @@ Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATI
   }
 #ifdef DEBUG
 
+  for (uint32_t i = 0; i < bitstringSize; i++)
+  {
+    ASSERT(setChildBits[i]);
+  }
 
-  std::cout << "Large components: " << numberOfLargeConnectedComponents << "\n";
+
   uint32_t cFitness = child.GetFitness(threeSATInstance);
   uint32_t aFitness = a.GetFitness(threeSATInstance);
   ASSERT(cFitness >= aFitness);

@@ -185,6 +185,20 @@ namespace Utils
       return (Get() % (max - min + 1u)) + min;
     }
 
+    std::pair<uint32_t, uint32_t> GetTwoDistinct(unsigned int min, unsigned int max)
+    {
+      ASSERT(max > min);
+      uint32_t a = GetRange(min, max);
+      uint32_t b = GetRange(a + 1, a + (max - min));
+      if (b > max)
+      {
+        b -= (max - min);
+        std::swap(a, b);
+      } 
+      
+      return { a, b };
+    }
+
     bool WithProbability(double p)
     {
       return (double)Get() / (double)engine.max() < p;

@@ -31,7 +31,7 @@ int main()
   case Job::SAT3__BLACK_BOX:
     break;
   case Job::SAT3__GRAY_BOX:
-    BitstringProblems::RunGraybox("..\\ALL_3SAT\\uf20-01.cnf");
+    BitstringProblems::RunGraybox("..\\ALL_3SAT\\CBS_k3_n100_m403_b10\\CBS_k3_n100_m403_b10_3.cnf");
     break;
   case Job::SAT3__BLACK_BOX_GENERATIONAL:
     break;
