@@ -49,14 +49,25 @@ namespace PermutationProblems
       visualizer->UpdatePermutation(std::vector<std::vector<uint32_t>>({ parent1.order, parent2.order }));
       visualizer->WaitForSpace();
 
+
       auto optionalChild = TSPpermutation::GPX(parent1, parent2, graph);
       if (optionalChild.has_value())
       {
-        TSPpermutation child = *optionalChild;
-        child.updateFitness(graph);
-        std::cout << "Child fitness: " << child.GetFitness() << "\n";
-        visualizer->UpdatePermutation(child.order);
+        std::pair<TSPpermutation, TSPpermutation> children = *optionalChild;
+        TSPpermutation greedyChild = children.first;
+        TSPpermutation otherChild = children.second;
+        greedyChild.updateFitness(graph);
+        std::cout << "Child fitness: " << greedyChild.GetFitness() << "\n";
+        visualizer->UpdatePermutation(greedyChild.order);
         visualizer->WaitForSpace();
+
+
+
+        visualizer->UpdatePermutation(otherChild.order);
+        visualizer->WaitForSpace();
+
+
+
 
         std::cout << "Parent 1 fitness: " << parent1.GetFitness() << "\n";
         visualizer->UpdatePermutation(parent1.order);
@@ -69,8 +80,8 @@ namespace PermutationProblems
         visualizer->UpdatePermutation(std::vector<std::vector<uint32_t>>({ parent1.order, parent2.order }));
         visualizer->WaitForSpace();
 
-        std::cout << "Child fitness: " << child.GetFitness() << "\n";
-        visualizer->UpdatePermutation(child.order);
+        std::cout << "Child fitness: " << greedyChild.GetFitness() << "\n";
+        visualizer->UpdatePermutation(greedyChild.order);
         visualizer->WaitForSpace();
       }
     }

@@ -53,6 +53,44 @@ bool TSPpermutation::mutate_2OPT(const Graph& graph, bool acceptWorse)
 	return true;
 }
 
+void TSPpermutation::mutate_doubleBridge()
+{
+	// get four distinct edges randomly chosen and sort
+	std::unordered_set<uint32_t> edgesSet;
+	while (edgesSet.size() != 4) {
+		edgesSet.insert(Utils::Random::GetRange(0, (uint32_t)order.size() - 1));
+	}
+	std::vector<uint32_t> edges;
+	for (const auto& e : edgesSet) {
+		edges.push_back(e);
+	}
+	sort(edges.begin(), edges.end());
+
+	std::vector<uint32_t> newOrder(order.size());
+	uint32_t indexCount = 0;
+	// insert A2
+	for (uint32_t i = edges[0]+1; i <= edges[1]; i++) {
+		newOrder[indexCount] = order[i];
+		indexCount++;
+	}
+	// insert A1
+	for (uint32_t i = (edges[3]+1)%order.size(); i != edges[0]+1; i=(i+1)%order.size()) {
+		newOrder[indexCount] = order[i];
+		indexCount++;
+	}
+	// insert A4
+	for (uint32_t i = edges[2] + 1; i <= edges[3]; i++) {
+		newOrder[indexCount] = order[i];
+		indexCount++;
+	}
+	// insert A3
+	for (uint32_t i = edges[1] + 1; i <= edges[2]; i++) {
+		newOrder[indexCount] = order[i];
+		indexCount++;
+	}
+	order = newOrder;
+}
+
 void TSPpermutation::LinKernighan(const Graph& graph, Visualizer* visualizer)
 {
 	LKSearch lkSearch(graph, visualizer);
@@ -109,47 +147,8 @@ TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, c
 
 
 
-std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
+std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
 {
-	struct Edge {
-		Edge(uint32_t f, uint32_t t)
-			: from(f), to(t) {}
-		uint32_t from;
-		uint32_t to;
-	};
-	struct EdgeOwner {
-		EdgeOwner(uint32_t f, uint32_t t, bool i)
-			: from(f), to(t), isFirstParent(i) {}
-		uint32_t from;
-		uint32_t to;
-		bool isFirstParent;
-	};
-
-	struct Edge_hash {
-		inline std::size_t operator()(const Edge& v) const {
-			return v.from > v.to ? (v.from * 31 + v.to) : (v.to * 31 + v.from);
-	}
-	};
-	struct Edge_equals {
-		bool operator()(const Edge& v1, const Edge& v2) const {
-			return (v1.from == v2.from && v1.to == v2.to) || (v1.from == v2.to && v1.to == v2.from);
-		}
-	};
-	struct EdgeOwner_hash {
-		inline std::size_t operator()(const EdgeOwner& v) const {
-			return v.from > v.to ? (v.from * 31 + v.to) : (v.to * 31 + v.from);
-		}
-	};
-	struct EdgeOwner_equals {
-		bool operator()(const EdgeOwner& v1, const EdgeOwner& v2) const {
-			return (v1.from == v2.from && v1.to == v2.to) || (v1.from == v2.to && v1.to == v2.from);
-		}
-	};
-	struct AdjVertex
-	{
-		uint32_t a = INT32_MAX;
-		uint32_t b = INT32_MAX;
-	};
 
 	// REMOVE ALL COMMON EDGES
 	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> nonCommonEdges;
@@ -262,6 +261,15 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 
 	uint32_t numberOfComponentsRemoved = 0;
 
+	// track largest component for second child
+	uint32_t largestCompSizeSeen = 0;
+	std::vector<Edge> largestCompSecondParentEdges;
+	std::vector<Edge> largestCompFirstParentEdges;
+	bool firstParentSelectedInLargestComp;
+	bool largestCompJustSet = false;
+	uint32_t largestCompStartIndex;
+	uint32_t largestCompEndIndex;
+
 	while (remainingVertices.size() > 0) {
 		// take first vertex in remainingVertices as start vertex for BFS
 		uint32_t startVertex = *begin(remainingVertices);
@@ -276,7 +284,7 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		if (connectedComponent.size() == 1) {
 			// nothing to chose if the connected component is just one vertex
 			continue;
-}
+		}
 		// Only count component if size>1 (effecitively same as fusing common edges)
 		numberOfConnectedComponents++;
 
@@ -345,6 +353,12 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 			// do nothing if cut size != 2
 			continue;
 		}
+
+		if (connectedComponent.size() > largestCompSizeSeen) {
+			largestCompSizeSeen = (uint32_t) connectedComponent.size();
+			largestCompJustSet = true;
+		}
+
 		// if cutCount == 2 remove all vertices and their edges from G
 		for (const auto& v : connectedComponent) {
 			std::unordered_set<uint32_t>::iterator it = remainingVerticesInG.find(v);
@@ -375,16 +389,32 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 			}
 		}
 
+		if (largestCompJustSet) {
+			largestCompFirstParentEdges = firstParentCompEdges;
+			largestCompSecondParentEdges = secondParentCompEdges;
+		}
+
 		// pick parent path with smallest sum:
 		ASSERT(firstParentCompEdges.size() == secondParentCompEdges.size());
 		if (sumFirstParent <= sumSecondParent) {
+			if (largestCompJustSet) {
+				firstParentSelectedInLargestComp = true;
+				largestCompStartIndex = (uint32_t) childEdges.size();
+				largestCompEndIndex = largestCompStartIndex + (uint32_t) firstParentCompEdges.size() - 1;
+			}
 			childEdges.insert(childEdges.end(), firstParentCompEdges.begin(), firstParentCompEdges.end());
 		}
 		else {
+			if (largestCompJustSet) {
+				firstParentSelectedInLargestComp = false;
+				largestCompStartIndex = (uint32_t) childEdges.size();
+				largestCompEndIndex = largestCompStartIndex + (uint32_t) secondParentCompEdges.size() - 1;
+			}
 			childEdges.insert(childEdges.end(), secondParentCompEdges.begin(), secondParentCompEdges.end());
 		}
 		firstParentCompEdges.clear();
 		secondParentCompEdges.clear();
+		largestCompJustSet = false;
 	}
 
 	// AT THIS POINT ALL CONNECTED COMPONENTS WITH CUT SIZE 2 HAS BEEN REMOVED FROM G
@@ -408,6 +438,11 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		for (const auto& v : connectedComp) {
 			std::unordered_set<uint32_t>::iterator it = remainingVerticesInG.find(v);
 			remainingVerticesInG.erase(it);
+		}
+
+		if (connectedComp.size() > largestCompSizeSeen) {
+			largestCompSizeSeen = (uint32_t) connectedComp.size();
+			largestCompJustSet = true;
 		}
 
 		// add best path
@@ -436,22 +471,58 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 			}
 		}
 
+		if (largestCompJustSet) {
+			largestCompFirstParentEdges = firstParentCompEdges;
+			largestCompSecondParentEdges = secondParentCompEdges;
+		}
+
 		// pick parent path with smallest sum:
 		ASSERT(firstParentCompEdges.size() == secondParentCompEdges.size());
 		if (sumFirstParent <= sumSecondParent) {
+			if (largestCompJustSet) {
+				firstParentSelectedInLargestComp = true;
+				largestCompStartIndex = (uint32_t) childEdges.size();
+				largestCompEndIndex = largestCompStartIndex + (uint32_t) firstParentCompEdges.size() - 1;
+			}
 			childEdges.insert(childEdges.end(), firstParentCompEdges.begin(), firstParentCompEdges.end());
 		}
 		else {
+			if (largestCompJustSet) {
+				firstParentSelectedInLargestComp = false;
+				largestCompStartIndex = (uint32_t) childEdges.size();
+				largestCompEndIndex = largestCompStartIndex + (uint32_t) secondParentCompEdges.size() - 1;
+			}
 			childEdges.insert(childEdges.end(), secondParentCompEdges.begin(), secondParentCompEdges.end());
 		}
 		firstParentCompEdges.clear();
 		secondParentCompEdges.clear();
+		largestCompJustSet = false;
 	}
 
 
 
 	// UNION WITH COMMON EDGES, append instead
 	childEdges.insert(childEdges.end(), commonEdges.begin(), commonEdges.end());
+
+
+	// create second child - same as first child byt pick other parent path in largest component
+	std::vector<Edge> secondChildEdges = childEdges;
+
+	// replace edges in largest connected comp
+	uint32_t indexCount = largestCompStartIndex;
+	if (firstParentSelectedInLargestComp) {
+		for (const auto& e : largestCompSecondParentEdges) {
+			secondChildEdges[indexCount] = e;
+			indexCount++;
+		}
+	}
+	else {
+		for (const auto& e : largestCompFirstParentEdges) {
+			secondChildEdges[indexCount] = e;
+			indexCount++;
+		}
+	}
+
 
 #ifdef DEBUG
 
@@ -472,7 +543,7 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		ASSERT(found);
 	}
 
-	for (uint32_t i = 0; i < permSize; i++)
+	for (uint32_t i = 0; i < childEdges.size(); i++)
 	{
 		uint32_t count = 0;
 		for (Edge edge : childEdges)
@@ -487,6 +558,14 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 #endif
 
 	ASSERT(childEdges.size() == firstPerm.order.size());
+	ASSERT(secondChildEdges.size() == firstPerm.order.size());
+
+ 	return { std::make_pair(TSPpermutation(fromEdgesToPermutation(childEdges)), TSPpermutation(fromEdgesToPermutation(secondChildEdges)))};
+}
+
+
+std::vector<uint32_t> TSPpermutation::fromEdgesToPermutation(const std::vector<Edge>& childEdges)
+{
 
 	// CONVERT TO NEW PERMUTATION
 	std::vector<AdjVertex> adjVertices(childEdges.size());
@@ -512,7 +591,7 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 	}
 
 #ifdef DEBUG
-	for (uint32_t i = 0; i < permSize; i++)
+	for (uint32_t i = 0; i < childEdges.size(); i++)
 	{
 		uint32_t count = 0;
 		for (AdjVertex adjVertex : adjVertices)
@@ -549,6 +628,7 @@ std::optional<TSPpermutation> TSPpermutation::GPX(const TSPpermutation& firstPer
 		}
 		finalOrder.emplace_back(visiting);
 	}
-
- 	return { TSPpermutation(finalOrder) };
+	return finalOrder;
 }
+
+

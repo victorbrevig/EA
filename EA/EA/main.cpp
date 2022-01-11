@@ -7,6 +7,7 @@
 
 int main()
 {
+
   enum class Job {
     TSP_BLACK_BOX,
     TSP_GRAY_BOX,
