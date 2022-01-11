@@ -6,7 +6,7 @@
 
 class Graph
 {
-  const static uint32_t NUMBER_OF_NEAR_NEIGHBORS = 40;
+  const static uint32_t NUMBER_OF_NEAR_NEIGHBORS = 28;
 public:
   struct VertexDist
   {
