@@ -47,6 +47,7 @@ namespace BitstringProblems
       {
         //Crossover
         newPopulation.emplace_back(Bitstring::TwoPointCrossover(population[p1], population[p2]));
+        //newPopulation.back().MutationLSFI(threeSATInstance); Uncomment this for better performance
       }
       else
       {
