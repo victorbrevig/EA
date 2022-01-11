@@ -473,7 +473,9 @@ std::vector<uint32_t> LKSearch::LinKernighan(const TSPpermutation& initialTour)
 #endif _DEBUG
 			lk_tour = newOrder.new_Tour;
 			updateCounter++;
-			m_Visualizer->UpdatePermutation(lk_tour, true);
+			if (m_Visualizer != nullptr) {
+				m_Visualizer->UpdatePermutation(lk_tour, true);
+			}
 		}
 		else
 		{

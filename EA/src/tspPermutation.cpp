@@ -420,7 +420,7 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 	// AT THIS POINT ALL CONNECTED COMPONENTS WITH CUT SIZE 2 HAS BEEN REMOVED FROM G
 	// AND THE BEST PATHS FOR THESE HAVE BEEN APPENDED TO CHILDEDGES
 
-	std::cout << "Number of components: (not necessarily cut 2)" << numberOfConnectedComponents << "\n";
+	//std::cout << "Number of components: (not necessarily cut 2)" << numberOfConnectedComponents << "\n";
 
 	// IF NO COMPONENTS WERE REMOVED WE CANNOT PARTITION WITH CUT 2, SO GPX NOT APPLICABLE
 	if (numberOfComponentsRemoved == 0) {
