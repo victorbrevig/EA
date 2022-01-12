@@ -11,8 +11,8 @@ namespace Utils
     size_t RowAndColToContentIndex(size_t i, size_t j);
   public:
     Matrix(size_t rows, size_t cols);
-    void Set(size_t i, size_t j, double val);
-    double Get(size_t i, size_t j);
+    void Set(size_t i, size_t j, int val);
+    int Get(size_t i, size_t j);
   };
 }
 #endif

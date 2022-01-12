@@ -293,15 +293,15 @@ bool Visualizer::PruneUpdate()
 {
   auto timenow = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 
-  if ((timenow - m_LastUpdate).count() < 100)
-    true;
+  if ((timenow - m_LastUpdate).count() < 30)
+    return true;
   return false;
 }
 
 
-void Visualizer::UpdatePermutation(const std::vector<std::vector<uint32_t>>& permutations, bool limitUpdates)
+void Visualizer::UpdatePermutation(const std::vector<std::vector<uint32_t>>& permutations, bool forceUpdate)
 {
-  if (PruneUpdate())
+  if (!forceUpdate && PruneUpdate())
     return;
   std::lock_guard<std::mutex> g(m_PermMutex);
   m_Permutations = permutations;
@@ -309,9 +309,9 @@ void Visualizer::UpdatePermutation(const std::vector<std::vector<uint32_t>>& per
   m_LastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 }
 
-void Visualizer::UpdatePermutation(const std::vector<uint32_t>& order, bool limitUpdates)
+void Visualizer::UpdatePermutation(const std::vector<uint32_t>& order, bool forceUpdate)
 {
-  if (PruneUpdate())
+  if (!forceUpdate && PruneUpdate())
     return;
   std::lock_guard<std::mutex> g(m_PermMutex);
   m_Permutations.clear();

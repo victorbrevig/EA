@@ -9,7 +9,7 @@
 #include "blackBoxEA.h"
 #include <thread>
 #include <unordered_map>
-
+#include <omp.h>
 namespace PermutationProblems 
 {
 
@@ -41,27 +41,23 @@ namespace PermutationProblems
 
     Graph graph = Utils::Parser::ParseTSPGraph(file);
     TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
-    //Visualizer* visualizer = new Visualizer(graph, permutation.order);
-    //std::thread visualizerThread(StartVisualizer, visualizer);
-    //visualizerThread.detach();
+    Visualizer* visualizer = new Visualizer(graph, permutation.order);
+    std::thread visualizerThread(StartVisualizer, visualizer);
+    visualizerThread.detach();
 
     graph.UpdateNearNeighbors();
 
     //std::cout << "Ready" << "\n";
     //visualizer->WaitForSpace();
 
-    uint32_t numberOfVertices = graph.GetNumberOfVertices();
+    uint32_t numberOfVertices = (uint32_t)graph.GetNumberOfVertices();
 
 
     const uint32_t populationSize = 10;
-    const uint32_t maxNumberOfGenerations = 5;
+    const uint32_t maxNumberOfGenerations = 50;
 
     // create P1 population of random permutation
-    std::vector<TSPpermutation> P1(populationSize);
-    for (uint32_t i = 0; i < populationSize; i++) {
-        P1[i] = TSPpermutation(numberOfVertices);
-    }
-
+    std::vector<TSPpermutation> P1(populationSize, numberOfVertices);
 
     // create P2
     std::vector<TSPpermutation> P2;
@@ -69,26 +65,58 @@ namespace PermutationProblems
     // offsprings
     std::vector<TSPpermutation> offsprings;
 
-    
-    std::unordered_map<Edge, uint32_t, Edge_hash, Edge_equals> offspringEdgesCounters;
-
     // use LK search on every permutation in P1 popultation
+#pragma omp parallel
+    {
+#pragma omp single
+    {
+        std::cout << "Running initial Lin-Kernighan on a population of size " << P1.size() << " with " << omp_get_num_threads() << " threads\n";
+        std::cout << "Visualizer is showing one of these indiviuals\n";
+    }
+#pragma omp for
+      for (int i = 0; i < P1.size(); i++) 
+      {
+        Visualizer* vis = (i == 0) ? visualizer : nullptr;
+        TSPpermutation& perm = P1[i];
+        perm.LinKernighan(graph, vis);
+      }
 
-    for (TSPpermutation& perm : P1) {
-        perm.LinKernighan(graph, nullptr);
+#pragma omp single
+      {
+        std::cout << "Initial LK-Search done\n";
+        std::cout << "From now on showing best solution so far\n";
+      }
     }
 
+
     TSPpermutation bestSolutionFoundSoFar = P1[0];
-    
+    if (visualizer)
+      visualizer->UpdatePermutation(P1[0].order);
+
+    auto UpdateBestSolutionSoFar = [&graph, &bestSolutionFoundSoFar, &visualizer](const TSPpermutation& candidate) {
+      if (candidate.GetFitness(graph) < bestSolutionFoundSoFar.GetFitness(graph)) {
+        bestSolutionFoundSoFar = candidate;
+        std::cout << "New Best Solution Fitness: " << bestSolutionFoundSoFar.GetFitness(graph) << "\n";
+        if (visualizer)
+          visualizer->UpdatePermutation(bestSolutionFoundSoFar.order);
+      }
+    };
+
+
     uint32_t generationNumber = 1;
 
-    while (generationNumber < maxNumberOfGenerations) {
+    std::unordered_map<Edge, uint32_t, Edge_hash, Edge_equals> offspringEdgesCounters;
+
+    while (generationNumber <= maxNumberOfGenerations) {
+
+        std::cout << "Generation: " << generationNumber << "\n";
+        
         // Find best permutation in P1
         double bestFitness = 1.7976931348623157E+308;
         uint32_t bestFitnessIndex = 0;
         for (uint32_t i = 0; i < P1.size(); i++) {
-            if (P1[i].GetFitness() < bestFitness) {
-                bestFitness = P1[i].GetFitness();
+            if (P1[i].GetFitness(graph) < bestFitness) {
+                bestFitness = P1[i].GetFitness(graph);
                 bestFitnessIndex = i;
             }
         }
@@ -96,9 +124,7 @@ namespace PermutationProblems
         // for all other permutations in P1, attempt GPX on best and current permutation
         TSPpermutation& bestPerm = P1[bestFitnessIndex];
 
-        if (bestPerm.GetFitness() < bestSolutionFoundSoFar.GetFitness()) {
-            bestSolutionFoundSoFar = bestPerm;
-        }
+        UpdateBestSolutionSoFar(bestPerm);
 
         for (uint32_t i = 0; i < P1.size(); i++) {
             if (i == bestFitnessIndex) {
@@ -108,7 +134,6 @@ namespace PermutationProblems
             TSPpermutation& currentPerm = P1[i];
 
             auto optionalChildren = TSPpermutation::GPX(bestPerm, currentPerm, graph);
-
             if (optionalChildren.has_value()) {
                 // children
                 offsprings.emplace_back(std::move(optionalChildren->first));
@@ -116,13 +141,8 @@ namespace PermutationProblems
                 const TSPpermutation& greedyChild = offsprings[offsprings.size() - 2];
                 const TSPpermutation& otherChild = offsprings.back();
                 
-
-                if (greedyChild.GetFitness() < bestSolutionFoundSoFar.GetFitness()) {
-                    bestSolutionFoundSoFar = greedyChild;
-                }
-                if (otherChild.GetFitness() < bestSolutionFoundSoFar.GetFitness()) {
-                    bestSolutionFoundSoFar = otherChild;
-                }
+                UpdateBestSolutionSoFar(greedyChild);
+                UpdateBestSolutionSoFar(otherChild);
 
                 for (uint32_t i = 1; i <= numberOfVertices; i++) {
                     Edge firstChildEdge(greedyChild.order[i - 1], greedyChild.order[i % numberOfVertices]);
@@ -138,10 +158,7 @@ namespace PermutationProblems
                 currentPerm.updateFitness(graph);
                 P2.push_back(currentPerm);
 
-                if (currentPerm.GetFitness() < bestSolutionFoundSoFar.GetFitness()) {
-                    bestSolutionFoundSoFar = currentPerm;
-                }
-
+                UpdateBestSolutionSoFar(currentPerm);
             }
         }
 
@@ -176,9 +193,14 @@ namespace PermutationProblems
 
         ASSERT(P1.size() == P2.size());
 
-        // apply LK to every permutation in P2
-        for (TSPpermutation& perm : P2) {
+#pragma omp parallel
+        {
+#pragma omp for
+          for (int i = 0; i < P2.size(); i++)
+          {
+            TSPpermutation& perm = P2[i];
             perm.LinKernighan(graph, nullptr);
+          }
         }
 
         // Set P1=P2
@@ -186,71 +208,17 @@ namespace PermutationProblems
         P2.clear();
         generationNumber++;
     }
+
+    for (const TSPpermutation& perm : P1)
+      UpdateBestSolutionSoFar(perm);
+
+    visualizer->UpdatePermutation(bestSolutionFoundSoFar.order, true);
     
-    std::cout << "------------------------------- \n";
-    std::cout << "Job Complete \n";
-    std::cout << "Iterations: " << generationNumber-1 << "\n";
-    std::cout << "Best Solution Fitness: " << bestSolutionFoundSoFar.GetFitness() << " \n";
-
+    std::cout << "FITNESS OF BEST PERMUTATION FOUND: " << bestSolutionFoundSoFar.GetFitness(graph) << std::endl;
     
 
-    
-
-    /*
-    while (true)
-    {
-      TSPpermutation parent1((unsigned int)graph.GetNumberOfVertices());
-      parent1.LinKernighan(graph, visualizer);
-      std::cout << "Parent 1 fitness: " << parent1.GetFitness() << "\n";
-      visualizer->UpdatePermutation(parent1.order);
-      visualizer->WaitForSpace();
-
-      TSPpermutation parent2((unsigned int)graph.GetNumberOfVertices());
-      parent2.LinKernighan(graph, visualizer);
-      std::cout << "Parent 2 fitness: " << parent2.GetFitness() << "\n";
-      visualizer->UpdatePermutation(parent2.order);
-      visualizer->WaitForSpace();
-
-      visualizer->UpdatePermutation(std::vector<std::vector<uint32_t>>({ parent1.order, parent2.order }));
-      visualizer->WaitForSpace();
-
-
-      auto optionalChild = TSPpermutation::GPX(parent1, parent2, graph);
-      if (optionalChild.has_value())
-      {
-        std::pair<TSPpermutation, TSPpermutation> children = *optionalChild;
-        TSPpermutation greedyChild = children.first;
-        TSPpermutation otherChild = children.second;
-        greedyChild.updateFitness(graph);
-        std::cout << "Child fitness: " << greedyChild.GetFitness() << "\n";
-        visualizer->UpdatePermutation(greedyChild.order);
-        visualizer->WaitForSpace();
-
-        visualizer->UpdatePermutation(otherChild.order);
-        visualizer->WaitForSpace();
-
-        std::cout << "Parent 1 fitness: " << parent1.GetFitness() << "\n";
-        visualizer->UpdatePermutation(parent1.order);
-        visualizer->WaitForSpace();
-
-        std::cout << "Parent 2 fitness: " << parent2.GetFitness() << "\n";
-        visualizer->UpdatePermutation(parent2.order);
-        visualizer->WaitForSpace();
-
-        visualizer->UpdatePermutation(std::vector<std::vector<uint32_t>>({ parent1.order, parent2.order }));
-        visualizer->WaitForSpace();
-
-        std::cout << "Child fitness: " << greedyChild.GetFitness() << "\n";
-        visualizer->UpdatePermutation(greedyChild.order);
-        visualizer->WaitForSpace();
-      }
-    }
 
     visualizer->WaitForClose();
-
-    delete visualizer;
-
-    */
   }
 
   void RunBlackboxGenerational(const std::string& file)
@@ -262,7 +230,7 @@ namespace PermutationProblems
       visualizerThread.detach();
 
       BlackBoxEA<TSPpermutation>::Parameters parameters;
-      parameters.iterations = (uint32_t)100;
+      parameters.iterations = (uint32_t)3e6;
       parameters.population = 50;
       parameters.mutationProb = 1.0;
       parameters.crossoverProb = 1.0 / parameters.population;
@@ -270,8 +238,6 @@ namespace PermutationProblems
 
       visualizer->WaitForClose();
       delete visualizer;
-
-      // output is in BlackBoxEA<TSPpermutation>::Run
   }
 
   void RunBlackbox1(const std::string& file)

@@ -49,7 +49,7 @@ bool TSPpermutation::mutate_2OPT(const Graph& graph, bool acceptWorse)
 
 	std::reverse(order.begin() + k + 1, order.begin() + l + 1);
 
-	updateFitness(graph);
+	fitnessIsValid = false;
 
 	return true;
 }
@@ -90,6 +90,8 @@ void TSPpermutation::mutate_doubleBridge()
 		indexCount++;
 	}
 	order = newOrder;
+
+	fitnessIsValid = false;
 }
 
 void TSPpermutation::LinKernighan(const Graph& graph, Visualizer* visualizer)
@@ -99,14 +101,22 @@ void TSPpermutation::LinKernighan(const Graph& graph, Visualizer* visualizer)
 	updateFitness(graph);
 }
 
-void TSPpermutation::updateFitness(const Graph& graph)
+void TSPpermutation::updateFitness(const Graph& graph) const
 {
 	fitness = graph.calculateDistByOrder(order);
 	fitnessIsValid = true;
 }
 
-double TSPpermutation::GetFitness() const
+int TSPpermutation::GetFitness() const
 {
+	ASSERT(fitnessIsValid);
+	return fitness;
+}
+
+int TSPpermutation::GetFitness(const Graph& graph) const
+{
+	if (!fitnessIsValid)
+		updateFitness(graph);
 	return fitness;
 }
 

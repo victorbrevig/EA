@@ -23,9 +23,9 @@ namespace Utils
     return { first.x / second, first.y / second };
   }
 
-  double Distance(const Vec2D& from, const Vec2D& to)
+  int Distance(const Vec2D& from, const Vec2D& to)
   {
     Vec2D diff = to - from;
-    return diff.Length();
+    return (int)(diff.Length() + 0.5); //TSPLib uses rounded distances, so we do so for better comparison
   }
 }
