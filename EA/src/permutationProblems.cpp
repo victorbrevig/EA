@@ -54,6 +54,7 @@ namespace PermutationProblems
 
 
     const uint32_t populationSize = 10;
+    const uint32_t maxNumberOfGenerations = 5;
 
     // create P1 population of random permutation
     std::vector<TSPpermutation> P1(populationSize);
@@ -63,27 +64,27 @@ namespace PermutationProblems
 
 
     // create P2
-    std::vector<TSPpermutation> P2(populationSize);
+    std::vector<TSPpermutation> P2;
 
     // offsprings
     std::vector<TSPpermutation> offsprings;
 
-    TSPpermutation bestSolutionFoundSoFar = P1[0];
-
+    
     std::unordered_map<Edge, uint32_t, Edge_hash, Edge_equals> offspringEdgesCounters;
 
     // use LK search on every permutation in P1 popultation
 
-    for (TSPpermutation perm : P1) {
+    for (TSPpermutation& perm : P1) {
         perm.LinKernighan(graph, nullptr);
     }
 
-    uint32_t maxNumberOfGenerations = 5;
+    TSPpermutation bestSolutionFoundSoFar = P1[0];
+    
     uint32_t generationNumber = 1;
 
     while (generationNumber < maxNumberOfGenerations) {
         // Find best permutation in P1
-        double bestFitness = 0;
+        double bestFitness = 1.7976931348623157E+308;
         uint32_t bestFitnessIndex = 0;
         for (uint32_t i = 0; i < P1.size(); i++) {
             if (P1[i].GetFitness() < bestFitness) {
@@ -93,7 +94,7 @@ namespace PermutationProblems
         }
 
         // for all other permutations in P1, attempt GPX on best and current permutation
-        TSPpermutation bestPerm = P1[bestFitnessIndex];
+        TSPpermutation& bestPerm = P1[bestFitnessIndex];
 
         if (bestPerm.GetFitness() < bestSolutionFoundSoFar.GetFitness()) {
             bestSolutionFoundSoFar = bestPerm;
@@ -104,18 +105,17 @@ namespace PermutationProblems
                 continue;
             }
 
-            TSPpermutation currentPerm = P1[i];
+            TSPpermutation& currentPerm = P1[i];
 
             auto optionalChildren = TSPpermutation::GPX(bestPerm, currentPerm, graph);
 
             if (optionalChildren.has_value()) {
                 // children
-                std::pair<TSPpermutation, TSPpermutation> children = *optionalChildren;
-                TSPpermutation greedyChild = children.first;
-                TSPpermutation otherChild = children.second;
-
-                offsprings.push_back(greedyChild);
-                offsprings.push_back(otherChild);
+                offsprings.emplace_back(std::move(optionalChildren->first));
+                offsprings.emplace_back(std::move(optionalChildren->second));
+                const TSPpermutation& greedyChild = offsprings[offsprings.size() - 2];
+                const TSPpermutation& otherChild = offsprings.back();
+                
 
                 if (greedyChild.GetFitness() < bestSolutionFoundSoFar.GetFitness()) {
                     bestSolutionFoundSoFar = greedyChild;
@@ -135,6 +135,7 @@ namespace PermutationProblems
             else {
                 // if GPX not applicable, mutate currentPerm using double-bridge move and put in P2
                 currentPerm.mutate_doubleBridge();
+                currentPerm.updateFitness(graph);
                 P2.push_back(currentPerm);
 
                 if (currentPerm.GetFitness() < bestSolutionFoundSoFar.GetFitness()) {
@@ -153,7 +154,7 @@ namespace PermutationProblems
             double score = 0.0;
             for (uint32_t j = 1; j <= numberOfVertices; j++) {
                 Edge firstChildEdge(offsprings[i].order[j - 1], offsprings[i].order[j % numberOfVertices]);
-                score += offspringEdgesCounters[firstChildEdge];
+                score += 1.0/ ((double)offspringEdgesCounters[firstChildEdge]);
             }
 
             offspringAndScore[i] = std::make_pair(offsprings[i], score);
@@ -166,8 +167,6 @@ namespace PermutationProblems
             }
         );
 
-
-
         // fill rest of P2 from the set of offsprings with best diversity selection score
         uint32_t indexCount = 0;
         while (P2.size() < populationSize) {
@@ -175,19 +174,21 @@ namespace PermutationProblems
             indexCount++;
         }
 
+        ASSERT(P1.size() == P2.size());
+
         // apply LK to every permutation in P2
-        for (TSPpermutation perm : P2) {
+        for (TSPpermutation& perm : P2) {
             perm.LinKernighan(graph, nullptr);
         }
 
         // Set P1=P2
         P1 = P2;
-
+        P2.clear();
         generationNumber++;
     }
 
     
-
+    std::cout << "FITNESS OF BEST PERMUTATION FOUND: " << bestSolutionFoundSoFar.GetFitness() << std::endl;
     
 
 

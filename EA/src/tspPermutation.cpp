@@ -560,7 +560,12 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 	ASSERT(childEdges.size() == firstPerm.order.size());
 	ASSERT(secondChildEdges.size() == firstPerm.order.size());
 
- 	return { std::make_pair(TSPpermutation(fromEdgesToPermutation(childEdges)), TSPpermutation(fromEdgesToPermutation(secondChildEdges)))};
+	TSPpermutation child1(fromEdgesToPermutation(childEdges));
+	child1.updateFitness(graph);
+	TSPpermutation child2(fromEdgesToPermutation(secondChildEdges));
+	child2.updateFitness(graph);
+
+ 	return { std::make_pair(child1, child2)};
 }
 
 
