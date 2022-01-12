@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "permutationProblems.h"
 #include "bitstringProblems.h"
+#include <filesystem>
 
 enum class Job {
   TSP_BLACK_BOX,
@@ -75,12 +76,18 @@ void RunJob(const std::string& file, Job job, const std::string outputFile = "")
 void Run3SATBatch(const std::pair<std::string, std::string>& directories)
 {
   const std::string& directory = directories.first;
-  const std::string& outputDirectory = directories.second;
+  const std::string& outputDirectory = Utils::Files::GetWorkingDirectory() + directories.second;
+
   const std::string& outputDirectoryNoCrossOver = outputDirectory + "NoCrossover\\";
+  std::filesystem::create_directories(outputDirectoryNoCrossOver);
   const std::string& outputDirectory2Point = outputDirectory + "2POINT_Crossover\\";
+  std::filesystem::create_directories(outputDirectory2Point);
   const std::string& outputDirectory2PointImproved = outputDirectory + "2POINT_OPT_Crossover\\";
-  const std::string& outputDirectoryGPX = outputDirectory + "GPX_Crossover\\";
+  std::filesystem::create_directories(outputDirectory2PointImproved);
+  const std::string& outputDirectoryGPX = outputDirectory + "PartitionCrossover\\";
+  std::filesystem::create_directories(outputDirectoryGPX);
   const std::string& outputDirectoryBlackbox = outputDirectory + "BlackBox\\";
+  std::filesystem::create_directories(outputDirectoryBlackbox);
   std::vector<std::string> files = Utils::Files::GetAllFilePathsInDirectory(directory);
 
   int numberOfFiles = std::min((int)files.size(), 100);
@@ -98,7 +105,7 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
 
 
   //100 jobs max
-#pragma omp for
+#pragma omp for schedule(dynamic)
   for (int i = 0; i < numberOfFiles; i++)
   {
     std::string& file = files[i];
@@ -121,7 +128,7 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
     std::cout << "Results: \n";
   }
 
-#pragma omp for
+#pragma omp for schedule(dynamic)
   for (int i = 0; i < numberOfFiles; i++)
   {
     std::string& file = files[i];
@@ -144,7 +151,7 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
     std::cout << "Results: \n";
   }
 
-#pragma omp for
+#pragma omp for schedule(dynamic)
   for (int i = 0; i < numberOfFiles; i++)
   {
     std::string& file = files[i];
@@ -167,7 +174,7 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
     std::cout << "Results: \n";
   }
 
-#pragma omp for
+#pragma omp for schedule(dynamic)
   for (int i = 0; i < numberOfFiles; i++)
   {
     std::string& file = files[i];
@@ -190,7 +197,7 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
     std::cout << "Results: \n";
   }
 
-#pragma omp for
+#pragma omp for schedule(dynamic)
   for (int i = 0; i < numberOfFiles; i++)
   {
     std::string& file = files[i];
@@ -259,6 +266,8 @@ int main()
         Run3SATBatch(directory);
       }
     };
+
+    std::filesystem::remove_all(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\"); // Clear output folder
 
     Run3SATJobs();
     RunTSPJobs();
