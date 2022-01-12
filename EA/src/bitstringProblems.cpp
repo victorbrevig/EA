@@ -307,6 +307,7 @@ namespace BitstringProblems
       else
       {
         Bitstring child1 = population[parent1];
+        child1.Mutation(1.0 / child1.NumberOfBits());
         newPopulation.emplace_back(std::move(child1));
         if (newPopulation.size() < population.size())
         {

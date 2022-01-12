@@ -32,6 +32,7 @@ public:
 	double crossoverProb;
 
 	bool iterate(const Graph& graph);
-	static void Run(const Graph& graph, Parameters parameters, Visualizer* visualizer = nullptr);
+	bool iterateGenerational(const Graph& graph);
+	static void Run(const Graph& graph, Parameters parameters, bool generational, Visualizer* visualizer = nullptr);
 };
 #endif
