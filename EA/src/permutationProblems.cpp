@@ -214,7 +214,10 @@ namespace PermutationProblems
 
     visualizer->UpdatePermutation(bestSolutionFoundSoFar.order, true);
     
-    std::cout << "FITNESS OF BEST PERMUTATION FOUND: " << bestSolutionFoundSoFar.GetFitness(graph) << std::endl;
+    std::cout << "------------------------------- \n";
+    std::cout << "Job Complete \n";
+    std::cout << "Iterations: " << generationNumber - 1 << "\n";
+    std::cout << "Best Solution Fitness: " << bestSolutionFoundSoFar.GetFitness() << " \n";
     
 
 
@@ -249,7 +252,7 @@ namespace PermutationProblems
     visualizerThread.detach();
 
     BlackBoxEA<TSPpermutation>::Parameters parameters;
-    parameters.iterations = (uint32_t)3e6;
+    parameters.iterations = (uint32_t)100;
     parameters.population = 50;
     parameters.mutationProb = 1.0;
     parameters.crossoverProb = 1.0 / parameters.population;
