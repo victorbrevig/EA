@@ -22,8 +22,8 @@ namespace BitstringProblems
 
   bool ShouldStop(long long msStart, uint32_t milliseconds);
 
-  Result RunHybrid(const std::string& file, HybridVersion hybridVersion, uint32_t runningTimeMilliseconds);
-  Result RunBlackBoxGenerational(const std::string& file, uint32_t runningTimeMilliseconds);
+  Result RunHybrid(const std::string& file, HybridVersion hybridVersion, uint32_t runningTimeMilliseconds, const std::string& outputFile);
+  Result RunBlackBoxGenerational(const std::string& file, uint32_t runningTimeMilliseconds, const std::string& outputFile);
 
   class Hybrid
   {

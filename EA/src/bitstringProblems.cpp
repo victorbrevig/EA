@@ -13,7 +13,7 @@ namespace BitstringProblems
     return (uint32_t)(timeNow - msStart) >= milliseconds;
   }
 
-  Result RunHybrid(const std::string& file, HybridVersion hybridVersion, uint32_t runningTimeMilliseconds)
+  Result RunHybrid(const std::string& file, HybridVersion hybridVersion, uint32_t runningTimeMilliseconds, const std::string& outputFile)
   {
     auto HybridVersionToString = [](HybridVersion hybridVersion) {
       switch (hybridVersion)
@@ -33,14 +33,17 @@ namespace BitstringProblems
       return "";
     };
 
+    std::ofstream outputStream;
+    outputStream.open(outputFile);
+
     ThreeSATInstance instance = Utils::Parser::parse3SAT(file);
-    std::cout << "--------------------------------------------- \n";
-    std::cout << "Job start \n";
-    std::cout << "Search space: Bitstring \n";
-    std::cout << "Problem: Max 3-SAT \n";
-    std::cout << "Problem instance: " << file << "\n";
-    std::cout << "Algorithm: " << "Hybrid with " << HybridVersionToString(hybridVersion) << "\n";
-    std::cout << "Running Time: " << runningTimeMilliseconds << " milliseconds\n";
+    outputStream << "--------------------------------------------- \n";
+    outputStream << "Job start \n";
+    outputStream << "Search space: Bitstring \n";
+    outputStream << "Problem: Max 3-SAT \n";
+    outputStream << "Problem instance: " << file << "\n";
+    outputStream << "Algorithm: " << "Hybrid with " << HybridVersionToString(hybridVersion) << "\n";
+    outputStream << "Running Time: " << runningTimeMilliseconds << " milliseconds\n";
 
     uint32_t population = 50; //50
     double crossoverProb = hybridVersion == HybridVersion::NoCrossover ? 0.0 : 0.6; //0.6
@@ -51,53 +54,59 @@ namespace BitstringProblems
 
     uint32_t bestFitnessSoFar = 0;
     uint32_t iterations = 0;
-    while (!ShouldStop(timeStart, runningTimeMilliseconds))
+    while (!ShouldStop(timeStart, runningTimeMilliseconds) && bestFitnessSoFar != instance.numberOfClauses)
     {
       hybrid.Iterate(iterations);
       uint32_t fitness = hybrid.GetBestFitness();
       if (fitness > bestFitnessSoFar)
       {
-        std::cout << "Iteration: " << iterations << ", Fitness: " << fitness << "\n";
+        outputStream << "Iteration: " << iterations << ", Fitness: " << fitness << "\n";
         bestFitnessSoFar = fitness;
       }
       iterations++;
     }
-    std::cout << "------------------------------- \n";
-    std::cout << "Job Complete \n";
-    std::cout << "Iterations: " << iterations << "\n";
-    std::cout << "Best Solution Fitness: " << bestFitnessSoFar << " \n";
+    outputStream << "------------------------------- \n";
+    outputStream << "Job Complete \n";
+    outputStream << "Iterations: " << iterations << "\n";
+    outputStream << "Best Solution Fitness: " << bestFitnessSoFar << " \n";
     if (bestFitnessSoFar == instance.numberOfClauses)
     {
-      std::cout << "Optimal \n";
+      outputStream << "Optimal \n";
     }
     else
     {
-      std::cout << "Not Optimal \n";
+      outputStream << "Not Optimal \n";
     }
 
     if (hybridVersion == HybridVersion::TwoPointCrossoverImproved)
     {
-      std::cout << "------------------------------- \n";
-      std::cout << "Local optimality of 2-point crossover children\n";
-      std::cout << "Local optimal count: " << hybrid.timesTwoPointCrossoverWasLocalOptimum << "\n";
-      std::cout << "Not local optimal count: " << hybrid.timesTwoPointCrossoverWasNotLocalOptimum << "\n";
+      outputStream << "------------------------------- \n";
+      outputStream << "Local optimality of 2-point crossover children\n";
+      outputStream << "Local optimal count: " << hybrid.timesTwoPointCrossoverWasLocalOptimum << "\n";
+      outputStream << "Not local optimal count: " << hybrid.timesTwoPointCrossoverWasNotLocalOptimum << "\n";
     }
 
-    std::cout << "--------------------------------------------- " << std::endl;
+    outputStream << "--------------------------------------------- " << std::endl;
+
+    outputStream.close();
+
     return { bestFitnessSoFar, iterations, bestFitnessSoFar == instance.numberOfClauses };
   }
 
-  Result RunBlackBoxGenerational(const std::string& file, uint32_t runningTimeMilliseconds)
+  Result RunBlackBoxGenerational(const std::string& file, uint32_t runningTimeMilliseconds, const std::string& outputFile)
   {
     ThreeSATInstance instance = Utils::Parser::parse3SAT(file);
 
-    std::cout << "--------------------------------------------- \n";
-    std::cout << "Job start \n";
-    std::cout << "Search space: Bitstring \n";
-    std::cout << "Problem: Max 3-SAT \n";
-    std::cout << "Problem instance: " << file << "\n";
-    std::cout << "Algorithm: Black-Box Generational \n";
-    std::cout << "Running Time: " << runningTimeMilliseconds << " milliseconds\n";
+    std::ofstream outputStream;
+    outputStream.open(outputFile);
+
+    outputStream << "--------------------------------------------- \n";
+    outputStream << "Job start \n";
+    outputStream << "Search space: Bitstring \n";
+    outputStream << "Problem: Max 3-SAT \n";
+    outputStream << "Problem instance: " << file << "\n";
+    outputStream << "Algorithm: Black-Box Generational \n";
+    outputStream << "Running Time: " << runningTimeMilliseconds << " milliseconds\n";
 
     uint32_t population = 500;
     double crossoverProb = 0.7;
@@ -108,29 +117,29 @@ namespace BitstringProblems
 
     uint32_t bestFitnessSoFar = 0;
     uint32_t iterations = 0;
-    while (!ShouldStop(timeStart, runningTimeMilliseconds))
+    while (!ShouldStop(timeStart, runningTimeMilliseconds) && bestFitnessSoFar != instance.numberOfClauses)
     {
       blackBoxGenerational.Iterate(iterations);
       uint32_t fitness = blackBoxGenerational.GetBestFitness();
       if (fitness > bestFitnessSoFar)
       {
-        std::cout << "Iteration: " << iterations << ", Fitness: " << fitness << "\n";
+        outputStream << "Iteration: " << iterations << ", Fitness: " << fitness << "\n";
         bestFitnessSoFar = fitness;
       }
     }
-    std::cout << "------------------------------- \n";
-    std::cout << "Job Complete \n";
-    std::cout << "Iterations: " << iterations << "\n";
-    std::cout << "Best Solution Fitness: " << bestFitnessSoFar << " \n";
+    outputStream << "------------------------------- \n";
+    outputStream << "Job Complete \n";
+    outputStream << "Iterations: " << iterations << "\n";
+    outputStream << "Best Solution Fitness: " << bestFitnessSoFar << " \n";
     if (bestFitnessSoFar == instance.numberOfClauses)
     {
-      std::cout << "Optimal \n";
+      outputStream << "Optimal \n";
     }
     else
     {
-      std::cout << "Not Optimal \n";
+      outputStream << "Not Optimal \n";
     }
-    std::cout << "--------------------------------------------- " << std::endl;
+    outputStream << "--------------------------------------------- " << std::endl;
 
     return { bestFitnessSoFar, iterations, bestFitnessSoFar == instance.numberOfClauses };
   }

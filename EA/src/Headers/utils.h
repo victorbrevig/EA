@@ -10,6 +10,7 @@ namespace Utils
 {
   namespace Files
   {
+    std::string GetNameFromFilePath(const std::string& filePath);
     std::string StripDirFromFilePath(const std::string& filePath);
     std::string GetWorkingDirectory();
     std::string ReadFile(const std::string& filePath);

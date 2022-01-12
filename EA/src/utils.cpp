@@ -1,11 +1,18 @@
 #include "pch.h"
 #include "utils.h"
+#include <filesystem>
 
 
 namespace Utils
 {
   namespace Files
   {
+    std::string GetNameFromFilePath(const std::string& filePath)
+    {
+      std::size_t found = filePath.find_last_of("/\\");
+      return filePath.substr(found + 1);
+    }
+
     std::string StripDirFromFilePath(const std::string& filePath)
     {
       std::size_t found = filePath.find_last_of("/\\");
@@ -43,7 +50,10 @@ namespace Utils
 
     std::vector<std::string> GetAllFilePathsInDirectory(const std::string& directory)
     {
-
+      std::vector<std::string> ret;
+      for (const auto& file : std::filesystem::directory_iterator(GetWorkingDirectory() + directory))
+        ret.emplace_back(std::string(file.path().generic_string()));
+      return ret;
     }
   }
 
