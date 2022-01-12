@@ -78,10 +78,10 @@ namespace PermutationProblems
         perm.LinKernighan(graph, nullptr);
     }
 
-    bool stoppingCriterion = false;
+    uint32_t maxNumberOfGenerations = 5;
+    uint32_t generationNumber = 1;
 
-
-    while (!stoppingCriterion) {
+    while (generationNumber < maxNumberOfGenerations) {
         // Find best permutation in P1
         double bestFitness = 0;
         uint32_t bestFitnessIndex = 0;
@@ -183,6 +183,7 @@ namespace PermutationProblems
         // Set P1=P2
         P1 = P2;
 
+        generationNumber++;
     }
 
     
@@ -227,13 +228,8 @@ namespace PermutationProblems
         visualizer->UpdatePermutation(greedyChild.order);
         visualizer->WaitForSpace();
 
-
-
         visualizer->UpdatePermutation(otherChild.order);
         visualizer->WaitForSpace();
-
-
-
 
         std::cout << "Parent 1 fitness: " << parent1.GetFitness() << "\n";
         visualizer->UpdatePermutation(parent1.order);
