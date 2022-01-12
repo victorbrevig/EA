@@ -13,7 +13,7 @@ public:
     //This struct can be used to get the distance to a vertex and the vertex itself
     //It is used under the assumption that we know the 'from' vertex
     uint32_t vertex;
-    double distance;
+    int distance;
   };
 private:
   std::vector<Utils::Vec2D> points2D;
@@ -32,7 +32,7 @@ public:
   void Add2DCoordinate(double x, double y);
   void ObtainEdgesFrom2DPoints();
   size_t GetNumberOfVertices() const;
-  double calculateDistByOrder(const std::vector<uint32_t>& order) const;
+  int calculateDistByOrder(const std::vector<uint32_t>& order) const;
   const std::array<Graph::VertexDist, NUMBER_OF_NEAR_NEIGHBORS>& GetNearNeighborsOf(uint32_t vertex) const;
   double calculateDistBetweenTwoVertices(uint32_t v1, uint32_t v2) const;
 };

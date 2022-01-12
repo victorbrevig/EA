@@ -173,7 +173,7 @@ uint32_t LKSearch::Breadth(uint32_t level)
 	switch (level)
 	{
 	case 1:
-		return 18;
+		return 10;
 	case 2:
 		return 5;
 	case 3:
@@ -183,7 +183,9 @@ uint32_t LKSearch::Breadth(uint32_t level)
 	case 5:
 		return 1;
 	case 6:
-		return 1;
+		return 0;
+	case 7:
+		return 0;
 	default:
 		return 0;
 	}
@@ -387,15 +389,6 @@ void LKSearch::PerformFlipToCurrentTour(Flip flip)
 		std::reverse(m_CurrentOrder.begin() + p, m_CurrentOrder.begin() + q + 1);
 	else
 	{
-		/*uint32_t a = p;
-		uint32_t b = q;
-		do
-		{
-			std::swap(m_CurrentOrder[a], m_CurrentOrder[b]);
-			a = (a + 1) % m_CurrentOrder.size();
-			b = (b == 0 ? (m_CurrentOrder.size() - 1) : (b - 1));
-		} while (a > b);
-		std::reverse(m_CurrentOrder.begin() + a, m_CurrentOrder.begin() + b + 1);*/
 		std::reverse(m_CurrentOrder.begin() + q + 1, m_CurrentOrder.begin() + p);
 	}
 
@@ -474,7 +467,7 @@ std::vector<uint32_t> LKSearch::LinKernighan(const TSPpermutation& initialTour)
 			lk_tour = newOrder.new_Tour;
 			updateCounter++;
 			if (m_Visualizer != nullptr) {
-				m_Visualizer->UpdatePermutation(lk_tour, true);
+				m_Visualizer->UpdatePermutation(lk_tour);
 			}
 		}
 		else

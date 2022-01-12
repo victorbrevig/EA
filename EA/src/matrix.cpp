@@ -14,12 +14,12 @@ namespace Utils
     return i * firstDim + j;
   }
 
-  void Matrix::Set(size_t i, size_t j, double val)
+  void Matrix::Set(size_t i, size_t j, int val)
   {
     content[RowAndColToContentIndex(i, j)] = val;
   }
 
-  double Matrix::Get(size_t i, size_t j)
+  int Matrix::Get(size_t i, size_t j)
   {
     return content[RowAndColToContentIndex(i, j)];
   }

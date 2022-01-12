@@ -31,7 +31,7 @@ int main()
     PermutationProblems::RunBlackbox1("..\\ALL_TSP\\bier127.tsp");
     break;
   case Job::TSP_GRAY_BOX:
-    PermutationProblems::RunGraybox("..\\ALL_TSP\\usa13509.tsp");
+    PermutationProblems::RunGraybox("..\\ALL_TSP\\u1817.tsp");
     break;
   case Job::TSP_BLACK_BOX_GENERATIONAL:
     break;

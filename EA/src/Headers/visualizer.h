@@ -42,7 +42,7 @@ public:
   void WaitForClose();
   void WaitForSpace();
   bool PruneUpdate();
-  void UpdatePermutation(const std::vector<uint32_t>& permutation, bool limitUpdates = false);
-  void UpdatePermutation(const std::vector<std::vector<uint32_t>>& permutations, bool limitUpdates = false);
+  void UpdatePermutation(const std::vector<uint32_t>& permutation, bool forceUpdate = false);
+  void UpdatePermutation(const std::vector<std::vector<uint32_t>>& permutations, bool forceUpdate = false);
 };
 #endif
