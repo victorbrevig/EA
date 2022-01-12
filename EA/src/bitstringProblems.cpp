@@ -307,6 +307,7 @@ namespace BitstringProblems
       else
       {
         Bitstring child1 = population[parent1];
+        child1.Mutation(1.0 / child1.NumberOfBits());
         newPopulation.emplace_back(std::move(child1));
         if (newPopulation.size() < population.size())
         {
@@ -323,7 +324,7 @@ namespace BitstringProblems
   std::pair<uint32_t, uint32_t> BlackBoxGenerational::Selection()
   {
     auto GetParent = [this]() {
-      auto [p1, p2] = Utils::Random::GetTwoDistinct(0, population.size() - 1);
+      auto [p1, p2] = Utils::Random::GetTwoDistinct(0, (uint32_t)population.size() - 1);
       bool b = Utils::Random::WithProbability(0.5);
       uint32_t p1_unordered = b ? p1 : p2;
       uint32_t p2_unordered = b ? p2 : p1;

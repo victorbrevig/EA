@@ -7,6 +7,7 @@ namespace PermutationProblems
 {
   void RunBlackbox1(const std::string& file);
   void RunGraybox(const std::string& file);
+  void RunBlackboxGenerational(const std::string& file);
 
   class Hybrid
   {

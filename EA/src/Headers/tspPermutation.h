@@ -7,8 +7,8 @@
 
 class TSPpermutation
 {
-	double fitness = 0.0;
-	bool fitnessIsValid;
+	mutable int fitness = 0;
+	mutable bool fitnessIsValid;
 
 	struct AdjVertex
 	{
@@ -52,11 +52,12 @@ public:
 	TSPpermutation();
 	TSPpermutation(unsigned int numberOfVertices);
 	TSPpermutation(const std::vector<uint32_t>& _order);
-	double GetFitness() const;
+	int GetFitness() const;
+	int GetFitness(const Graph& graph) const;
 	std::vector<uint32_t> order;
 	bool mutate_2OPT(const Graph& graph, bool acceptWorse = false);
 	void mutate_doubleBridge();
-	void updateFitness(const Graph& graph);
+	void updateFitness(const Graph& graph) const;
 	void LinKernighan(const Graph& graph, Visualizer* visualizer = nullptr);
 	static TSPpermutation orderCrossover(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm);
 	static std::optional<std::pair<TSPpermutation,TSPpermutation>> GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph);

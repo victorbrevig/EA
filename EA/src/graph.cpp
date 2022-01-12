@@ -88,9 +88,9 @@ size_t Graph::GetNumberOfVertices() const
   return points2D.size();
 }
 
-double Graph::calculateDistByOrder(const std::vector<uint32_t>& order) const
+int Graph::calculateDistByOrder(const std::vector<uint32_t>& order) const
 {
-    double sum = 0.0;
+    int sum = 0;
     // check if edge matrix is available
     if (edges != nullptr) {
         for (unsigned int i = 1; i < order.size(); i++) {

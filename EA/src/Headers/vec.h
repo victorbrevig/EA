@@ -15,6 +15,6 @@ namespace Utils
   Vec2D operator+(const Vec2D& first, const Vec2D& second);
   Vec2D operator/(const Vec2D& first, const double second);
 
-  double Distance(const Vec2D& from, const Vec2D& to);
+  int Distance(const Vec2D& from, const Vec2D& to);
 }
 #endif

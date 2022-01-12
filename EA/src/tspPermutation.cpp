@@ -48,7 +48,7 @@ bool TSPpermutation::mutate_2OPT(const Graph& graph, bool acceptWorse)
 
 	std::reverse(order.begin() + k + 1, order.begin() + l + 1);
 
-	updateFitness(graph);
+	fitnessIsValid = false;
 
 	return true;
 }
@@ -89,6 +89,8 @@ void TSPpermutation::mutate_doubleBridge()
 		indexCount++;
 	}
 	order = newOrder;
+
+	fitnessIsValid = false;
 }
 
 void TSPpermutation::LinKernighan(const Graph& graph, Visualizer* visualizer)
@@ -98,14 +100,22 @@ void TSPpermutation::LinKernighan(const Graph& graph, Visualizer* visualizer)
 	updateFitness(graph);
 }
 
-void TSPpermutation::updateFitness(const Graph& graph)
+void TSPpermutation::updateFitness(const Graph& graph) const
 {
 	fitness = graph.calculateDistByOrder(order);
 	fitnessIsValid = true;
 }
 
-double TSPpermutation::GetFitness() const
+int TSPpermutation::GetFitness() const
 {
+	ASSERT(fitnessIsValid);
+	return fitness;
+}
+
+int TSPpermutation::GetFitness(const Graph& graph) const
+{
+	if (!fitnessIsValid)
+		updateFitness(graph);
 	return fitness;
 }
 
@@ -560,7 +570,12 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 	ASSERT(childEdges.size() == firstPerm.order.size());
 	ASSERT(secondChildEdges.size() == firstPerm.order.size());
 
- 	return { std::make_pair(TSPpermutation(fromEdgesToPermutation(childEdges)), TSPpermutation(fromEdgesToPermutation(secondChildEdges)))};
+	TSPpermutation child1(fromEdgesToPermutation(childEdges));
+	child1.updateFitness(graph);
+	TSPpermutation child2(fromEdgesToPermutation(secondChildEdges));
+	child2.updateFitness(graph);
+
+ 	return { std::make_pair(child1, child2)};
 }
 
 
