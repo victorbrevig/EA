@@ -221,6 +221,25 @@ namespace PermutationProblems
     visualizer->WaitForClose();
   }
 
+  void RunBlackboxGenerational(const std::string& file)
+  {
+      Graph graph = Utils::Parser::ParseTSPGraph(file);
+      TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
+      Visualizer* visualizer = new Visualizer(graph, permutation.order);
+      std::thread visualizerThread(StartVisualizer, visualizer);
+      visualizerThread.detach();
+
+      BlackBoxEA<TSPpermutation>::Parameters parameters;
+      parameters.iterations = (uint32_t)3e6;
+      parameters.population = 50;
+      parameters.mutationProb = 1.0;
+      parameters.crossoverProb = 1.0 / parameters.population;
+      BlackBoxEA<TSPpermutation>::Run(graph, parameters, true, visualizer);
+
+      visualizer->WaitForClose();
+      delete visualizer;
+  }
+
   void RunBlackbox1(const std::string& file)
   {
     Graph graph = Utils::Parser::ParseTSPGraph(file);
@@ -234,8 +253,7 @@ namespace PermutationProblems
     parameters.population = 50;
     parameters.mutationProb = 1.0;
     parameters.crossoverProb = 1.0 / parameters.population;
-    BlackBoxEA<TSPpermutation>::Run(graph, parameters, visualizer);
-
+    BlackBoxEA<TSPpermutation>::Run(graph, parameters, false, visualizer);
 
     visualizer->WaitForClose();
     delete visualizer;

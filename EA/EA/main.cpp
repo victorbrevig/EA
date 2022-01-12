@@ -34,6 +34,7 @@ int main()
     PermutationProblems::RunGraybox("..\\ALL_TSP\\u1817.tsp");
     break;
   case Job::TSP_BLACK_BOX_GENERATIONAL:
+    PermutationProblems::RunBlackboxGenerational("..\\ALL_TSP\\bier127.tsp");
     break;
   case Job::SAT3_HYBRID_NO_CROSSOVER: //Baseline to compare crossover to
     BitstringProblems::RunHybrid(bitstringFile, BitstringProblems::HybridVersion::NoCrossover, bitstringRunningTime);
