@@ -23,7 +23,7 @@ int main()
   uint32_t bitstringRunningTime = 15; //Seconds
   bitstringRunningTime *= 1000; //To milliseconds
 
-  Job job = Job::TSP_GRAY_BOX;
+  Job job = Job::TSP_BLACK_BOX_GENERATIONAL;
 
   switch (job)
   {
@@ -31,7 +31,7 @@ int main()
     PermutationProblems::RunBlackbox1("..\\ALL_TSP\\bier127.tsp");
     break;
   case Job::TSP_GRAY_BOX:
-    PermutationProblems::RunGraybox("..\\ALL_TSP\\usa13509.tsp");
+    PermutationProblems::RunGraybox("..\\ALL_TSP\\d493.tsp");
     break;
   case Job::TSP_BLACK_BOX_GENERATIONAL:
     PermutationProblems::RunBlackboxGenerational("..\\ALL_TSP\\bier127.tsp");

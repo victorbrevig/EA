@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <tuple>
 #include "lksearch.h"
+#include <unordered_map>
 
 TSPpermutation::TSPpermutation()
 {
@@ -159,6 +160,10 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 	uint32_t permSize = (uint32_t)firstPerm.order.size();
 
 
+	// partition cut size counters
+	std::unordered_map<uint32_t, uint32_t> cutCounters;
+
+
 	for (uint32_t i = 1; i <= permSize; i++) {
 		firstParentEdges.emplace(firstPerm.order[i - 1], firstPerm.order[i % permSize], true);
 	}
@@ -257,7 +262,6 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 	std::vector<Edge> childEdges;
 
 	uint32_t numberOfConnectedComponents = 0;
-	std::vector<uint32_t> componentCutCounts;
 
 	uint32_t numberOfComponentsRemoved = 0;
 
@@ -347,7 +351,9 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 			}
 		}
 
-		componentCutCounts.push_back(cutCount);
+		cutCounters[cutCount]++;
+
+
 
 		if (cutCount != 2) {
 			// do nothing if cut size != 2
@@ -564,6 +570,16 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 	child1.updateFitness(graph);
 	TSPpermutation child2(fromEdgesToPermutation(secondChildEdges));
 	child2.updateFitness(graph);
+
+
+	// DEBUG INFO
+	std::cout << "GPX APPLIED - cut counters:" << std::endl;
+	for (auto& it : cutCounters) {
+		std::cout << "Cut size " << it.first << ": " << it.second << std::endl;
+	}
+
+	std::cout << "\n";
+
 
  	return { std::make_pair(child1, child2)};
 }
