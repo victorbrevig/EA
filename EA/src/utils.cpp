@@ -41,6 +41,10 @@ namespace Utils
       return buffer;
     }
 
+    std::vector<std::string> GetAllFilePathsInDirectory(const std::string& directory)
+    {
+
+    }
   }
 
   namespace Parser

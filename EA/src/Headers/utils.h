@@ -13,6 +13,7 @@ namespace Utils
     std::string StripDirFromFilePath(const std::string& filePath);
     std::string GetWorkingDirectory();
     std::string ReadFile(const std::string& filePath);
+    std::vector<std::string> GetAllFilePathsInDirectory(const std::string& directory);
   }
 
   namespace Parser

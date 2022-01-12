@@ -41,16 +41,16 @@ namespace PermutationProblems
 
     Graph graph = Utils::Parser::ParseTSPGraph(file);
     TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
-    //Visualizer* visualizer = new Visualizer(graph, permutation.order);
-    //std::thread visualizerThread(StartVisualizer, visualizer);
-    //visualizerThread.detach();
+    Visualizer* visualizer = new Visualizer(graph, permutation.order);
+    std::thread visualizerThread(StartVisualizer, visualizer);
+    visualizerThread.detach();
 
     graph.UpdateNearNeighbors();
 
     //std::cout << "Ready" << "\n";
     //visualizer->WaitForSpace();
 
-    uint32_t numberOfVertices = graph.GetNumberOfVertices();
+    uint32_t numberOfVertices = (uint32_t)graph.GetNumberOfVertices();
 
 
     const uint32_t populationSize = 10;
@@ -60,7 +60,6 @@ namespace PermutationProblems
     for (uint32_t i = 0; i < populationSize; i++) {
         P1[i] = TSPpermutation(numberOfVertices);
     }
-
 
     // create P2
     std::vector<TSPpermutation> P2(populationSize);
@@ -75,7 +74,7 @@ namespace PermutationProblems
     // use LK search on every permutation in P1 popultation
 
     for (TSPpermutation perm : P1) {
-        perm.LinKernighan(graph, nullptr);
+        perm.LinKernighan(graph, visualizer);
     }
 
     uint32_t maxNumberOfGenerations = 5;
@@ -110,12 +109,11 @@ namespace PermutationProblems
 
             if (optionalChildren.has_value()) {
                 // children
-                std::pair<TSPpermutation, TSPpermutation> children = *optionalChildren;
-                TSPpermutation greedyChild = children.first;
-                TSPpermutation otherChild = children.second;
+                offsprings.emplace_back(std::move(optionalChildren->first));
+                offsprings.emplace_back(std::move(optionalChildren->second));
+                const TSPpermutation& greedyChild = offsprings[offsprings.size() - 2];
+                const TSPpermutation& otherChild = offsprings.back();
 
-                offsprings.push_back(greedyChild);
-                offsprings.push_back(otherChild);
 
                 if (greedyChild.GetFitness() < bestSolutionFoundSoFar.GetFitness()) {
                     bestSolutionFoundSoFar = greedyChild;
@@ -177,7 +175,7 @@ namespace PermutationProblems
 
         // apply LK to every permutation in P2
         for (TSPpermutation perm : P2) {
-            perm.LinKernighan(graph, nullptr);
+            perm.LinKernighan(graph, visualizer);
         }
 
         // Set P1=P2
