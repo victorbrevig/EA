@@ -15,6 +15,11 @@ namespace Utils
     std::string GetWorkingDirectory();
     std::string ReadFile(const std::string& filePath);
     std::vector<std::string> GetAllFilePathsInDirectory(const std::string& directory);
+
+    extern std::ofstream outputStream;
+    void OpenOutputStream(const std::string& filePath);
+    void PrintLine(const std::string& str);
+    void CloseOutputStream();
   }
 
   namespace Parser

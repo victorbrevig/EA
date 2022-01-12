@@ -96,11 +96,11 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
   {
 #pragma omp single
   {
-      std::cout << "----------------------------------------------\n";
-      std::cout << "Running 3 SAT Hybrid with No Crossover\n";
-      std::cout << "Files in directory: " << directory << "\n";
-      std::cout << "Detailed output files in directory: " << outputDirectoryNoCrossOver << "\n";
-      std::cout << "Results: \n";
+      Utils::Files::PrintLine("----------------------------------------------");
+      Utils::Files::PrintLine("Running 3 SAT Hybrid with No Crossover");
+      Utils::Files::PrintLine("Files in directory: " + directory);
+      Utils::Files::PrintLine("Detailed output files in directory: " + outputDirectoryNoCrossOver);
+      Utils::Files::PrintLine("Results: ");
   }
 
 
@@ -114,18 +114,18 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
     BitstringProblems::Result result = RunBitstringJob(file, Job::SAT3_HYBRID_NO_CROSSOVER, outputFile);
 #pragma omp critical
     {
-      std::cout << "Fitness: " << result.bestFitness << ", Is optimal: " << (result.isOptimal ? "true" : "false") << std::endl;
+      Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness) + ", Is optimal: " + (result.isOptimal ? "true" : "false"));
     }
   }
 
 
 #pragma omp single
   {
-    std::cout << "----------------------------------------------\n";
-    std::cout << "Running 3 SAT Hybrid with 2-Point Crossover\n";
-    std::cout << "Files in directory: " << directory << "\n";
-    std::cout << "Detailed output files in directory: " << outputDirectory2Point << "\n";
-    std::cout << "Results: \n";
+    Utils::Files::PrintLine("----------------------------------------------");
+    Utils::Files::PrintLine("Running 3 SAT Hybrid with 2-Point Crossover");
+    Utils::Files::PrintLine("Files in directory: " + directory);
+    Utils::Files::PrintLine("Detailed output files in directory: " + outputDirectory2Point);
+    Utils::Files::PrintLine("Results: ");
   }
 
 #pragma omp for schedule(dynamic)
@@ -137,18 +137,18 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
     BitstringProblems::Result result = RunBitstringJob(file, Job::SAT3_HYBRID_2POINT, outputFile);
 #pragma omp critical
     {
-      std::cout << "Fitness: " << result.bestFitness << ", Is optimal: " << (result.isOptimal ? "true" : "false") << std::endl;
+      Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness) + ", Is optimal: " + (result.isOptimal ? "true" : "false"));
     }
   }
 
 
 #pragma omp single
   {
-    std::cout << "----------------------------------------------\n";
-    std::cout << "Running 3 SAT Hybrid with 2-Point Crossover Improved\n";
-    std::cout << "Files in directory: " << directory << "\n";
-    std::cout << "Detailed output files in directory: " << outputDirectory2PointImproved << "\n";
-    std::cout << "Results: \n";
+    Utils::Files::PrintLine("----------------------------------------------");
+    Utils::Files::PrintLine("Running 3 SAT Hybrid with 2-Point Crossover Improved");
+    Utils::Files::PrintLine("Files in directory: " + directory);
+    Utils::Files::PrintLine("Detailed output files in directory: " + outputDirectory2PointImproved);
+    Utils::Files::PrintLine("Results: ");
   }
 
 #pragma omp for schedule(dynamic)
@@ -160,18 +160,18 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
     BitstringProblems::Result result = RunBitstringJob(file, Job::SAT3_HYBRID_2POINT_IMPROVED, outputFile);
 #pragma omp critical
     {
-      std::cout << "Fitness: " << result.bestFitness << ", Is optimal: " << (result.isOptimal ? "true" : "false") << std::endl;
+      Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness) + ", Is optimal: " + (result.isOptimal ? "true" : "false"));
     }
   }
 
 
 #pragma omp single
   {
-    std::cout << "----------------------------------------------\n";
-    std::cout << "Running 3 SAT Hybrid with Partition Crossover\n";
-    std::cout << "Files in directory: " << directory << "\n";
-    std::cout << "Detailed output files in directory: " << outputDirectoryGPX << "\n";
-    std::cout << "Results: \n";
+    Utils::Files::PrintLine("----------------------------------------------");
+    Utils::Files::PrintLine("Running 3 SAT Hybrid with Partition Crossover");
+    Utils::Files::PrintLine("Files in directory: " + directory);
+    Utils::Files::PrintLine("Detailed output files in directory: " + outputDirectoryGPX);
+    Utils::Files::PrintLine("Results: ");
   }
 
 #pragma omp for schedule(dynamic)
@@ -183,18 +183,18 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
     BitstringProblems::Result result = RunBitstringJob(file, Job::SAT3_HYBRID_GPX, outputFile);
 #pragma omp critical
     {
-      std::cout << "Fitness: " << result.bestFitness << ", Is optimal: " << (result.isOptimal ? "true" : "false") << std::endl;
+      Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness) + ", Is optimal: " + (result.isOptimal ? "true" : "false"));
     }
   }
 
 
 #pragma omp single
   {
-    std::cout << "----------------------------------------------\n";
-    std::cout << "Running 3 SAT Black Box Generational\n";
-    std::cout << "Files in directory: " << directory << "\n";
-    std::cout << "Detailed output files in directory: " << outputDirectoryBlackbox << "\n";
-    std::cout << "Results: \n";
+    Utils::Files::PrintLine("----------------------------------------------");
+    Utils::Files::PrintLine("Running 3 SAT Black Box Generational");
+    Utils::Files::PrintLine("Files in directory: " + directory);
+    Utils::Files::PrintLine("Detailed output files in directory: " + outputDirectoryBlackbox);
+    Utils::Files::PrintLine("Results: ");
   }
 
 #pragma omp for schedule(dynamic)
@@ -206,7 +206,7 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
     BitstringProblems::Result result = RunBitstringJob(file, Job::SAT3_BLACK_BOX_GENERATIONAL, outputFile);
 #pragma omp critical
     {
-      std::cout << "Fitness: " << result.bestFitness << ", Is optimal: " << (result.isOptimal ? "true" : "false") << std::endl;
+      Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness) + ", Is optimal: " + (result.isOptimal ? "true" : "false"));
     }
   }
   }
@@ -249,8 +249,9 @@ int main()
       //Each size is in the same directory
 
       std::vector<std::pair<std::string, std::string>> ThreeSATDirectories = {
-        {"..\\ALL_3SAT\\uf20-91\\", "..\\OUTPUT\\3SAT\\uf20-91\\" },
-        {"..\\ALL_3SAT\\uf50-218\\", "..\\OUTPUT\\3SAT\\uf50-218\\" },
+        {"..\\ALL_3SAT\\uf20-91\\", "..\\OUTPUT\\3SAT\\uf20-91\\" }/*,
+        Uncomment when doing full job
+        {"..\\ALL_3SAT\\uf50-218\\", "..\\OUTPUT\\3SAT\\uf50-218\\"},
         {"..\\ALL_3SAT\\uf75-325\\", "..\\OUTPUT\\3SAT\\uf75-325\\" },
         {"..\\ALL_3SAT\\uf100-430\\", "..\\OUTPUT\\3SAT\\uf100-430\\" },
         {"..\\ALL_3SAT\\uf125-538\\", "..\\OUTPUT\\3SAT\\uf125-538\\" },
@@ -258,7 +259,7 @@ int main()
         {"..\\ALL_3SAT\\uf175-753\\", "..\\OUTPUT\\3SAT\\uf175-753\\" },
         {"..\\ALL_3SAT\\uf200-860\\", "..\\OUTPUT\\3SAT\\uf200-860\\" },
         {"..\\ALL_3SAT\\uf225-960\\", "..\\OUTPUT\\3SAT\\uf225-960\\" },
-        {"..\\ALL_3SAT\\uf250-1065\\", "..\\OUTPUT\\3SAT\\uf250-1065\\" }
+        {"..\\ALL_3SAT\\uf250-1065\\", "..\\OUTPUT\\3SAT\\uf250-1065\\" }*/
       };
 
       for (const auto& directory : ThreeSATDirectories)
@@ -269,8 +270,13 @@ int main()
 
     std::filesystem::remove_all(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\"); // Clear output folder
 
+    std::filesystem::create_directories(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\");
+    Utils::Files::OpenOutputStream(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\output.txt");
+
     Run3SATJobs();
-    RunTSPJobs();
+    //RunTSPJobs();
+
+    Utils::Files::CloseOutputStream();
   }
   else
   {

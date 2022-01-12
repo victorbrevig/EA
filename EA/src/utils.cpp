@@ -55,6 +55,22 @@ namespace Utils
         ret.emplace_back(std::string(file.path().generic_string()));
       return ret;
     }
+
+    void PrintLine(const std::string& str)
+    {
+      outputStream << str << "\n";
+      std::cout << str << std::endl;
+    }
+
+    std::ofstream outputStream;
+    void OpenOutputStream(const std::string& filePath)
+    {
+      outputStream.open(filePath);
+    }
+    void CloseOutputStream()
+    {
+      outputStream.close();
+    }
   }
 
   namespace Parser
