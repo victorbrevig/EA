@@ -12,10 +12,16 @@ int main()
     TSP_BLACK_BOX,
     TSP_GRAY_BOX,
     TSP_BLACK_BOX_GENERATIONAL,
-    SAT3__BLACK_BOX,
-    SAT3__GRAY_BOX,
-    SAT3__BLACK_BOX_GENERATIONAL
+    SAT3_HYBRID_NO_CROSSOVER,
+    SAT3_HYBRID_2POINT,
+    SAT3_HYBRID_2POINT_IMPROVED,
+    SAT3_HYBRID_GPX,
+    SAT3_BLACK_BOX_GENERATIONAL
   };
+
+  std::string bitstringFile = "..\\ALL_3SAT\\UF250.1065.100\\uf250-035.cnf";
+  uint32_t bitstringRunningTime = 15; //Seconds
+  bitstringRunningTime *= 1000; //To milliseconds
 
   Job job = Job::TSP_GRAY_BOX;
 
@@ -25,16 +31,24 @@ int main()
     PermutationProblems::RunBlackbox1("..\\ALL_TSP\\bier127.tsp");
     break;
   case Job::TSP_GRAY_BOX:
-    PermutationProblems::RunGraybox("..\\ALL_TSP\\berlin52.tsp");
+    PermutationProblems::RunGraybox("..\\ALL_TSP\\usa13509.tsp");
     break;
   case Job::TSP_BLACK_BOX_GENERATIONAL:
     break;
-  case Job::SAT3__BLACK_BOX:
+  case Job::SAT3_HYBRID_NO_CROSSOVER: //Baseline to compare crossover to
+    BitstringProblems::RunHybrid(bitstringFile, BitstringProblems::HybridVersion::NoCrossover, bitstringRunningTime);
     break;
-  case Job::SAT3__GRAY_BOX:
-    BitstringProblems::RunGraybox("..\\ALL_3SAT\\CBS_k3_n100_m403_b10\\CBS_k3_n100_m403_b10_3.cnf");
+  case Job::SAT3_HYBRID_2POINT:
+    BitstringProblems::RunHybrid(bitstringFile, BitstringProblems::HybridVersion::TwoPointCrossover, bitstringRunningTime);
     break;
-  case Job::SAT3__BLACK_BOX_GENERATIONAL:
+  case Job::SAT3_HYBRID_2POINT_IMPROVED:
+    BitstringProblems::RunHybrid(bitstringFile, BitstringProblems::HybridVersion::TwoPointCrossoverImproved, bitstringRunningTime);
+    break;
+  case Job::SAT3_HYBRID_GPX:
+    BitstringProblems::RunHybrid(bitstringFile, BitstringProblems::HybridVersion::PartionCrossover, bitstringRunningTime);
+    break;
+  case Job::SAT3_BLACK_BOX_GENERATIONAL:
+    BitstringProblems::RunBlackBoxGenerational(bitstringFile, bitstringRunningTime);
     break;
   default:
     break;

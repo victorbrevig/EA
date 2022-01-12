@@ -64,8 +64,9 @@ void Bitstring::Mutation(double mutationRate)
   }
 }
 
-void Bitstring::MutationLSFI(const ThreeSATInstance& threeSATInstance)
+bool Bitstring::MutationLSFI(const ThreeSATInstance& threeSATInstance)
 {
+  bool didFindImprovement = false;
   bool isLocalOptimum = false;
   while (!isLocalOptimum)
   {
@@ -77,11 +78,17 @@ void Bitstring::MutationLSFI(const ThreeSATInstance& threeSATInstance)
       Flip(index);
       uint32_t newFitness = GetFitness(threeSATInstance);
       if (newFitness > fitness)
+      {
+        didFindImprovement = true;
         fitness = newFitness;
+      }
+
       else
         Flip(index); //Undo
     }
   }
+
+  return didFindImprovement;
 }
 
 uint32_t Bitstring::HammingDistance(const Bitstring& a, const Bitstring& b)
@@ -121,6 +128,30 @@ Bitstring Bitstring::TwoPointCrossover(const Bitstring& a, const Bitstring& b)
     child.Setbit(i, p1.content[i]);
 
   return child;
+}
+
+std::pair<Bitstring, Bitstring> Bitstring::OnePointCrossover(const Bitstring& a, const Bitstring& b)
+{
+  uint32_t point = Utils::Random::GetRange(0, a.NumberOfBits() - 1);
+
+  uint32_t bitstringSize = (uint32_t)a.NumberOfBits();
+
+  Bitstring child1(bitstringSize);
+  Bitstring child2(bitstringSize);
+
+
+  for (uint32_t i = 0; i < point; i++)
+  {
+    child1.Setbit(i, a.content[i]);
+    child2.Setbit(i, b.content[i]);
+  }
+  for (uint32_t i = point; i < bitstringSize; i++)
+  {
+    child2.Setbit(i, a.content[i]);
+    child1.Setbit(i, b.content[i]);
+  }
+
+  return { child1, child2 };
 }
 
 Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATInstance& threeSATInstance)

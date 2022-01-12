@@ -6,7 +6,7 @@
 
 class Graph
 {
-  const static uint32_t NUMBER_OF_NEAR_NEIGHBORS = 28;
+  const static uint32_t NUMBER_OF_NEAR_NEIGHBORS = 50;
 public:
   struct VertexDist
   {
@@ -22,7 +22,7 @@ private:
   mutable std::vector<std::array<Graph::VertexDist, NUMBER_OF_NEAR_NEIGHBORS>> m_NearNeighbors;
 
   
-  std::vector<VertexDist> GetOrderedIncidence(uint32_t vertex) const;
+  std::vector<VertexDist> GetOrderedIncidence(uint32_t vertex, const std::vector<Utils::Vec2D>* customPoints = nullptr) const;
 public:
   void UpdateNearNeighbors() const;
   std::vector<GLfloat> PointsToGLFloats() const;
