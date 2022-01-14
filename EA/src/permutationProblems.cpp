@@ -41,18 +41,7 @@ namespace PermutationProblems
 
     Graph graph = Utils::Parser::ParseTSPGraph(file);
 
-    /*
     
-    HYBRID ORDERINGS (USE TEST14.TSP)
-
-    std::vector<uint32_t> od1 = { 0,1,2,3,4,5,6,7,9,8,10,11,12,13 };
-    TSPpermutation p1(od1);
-    std::vector<uint32_t> od2 = { 0,2,1,3,4,12,5,6,8,7,9,10,11,13 };
-    TSPpermutation p2(od2);
-    auto optionalChildren = TSPpermutation::GPXComponentSearchModification(p1, p2, graph);
-    
-    
-    */
     
     TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
     Visualizer* visualizer = new Visualizer(graph, permutation.order);
@@ -63,6 +52,7 @@ namespace PermutationProblems
 
     //std::cout << "Ready" << "\n";
     //visualizer->WaitForSpace();
+
 
     uint32_t numberOfVertices = (uint32_t)graph.GetNumberOfVertices();
 

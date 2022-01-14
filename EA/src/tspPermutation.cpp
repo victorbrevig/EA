@@ -594,6 +594,102 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
  	return { std::make_pair(child1, child2)};
 }
 
+std::vector<TSPpermutation::PartitionComponent> TSPpermutation::FindPartitionComponents(UndirectedGraph& G, UndirectedGraph& Gu, uint32_t permSize, const std::vector<AdjVertex>& commonEdgesOfVerts)
+{
+	std::vector<PartitionComponent> partitionComponents;
+
+	// IDENTIFY CONNECTED COMPONENTS USING BFS
+	std::unordered_set<uint32_t> remainingVertices(permSize);
+	std::unordered_set<uint32_t> remainingVerticesInG(permSize);
+	// fill remainingVertices with all vertices to begin with
+	for (uint32_t i = 0; i < permSize; i++) {
+		remainingVertices.insert(i);
+		remainingVerticesInG.insert(i);
+	}
+
+	uint32_t endPointVertInComp = 0;
+
+	while (remainingVertices.size() > 0) {
+		// take first vertex in remainingVertices as start vertex for BFS
+		TSPpermutation::PartitionComponent connectedComponent;
+
+		uint32_t startVertex = *begin(remainingVertices);
+		connectedComponent.vertices = Gu.BFS(startVertex);
+
+		// remove vertices in connectedComponent from remainingVertices
+		for (const auto& v : connectedComponent.vertices) {
+			std::unordered_set<uint32_t>::iterator it = remainingVertices.find(v);
+			remainingVertices.erase(it);
+		}
+
+		if (connectedComponent.vertices.size() == 1) {
+			// nothing to chose if the connected component is just one vertex
+			continue;
+		}
+
+		// get set of vertices in connectedComponent for fast lookup
+		std::unordered_set<uint32_t> connectedComponentVerts;
+		for (const auto& v : connectedComponent.vertices) {
+			connectedComponentVerts.insert(v);
+		}
+
+		uint32_t cutCount = 0;
+		// check if partition has cut = 2 or more
+		for (const auto& v : connectedComponent.vertices) {
+			// if v has a common edge, check if the final endpoint (over consecutive common edges) is in the connected component as well
+			AdjVertex current = commonEdgesOfVerts[v];
+			uint32_t nextVert;
+			if (current.a == INT32_MAX && current.b == INT32_MAX) {
+				continue;
+			}
+			else if (current.a != INT32_MAX && current.b != INT32_MAX) {
+				// At this point, we should not be looking at vertices with two common edges
+				ASSERT(false);
+			}
+			else if (current.a != INT32_MAX) {
+				nextVert = current.a;
+			}
+			else {
+				nextVert = current.b;
+			}
+
+			// loop through common edges to find end of chain
+			uint32_t cameFrom = v;
+			current = commonEdgesOfVerts[nextVert];
+			while (current.a != INT32_MAX && current.b != INT32_MAX) {
+				// both edges of current are common
+				if (current.a == cameFrom) {
+					cameFrom = nextVert;
+					nextVert = current.b;
+				}
+				else {
+					cameFrom = nextVert;
+					nextVert = current.a;
+				}
+				current = commonEdgesOfVerts[nextVert];
+			}
+
+			// now nextVert is end of chain. Check if its in the connected component
+			std::unordered_set<uint32_t>::const_iterator inConnectedComponentIt = connectedComponentVerts.find(nextVert);
+			if (inConnectedComponentIt == connectedComponentVerts.end()) {
+				// if endPoint not in connectedComponentVerts, increment cutCount
+				endPointVertInComp = cameFrom;
+				cutCount++;
+				if (cutCount == 1)
+					connectedComponent.vertexA = endPointVertInComp;
+				if (cutCount == 2)
+					connectedComponent.vertexB = endPointVertInComp;
+			}
+		}
+
+		connectedComponent.cutCost = cutCount;
+
+		partitionComponents.emplace_back(std::move(connectedComponent));
+	}
+
+
+	return partitionComponents;
+}
 
 
 std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXComponentSearchModification(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
@@ -696,308 +792,217 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXComp
 		G.addEdge(e.from, e.to, 2);
 	}
 
-
-	// IDENTIFY CONNECTED COMPONENTS USING BFS
-	std::unordered_set<uint32_t> remainingVertices(permSize);
-	std::unordered_set<uint32_t> remainingVerticesInG(permSize);
-	// fill remainingVertices with all vertices to begin with
-	for (uint32_t i = 0; i < permSize; i++) {
-		remainingVertices.insert(i);
-		remainingVerticesInG.insert(i);
-	}
-
 	std::vector<Edge> childEdges;
 
-	uint32_t numberOfConnectedComponents = 0;
+	//Find partition components
+	std::vector<TSPpermutation::PartitionComponent> partitionComponents = FindPartitionComponents(G, Gu, permSize, commonEdgesOfVerts);
 
-	bool cutTwoFound = false;
 
-	std::vector<uint32_t> connectedComponent;
-	uint32_t endPointVertInComp = 0;
-
-	while (remainingVertices.size() > 0) {
-		// take first vertex in remainingVertices as start vertex for BFS
-		uint32_t startVertex = *begin(remainingVertices);
-		connectedComponent = Gu.BFS(startVertex);
-
-		// remove vertices in connectedComponent from remainingVertices
-		for (const auto& v : connectedComponent) {
-			std::unordered_set<uint32_t>::iterator it = remainingVertices.find(v);
-			remainingVertices.erase(it);
-		}
-
-		if (connectedComponent.size() == 1) {
-			// nothing to chose if the connected component is just one vertex
-			continue;
-		}
-		// Only count component if size>1 (effecitively same as fusing common edges)
-		numberOfConnectedComponents++;
-
-		// get set of vertices in connectedComponent for fast lookup
-		std::unordered_set<uint32_t> connectedComponentVerts;
-		for (const auto& v : connectedComponent) {
-			connectedComponentVerts.insert(v);
-		}
-
-		uint32_t cutCount = 0;
-		// check if partition has cut = 2 or more
-		for (const auto& v : connectedComponent) {
-			// if v has a common edge, check if the final endpoint (over consecutive common edges) is in the connected component as well
-			AdjVertex current = commonEdgesOfVerts[v];
-			uint32_t nextVert;
-			if (current.a == INT32_MAX && current.b == INT32_MAX) {
-				continue;
-			}
-			else if (current.a != INT32_MAX && current.b != INT32_MAX) {
-				// At this point, we should not be looking at vertices with two common edges
-				ASSERT(false);
-			}
-			else if (current.a != INT32_MAX) {
-				nextVert = current.a;
-			}
-			else {
-				nextVert = current.b;
+	uint32_t startVertex = UINT32_MAX;
+	uint32_t chosenComponentSize = 0;
+	std::unordered_set<uint32_t> partitionEndpoints;
+	for (auto& component : partitionComponents)
+	{
+		cutCounters[component.cutCost]++;
+		if (component.cutCost == 2)
+		{
+			if (startVertex == UINT32_MAX || (chosenComponentSize < component.vertices.size()))
+			{
+				//Might as well chose the biggest 2 cost component to start with
+				startVertex = component.vertexA;
+				chosenComponentSize = component.vertices.size();
 			}
 
-			// loop through common edges to find end of chain
-			uint32_t cameFrom = v;
-			current = commonEdgesOfVerts[nextVert];
-			while (current.a != INT32_MAX && current.b != INT32_MAX) {
-				// both edges of current are common
-				if (current.a == cameFrom) {
-					cameFrom = nextVert;
-					nextVert = current.b;
-				}
-				else {
-					cameFrom = nextVert;
-					nextVert = current.a;
-				}
-				current = commonEdgesOfVerts[nextVert];
-			}
-
-			// now nextVert is end of chain. Check if its in the connected component
-			std::unordered_set<uint32_t>::const_iterator inConnectedComponentIt = connectedComponentVerts.find(nextVert);
-			if (inConnectedComponentIt == connectedComponentVerts.end()) {
-				// if endPoint not in connectedComponentVerts, increment cutCount
-				endPointVertInComp = cameFrom;
-				cutCount++;
-			}
-		}
-
-		cutCounters[cutCount]++;
-
-
-
-		if (cutCount == 2) {
-			// do nothing if cut size != 2
-			cutTwoFound = true;
-			break;
+			partitionEndpoints.insert(component.vertexA);
+			partitionEndpoints.insert(component.vertexB);
 		}
 	}
 
 	// WE CANNOT PARTITION WITH CUT 2, SO GPX NOT APPLICABLE
-	if (!cutTwoFound) {
+	if (startVertex == UINT32_MAX) {
 		return std::nullopt;
 	}
 
-	// track largest component for second child
-	uint32_t largestCompSizeSeen = 0;
-	std::vector<Edge> largestCompSecondParentEdges;
-	std::vector<Edge> largestCompFirstParentEdges;
-	// default value
-	bool firstParentSelectedInLargestComp = true;
-	bool largestCompJustSet = false;
-	// default value
-	uint32_t largestCompStartIndex = 0;
+	auto GetVertexToOrderPos = [](const std::vector<uint32_t>& orderPosToVertex) -> std::vector<uint32_t> {
+		std::vector<uint32_t> ret(orderPosToVertex.size());
+		for (uint32_t i = 0; i < orderPosToVertex.size(); i++)
+			ret[orderPosToVertex[i]] = i;
+		return ret;
+	};
 
-	// AT THIS POINT connectedComponent IS A VECTOR OF ALL VERTICES IN A CONNECTED COMP WITH CUT SIZE 2
-	// endPointVertInComp IS AN END POINT WE START FROM
+	std::vector<uint32_t> p1VertexToOrderPos = GetVertexToOrderPos(firstPerm.order);
+	std::vector<uint32_t> p2VertexToOrderPos = GetVertexToOrderPos(secondPerm.order);
 
-	// START PAIRWISE WALK AT VERTEX endPointVertInComp
-	uint32_t prevP1 = endPointVertInComp;
-	uint32_t prevP2 = endPointVertInComp;
+	auto prev = [](const std::vector<uint32_t>& orderPosToVertex, const std::vector<uint32_t>& vertexToOrderPos, uint32_t vertex) -> uint32_t {
+		return orderPosToVertex[vertexToOrderPos[vertex] == 0 ? (orderPosToVertex.size() - 1) : (vertexToOrderPos[vertex] - 1)];
+	};
 
-	// to keep track of vertices needed to be visited in a component
-	std::unordered_set<uint32_t> needToVisit;
+	auto next = [](const std::vector<uint32_t>& orderPosToVertex, const std::vector<uint32_t>& vertexToOrderPos, uint32_t vertex) -> uint32_t {
+		return orderPosToVertex[(vertexToOrderPos[vertex] + 1) % orderPosToVertex.size()];
+	};
 
-	uint32_t currentP1 = prevP1;
-	uint32_t currentP2 = prevP2;
+	bool p1TraverseForward = true;
+	bool p2TraverseForward = true;
 
-	double edgeCostSumP1 = 0.0;
-	double edgeCostSumP2 = 0.0;
+	auto Step1 = [&p1TraverseForward, &p1orderPosToVertex = firstPerm.order, &p1VertexToOrderPos,  &prev, &next](uint32_t vertex) {
+		if (p1TraverseForward)
+			return next(p1orderPosToVertex, p1VertexToOrderPos, vertex);
+		return prev(p1orderPosToVertex, p1VertexToOrderPos, vertex);
+	};
 
-	std::vector<Edge> firstParentCompEdges;
-	std::vector<Edge> secondParentCompEdges;
+	auto Step2 = [&p2TraverseForward, &p2orderPosToVertex = secondPerm.order, &p2VertexToOrderPos, &prev, &next](uint32_t vertex) {
+		if (p2TraverseForward)
+			return next(p2orderPosToVertex, p2VertexToOrderPos, vertex);
+		return prev(p2orderPosToVertex, p2VertexToOrderPos, vertex);
+	};
 
-	// first step
-	for (auto i = G.adjLists[endPointVertInComp].begin(); i != G.adjLists[endPointVertInComp].end(); ++i) {
-		std::pair<uint32_t, uint32_t> edgeInfo = *i;
-		if (edgeInfo.second == 0) {
-			currentP1 = edgeInfo.first;
-		}
-		else if (edgeInfo.second == 1) {
-			currentP2 = edgeInfo.first;
-		}
-	}
-	edgeCostSumP1 += graph.calculateDistBetweenTwoVertices(prevP1, currentP1);
-	edgeCostSumP2 += graph.calculateDistBetweenTwoVertices(prevP2, currentP2);
+	uint32_t point1 = startVertex;
+	uint32_t point2 = startVertex;
 
-	firstParentCompEdges.emplace_back(prevP1, currentP1);
-	secondParentCompEdges.emplace_back(prevP2, currentP2);
-
-	needToVisit.insert(currentP1);
-	needToVisit.insert(currentP2);
-
-	while (currentP1 != endPointVertInComp && currentP2 != endPointVertInComp) {
-		// take step P1
-		uint32_t currentP1Copy = currentP1;
-		for (auto i = G.adjLists[currentP1Copy].begin(); i != G.adjLists[currentP1Copy].end(); ++i) {
-			std::pair<uint32_t, uint32_t> edgeInfo = *i;
-			if (edgeInfo.first != prevP1) {
-				if (!(edgeInfo.second == 1)) {
-					currentP1 = edgeInfo.first;
-					if (edgeInfo.second == 0) {
-						firstParentCompEdges.emplace_back(currentP1Copy, currentP1);
-					}
-					
-				}
+	//startVertex always has a common edge, so we can find a common direction
+	p1TraverseForward = true;
+	p2TraverseForward = true;
+	if (Step1(startVertex) != Step2(startVertex))
+	{
+		p1TraverseForward = false;
+		p2TraverseForward = true;
+		if (Step1(startVertex) != Step2(startVertex))
+		{
+			p1TraverseForward = true;
+			p2TraverseForward = false;
+			if (Step1(startVertex) != Step2(startVertex))
+			{
+				p1TraverseForward = false;
+				p2TraverseForward = false;
+				ASSERT(Step1(startVertex) == Step2(startVertex));
 			}
-		}
-		prevP1 = currentP1Copy;
-		
-
-		// take step P2
-		uint32_t currentP2Copy = currentP2;
-		for (auto i = G.adjLists[currentP2Copy].begin(); i != G.adjLists[currentP2Copy].end(); ++i) {
-			std::pair<uint32_t, uint32_t> edgeInfo = *i;
-			if (edgeInfo.first != prevP2) {
-				if (!(edgeInfo.second == 0)) {
-					currentP2 = edgeInfo.first;
-					if (edgeInfo.second == 1) {
-						secondParentCompEdges.emplace_back(currentP2Copy, currentP2);
-					}
-					
-				}
-			}
-		}
-		prevP2 = currentP2Copy;
-		
-
-		edgeCostSumP1 += graph.calculateDistBetweenTwoVertices(prevP1, currentP1);
-		edgeCostSumP2 += graph.calculateDistBetweenTwoVertices(prevP2, currentP2);
-
-		if (!needToVisit.erase(currentP1)) {
-			// if vertex not present, then we insert it.
-			needToVisit.insert(currentP1);
-		}
-		if (!needToVisit.erase(currentP2)) {
-			// if vertex not present, then we insert it.
-			needToVisit.insert(currentP2);
-		}
-		
-		if (currentP1 == currentP2 && needToVisit.empty()) {
-			// PICK BEST PATHS
-			
-			uint32_t compSize = firstParentCompEdges.size();
-			if (compSize > largestCompSizeSeen) {
-				largestCompSizeSeen = (uint32_t)compSize;
-				largestCompJustSet = true;
-			}
-			if (largestCompJustSet) {
-				largestCompFirstParentEdges = firstParentCompEdges;
-				largestCompSecondParentEdges = secondParentCompEdges;
-			}
-			
-			if (edgeCostSumP1 <= edgeCostSumP2) {
-				if (largestCompJustSet) {
-					firstParentSelectedInLargestComp = true;
-					largestCompStartIndex = (uint32_t)childEdges.size();
-				}
-				childEdges.insert(childEdges.end(), firstParentCompEdges.begin(), firstParentCompEdges.end());
-			}
-			else {
-				if (largestCompJustSet) {
-					firstParentSelectedInLargestComp = false;
-					largestCompStartIndex = (uint32_t)childEdges.size();
-				}
-				childEdges.insert(childEdges.end(), secondParentCompEdges.begin(), secondParentCompEdges.end());
-			}
-			
-			firstParentCompEdges.clear();
-			secondParentCompEdges.clear();
-			largestCompJustSet = false;
-			edgeCostSumP1 = 0.0;
-			edgeCostSumP2 = 0.0;
 		}
 	}
 
+	//Let's just reverse this position, so we start going through a partition component
+	p1TraverseForward = !p1TraverseForward;
+	p2TraverseForward = !p2TraverseForward;
 
 
+	std::vector<uint32_t> childOrder;
+	childOrder.emplace_back(startVertex);
 
-	// UNION WITH COMMON EDGES, append instead
-	childEdges.insert(childEdges.end(), commonEdges.begin(), commonEdges.end());
+	//Return chain size
+	auto ApplyChain1 = [&Step1](std::vector<uint32_t>& order, uint32_t v, uint32_t endVertex) -> uint32_t {
+		uint32_t size = 0;
+		while (v != endVertex)
+		{
+			v = Step1(v);
+			order.emplace_back(v);
+			size++;
+		}
+		return size;
+	};
 
+	auto ApplyChain2 = [&Step2](std::vector<uint32_t>& order, uint32_t v, uint32_t endVertex) -> uint32_t {
+		uint32_t size = 0;
+		while (v != endVertex)
+		{
+			v = Step2(v);
+			order.emplace_back(v);
+			size++;
+		}
+		return size;
+	};
 
-	// create second child - same as first child byt pick other parent path in largest component
-	std::vector<Edge> secondChildEdges = childEdges;
+	auto TourCost1 = [&Step1, &graph](uint32_t v, uint32_t endVertex) {
+		double cost = 0.0;
+		while (v != endVertex)
+		{
+			uint32_t next = Step1(v);
+			cost += graph.GetEdge(v, next);
+			v = next;
+		}
+		return cost;
+	};
 
-	// replace edges in largest connected comp
-	uint32_t indexCount = largestCompStartIndex;
-	if (firstParentSelectedInLargestComp) {
-		for (const auto& e : largestCompSecondParentEdges) {
-			secondChildEdges[indexCount] = e;
-			indexCount++;
+	auto TourCost2 = [&Step2, &graph](uint32_t v, uint32_t endVertex) {
+		double cost = 0.0;
+		while (v != endVertex)
+		{
+			uint32_t next = Step2(v);
+			cost += graph.GetEdge(v, next);
+			v = next;
+		}
+		return cost;
+	};
+
+	uint32_t longestChain = 0;
+	uint32_t longestChainStart = 0;
+	uint32_t longestChainEnd = 0;
+	std::vector<uint32_t> longestChainOtherOrder;
+	//This while loop is the interesting part
+	//Here we actually combine the two parents using the Apply chain function
+	while (childOrder.size() < permSize)
+	{
+		//Find chain
+		std::unordered_set<uint32_t> needsVisit;
+		uint32_t startPoint1 = point1;
+		uint32_t startPoint2 = point2;
+		do
+		{
+			point1 = Step1(point1);
+			point2 = Step2(point2);
+			if (!needsVisit.erase(point1)) {
+				// if vertex not present, then we insert it.
+				needsVisit.insert(point1);
+			}
+			if (!needsVisit.erase(point2)) {
+				// if vertex not present, then we insert it.
+				needsVisit.insert(point2);
+			}
+		} while (!(needsVisit.empty() && (point1 == point2)));
+
+		//Apply best chain
+		if (TourCost1(startPoint1, point1) < TourCost2(startPoint2, point2))
+		{
+			uint32_t chainLength = ApplyChain1(childOrder, startPoint1, point1);
+			if (chainLength > longestChain)
+			{
+				longestChainOtherOrder.clear();
+				longestChain = chainLength;
+				longestChainEnd = childOrder.size();
+				longestChainStart = longestChainEnd - chainLength;
+				ApplyChain2(longestChainOtherOrder, startPoint2, point2);
+			}
+		}
+		else
+		{
+			uint32_t chainLength = ApplyChain2(childOrder, startPoint2, point2);
+			if (chainLength > longestChain)
+			{
+				longestChainOtherOrder.clear();
+				longestChain = chainLength;
+				longestChainEnd = childOrder.size();
+				longestChainStart = longestChainEnd - chainLength;
+				ApplyChain1(longestChainOtherOrder, startPoint1, point1);
+			}
 		}
 	}
-	else {
-		for (const auto& e : largestCompFirstParentEdges) {
-			secondChildEdges[indexCount] = e;
-			indexCount++;
-		}
+	ASSERT(childOrder.size() == permSize);
+
+
+	TSPpermutation child1(childOrder);
+	child1.updateFitness(graph);
+
+	//The other order for longest chain
+	for (uint32_t i = 0; i < longestChain; i++)
+	{
+		childOrder[longestChainStart + i] = longestChainOtherOrder[i];
 	}
 
-
+	TSPpermutation child2(childOrder);
+	child2.updateFitness(graph);
 
 #ifdef DEBUG
-
-	for (Edge edge : childEdges)
-	{
-		bool found = false;
-		for (uint32_t i = 0; i < permSize; i++)
-		{
-			if (firstPerm.order[i] == edge.from && firstPerm.order[(i + 1) % permSize] == edge.to)
-				found = true;
-			if (firstPerm.order[i] == edge.to && firstPerm.order[(i + 1) % permSize] == edge.from)
-				found = true;
-			if (secondPerm.order[i] == edge.from && secondPerm.order[(i + 1) % permSize] == edge.to)
-				found = true;
-			if (secondPerm.order[i] == edge.to && secondPerm.order[(i + 1) % permSize] == edge.from)
-				found = true;
-		}
-		ASSERT(found);
-	}
-
-	for (uint32_t i = 0; i < childEdges.size(); i++)
-	{
-		uint32_t count = 0;
-		for (Edge edge : childEdges)
-		{
-			if (edge.from == i)
-				count++;
-			else if (edge.to == i)
-				count++;
-		}
-		ASSERT(count == 2);
-	}
-#endif
-
-	ASSERT(childEdges.size() == firstPerm.order.size());
-	ASSERT(secondChildEdges.size() == firstPerm.order.size());
-
-	TSPpermutation child1(fromEdgesToPermutation(childEdges));
-	child1.updateFitness(graph);
-	TSPpermutation child2(fromEdgesToPermutation(secondChildEdges));
-	child2.updateFitness(graph);
+	ASSERT(child1.GetFitness(graph) <= firstPerm.GetFitness(graph));
+	ASSERT(child1.GetFitness(graph) <= secondPerm.GetFitness(graph));
+#endif // DEBUG
 
 
 	// DEBUG INFO

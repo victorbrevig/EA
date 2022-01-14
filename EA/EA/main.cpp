@@ -285,7 +285,7 @@ int main()
   else
   {
     //Some manual job
-    RunJob("..\\ALL_tsp\\test14.tsp", Job::TSP_GRAY_BOX_GPX_MODIFIED);
+    RunJob("..\\ALL_tsp\\bier127.tsp", Job::TSP_GRAY_BOX_GPX_MODIFIED);
   }
 
   return 0;

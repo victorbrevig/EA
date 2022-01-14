@@ -4,6 +4,7 @@
 #include "graph.h"
 #include <optional>
 #include "visualizer.h"
+#include "undirectedGraph.h"
 
 class TSPpermutation
 {
@@ -48,6 +49,19 @@ class TSPpermutation
 			return (v1.from == v2.from && v1.to == v2.to) || (v1.from == v2.to && v1.to == v2.from);
 		}
 	};
+
+	struct PartitionComponent
+	{
+		std::vector<uint32_t> vertices;
+		uint32_t cutCost;
+
+		//Vertex A and B are start and end vertices in 2 cost components
+		//In other cost component they are some endpoints but here they dont matter
+		uint32_t vertexA;
+		uint32_t vertexB;
+	};
+
+
 public:
 	TSPpermutation();
 	TSPpermutation(unsigned int numberOfVertices);
@@ -60,8 +74,9 @@ public:
 	void updateFitness(const Graph& graph) const;
 	void LinKernighan(const Graph& graph, Visualizer* visualizer = nullptr);
 	static TSPpermutation orderCrossover(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm);
+	static std::vector<PartitionComponent> FindPartitionComponents(UndirectedGraph& G, UndirectedGraph& Gu, uint32_t permSize, const std::vector<AdjVertex>& commonEdgesOfVerts);
 	static std::optional<std::pair<TSPpermutation, TSPpermutation>> GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph);
-	static std::optional<std::pair<TSPpermutation,TSPpermutation>> GPXComponentSearchModification(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph);
+	static std::optional<std::pair<TSPpermutation, TSPpermutation>> GPXComponentSearchModification(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph);
 	static std::vector<uint32_t> fromEdgesToPermutation(const std::vector<Edge>& childEdges);
 
 };
