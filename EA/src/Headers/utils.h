@@ -49,5 +49,29 @@ namespace Utils
     std::pair<uint32_t, uint32_t> GetTwoDistinct(unsigned int min, unsigned int max);
     bool WithProbability(double p); //p must be [0:1]
   }
+
+  namespace Statistic
+  {
+    double Mean(const std::vector<int>& fitness)
+    {
+      double total = 0.0;
+      for (int f : fitness)
+        total += (double)f;
+      return total / (double)fitness.size();
+    }
+
+    double StandardDeviation(const std::vector<int>& fitness)
+    {
+      double mean = Mean(fitness);
+      double sqrDiffs = 0.0;
+      for (int f : fitness)
+      {
+        double diff = (double)f - mean;
+        sqrDiffs += diff * diff;
+      }
+      double sqrDiffsMean = sqrDiffs / fitness.size();
+      return sqrt(sqrDiffsMean);
+    }
+  }
 }
 #endif
