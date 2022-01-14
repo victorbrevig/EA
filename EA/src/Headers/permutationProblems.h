@@ -5,8 +5,13 @@
 
 namespace PermutationProblems 
 {
+  enum class PartitionCrossoverVersion {
+    GPX_STANDARD,
+    PX_CHAINED,
+    GPX_CHAINED
+  };
   void RunBlackbox1(const std::string& file);
-  void RunGraybox(const std::string& file, bool modifiedComponentSearch);
+  void RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion);
   void RunBlackboxGenerational(const std::string& file);
 
   class Hybrid

@@ -8,7 +8,8 @@
 enum class Job {
   TSP_BLACK_BOX,
   TSP_GRAY_BOX_STANDARD_GPX,
-  TSP_GRAY_BOX_GPX_MODIFIED,
+  TSP_GRAY_BOX_CHAINED_GPX,
+  TSP_GRAY_BOX_CHAINED_PX,
   TSP_BLACK_BOX_GENERATIONAL,
   SAT3_HYBRID_NO_CROSSOVER,
   SAT3_HYBRID_2POINT,
@@ -50,10 +51,13 @@ void RunJob(const std::string& file, Job job, const std::string outputFile = "")
     PermutationProblems::RunBlackbox1(file);
     break;
   case Job::TSP_GRAY_BOX_STANDARD_GPX:
-    PermutationProblems::RunGraybox(file, false);
+    PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::GPX_STANDARD);
     break;
-  case Job::TSP_GRAY_BOX_GPX_MODIFIED:
-    PermutationProblems::RunGraybox(file, true);
+  case Job::TSP_GRAY_BOX_CHAINED_PX:
+    PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::PX_CHAINED);
+    break;
+  case Job::TSP_GRAY_BOX_CHAINED_GPX:
+    PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::GPX_CHAINED);
     break;
   case Job::TSP_BLACK_BOX_GENERATIONAL:
     break;
@@ -285,7 +289,7 @@ int main()
   else
   {
     //Some manual job
-    RunJob("..\\ALL_tsp\\bier127.tsp", Job::TSP_GRAY_BOX_GPX_MODIFIED);
+    RunJob("..\\ALL_tsp\\usa13509.tsp", Job::TSP_GRAY_BOX_CHAINED_GPX);
   }
 
   return 0;

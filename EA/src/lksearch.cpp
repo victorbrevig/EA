@@ -93,7 +93,7 @@ std::priority_queue<LKSearch::PromissingVertex, std::vector<LKSearch::Promissing
 	double baseToNextBase = m_Graph.GetEdge(m_Base, nextBase);
 	for (const Graph::VertexDist& a : neighbors)
 	{
-		if (prev(a.vertex) == nextBase || a.vertex == m_Base)
+		if (prev(a.vertex) == nextBase || a.vertex == m_Base || a.vertex == nextBase)
 			continue;
 		if (!IsImprovement(baseToNextBase - a.distance))
 			break;

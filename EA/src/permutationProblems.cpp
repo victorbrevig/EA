@@ -19,7 +19,7 @@ namespace PermutationProblems
       visualizer->StartVisualization();
   }
 
-  void RunGraybox(const std::string& file, bool modifiedComponentSearch)
+  void RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion)
   {
 
     struct Edge {
@@ -49,6 +49,32 @@ namespace PermutationProblems
     visualizerThread.detach();
 
     graph.UpdateNearNeighbors();
+
+    /*std::vector<uint32_t> od1 = {0,1,2,3,4,5,6,7,9,8,10,11,12,13};
+    TSPpermutation p1(od1);
+    std::vector<uint32_t> od2 = { 0,2,1,3,4,12,5,6,8,7,9,10,11,13 };
+    TSPpermutation p2(od2);
+    visualizer->UpdatePermutation({p1.order, p2.order}, true);
+    visualizer->WaitForSpace();
+    auto optionalChildren = TSPpermutation::GPXImproved(p1, p2, graph);
+
+    if (optionalChildren.has_value())
+    {
+      while (true)
+      {
+        visualizer->UpdatePermutation(optionalChildren->first.order, true);
+        visualizer->WaitForSpace();
+
+        visualizer->UpdatePermutation(optionalChildren->second.order, true);
+        visualizer->WaitForSpace();
+
+        visualizer->UpdatePermutation({ p1.order, p2.order }, true);
+        visualizer->WaitForSpace();
+      }
+    }
+
+    return;*/
+
 
     //std::cout << "Ready" << "\n";
     //visualizer->WaitForSpace();
@@ -138,11 +164,19 @@ namespace PermutationProblems
             TSPpermutation& currentPerm = P1[i];
 
             std::optional<std::pair<TSPpermutation, TSPpermutation>> optionalChildren;
-            if (modifiedComponentSearch) {
-                optionalChildren = TSPpermutation::GPXComponentSearchModification(bestPerm, currentPerm, graph);
-            }
-            else {
-                optionalChildren = TSPpermutation::GPX(bestPerm, currentPerm, graph);
+            switch (crossoverVersion)
+            {
+            case PermutationProblems::PartitionCrossoverVersion::GPX_STANDARD:
+              optionalChildren = TSPpermutation::GPX(bestPerm, currentPerm, graph);
+              break;
+            case PermutationProblems::PartitionCrossoverVersion::PX_CHAINED:
+              optionalChildren = TSPpermutation::PXChained(bestPerm, currentPerm, graph);
+              break;
+            case PermutationProblems::PartitionCrossoverVersion::GPX_CHAINED:
+              optionalChildren = TSPpermutation::GPXImproved(bestPerm, currentPerm, graph);
+              break;
+            default:
+              break;
             }
             
             if (optionalChildren.has_value()) {
