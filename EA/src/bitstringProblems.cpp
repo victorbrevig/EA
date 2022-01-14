@@ -126,6 +126,7 @@ namespace BitstringProblems
         outputStream << "Iteration: " << iterations << ", Fitness: " << fitness << "\n";
         bestFitnessSoFar = fitness;
       }
+      iterations++;
     }
     outputStream << "------------------------------- \n";
     outputStream << "Job Complete \n";
