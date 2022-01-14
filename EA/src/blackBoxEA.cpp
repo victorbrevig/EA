@@ -2,6 +2,7 @@
 #include "tspPermutation.h"
 #include <array>
 #include "Headers\blackBoxEA.h"
+#include "permutationProblems.h"
 
 BlackBoxEA<TSPpermutation>::BlackBoxEA(std::vector<TSPpermutation>& population, unsigned int _maxNumberOfIterations, double _mutationProb, double _crossoverProb)
   : population(population)
@@ -59,8 +60,10 @@ bool BlackBoxEA<TSPpermutation>::iterate(const Graph& graph)
 template<class T>
 bool BlackBoxEA<T>::iterateGenerational(const Graph& graph)
 {
-    if (currentNumberOfIterations > maxNumberOfIterations)
+    if (currentNumberOfIterations > maxNumberOfIterations) {
         return false;
+    }
+        
     currentNumberOfIterations++;
     
     
@@ -107,7 +110,7 @@ bool BlackBoxEA<T>::iterateGenerational(const Graph& graph)
 }
 
 
-void BlackBoxEA<TSPpermutation>::Run(const Graph& graph, Parameters parameters, bool generational, Visualizer* visualizer)
+PermutationProblems::Result BlackBoxEA<TSPpermutation>::Run(const Graph& graph, Parameters parameters, bool generational, Visualizer* visualizer)
 {
   std::vector<TSPpermutation> population;
   population.reserve(parameters.population);
@@ -145,19 +148,10 @@ void BlackBoxEA<TSPpermutation>::Run(const Graph& graph, Parameters parameters, 
   //auto bestFitness = std::min_element(population.begin(), population.end(), customLess);
   std::sort(population.begin(), population.end(), customLess);
 
-  std::cout << "------------------------------- \n";
-  std::cout << "Job Complete \n";
-  std::cout << "Iterations: " << parameters.iterations << "\n";
-  if (generational) {
-      std::cout << "GENERATIONAL" << "\n";
-  }
-  else {
-      std::cout << "NOT GENERATIONAL" << "\n";
-  }
-  std::cout << "Best Solution Fitness: " << population[0].GetFitness() << "\n";
 
+  // INTERACTIVE VISUALIZATION OF PERMUTATIONS FOUND
+  /*
   std::cout << "Click space to view permutations in final population" << "\n";
-
   uint32_t individualIndex = 0;
   while (true)
   {
@@ -172,4 +166,8 @@ void BlackBoxEA<TSPpermutation>::Run(const Graph& graph, Parameters parameters, 
     if (individualIndex == 0)
       break;
   }
+  */
+
+  return { (uint32_t)population[0].GetFitness(), parameters.iterations };
+
 }

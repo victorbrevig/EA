@@ -5,6 +5,7 @@
 #include "tspPermutation.h"
 #include <functional>
 #include "visualizer.h"
+#include "permutationProblems.h"
 
 template<class T>
 class BlackBoxEA
@@ -33,6 +34,6 @@ public:
 
 	bool iterate(const Graph& graph);
 	bool iterateGenerational(const Graph& graph);
-	static void Run(const Graph& graph, Parameters parameters, bool generational, Visualizer* visualizer = nullptr);
+	static PermutationProblems::Result Run(const Graph& graph, Parameters parameters, bool generational, Visualizer* visualizer = nullptr);
 };
 #endif
