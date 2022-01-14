@@ -14,6 +14,17 @@ namespace PermutationProblems
   void RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion);
   void RunBlackboxGenerational(const std::string& file);
 
+  struct Result
+  {
+    uint32_t bestFitness;
+    uint32_t iterations;
+  };
+
+
+  Result RunBlackbox1(const std::string& file, const std::string& outputFile);
+  Result RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion, const std::string& outputFile);
+  Result RunBlackboxGenerational(const std::string& file, const std::string& outputFile);
+
   class Hybrid
   {
     std::vector<Bitstring> population;

@@ -19,7 +19,7 @@ namespace PermutationProblems
       visualizer->StartVisualization();
   }
 
-  void RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion)
+  void RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion, const std::string& outputFile)
   {
 
     struct Edge {
@@ -257,53 +257,96 @@ namespace PermutationProblems
     for (const TSPpermutation& perm : P1)
       UpdateBestSolutionSoFar(perm);
 
-    visualizer->UpdatePermutation(bestSolutionFoundSoFar.order, true);
+    //visualizer->UpdatePermutation(bestSolutionFoundSoFar.order, true);
     
-    std::cout << "------------------------------- \n";
-    std::cout << "Job Complete \n";
-    std::cout << "Iterations: " << generationNumber - 1 << "\n";
-    std::cout << "Best Solution Fitness: " << bestSolutionFoundSoFar.GetFitness() << " \n";
+    std::ofstream outputStream;
+    outputStream.open(outputFile);
     
+    outputStream << "--------------------------------------------- " << "\n";
+    outputStream << "Job Complete \n";
+    outputStream << "Iterations: " << generationNumber - 1 << "\n";
+    outputStream << "Best Solution Fitness: " << bestSolutionFoundSoFar.GetFitness() << " \n";
+    outputStream << "--------------------------------------------- " << std::endl;
+    outputStream.close();
 
 
-    visualizer->WaitForClose();
+    
+    //visualizer->WaitForClose();
+
+
+    return { (uint32_t)bestSolutionFoundSoFar.GetFitness(), generationNumber - 1 };
+
   }
 
-  void RunBlackboxGenerational(const std::string& file)
+  Result RunBlackboxGenerational(const std::string& file, const std::string& outputFile)
   {
       Graph graph = Utils::Parser::ParseTSPGraph(file);
       TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
-      Visualizer* visualizer = new Visualizer(graph, permutation.order);
-      std::thread visualizerThread(StartVisualizer, visualizer);
-      visualizerThread.detach();
+      //Visualizer* visualizer = new Visualizer(graph, permutation.order);
+      //std::thread visualizerThread(StartVisualizer, visualizer);
+      //visualizerThread.detach();
 
       BlackBoxEA<TSPpermutation>::Parameters parameters;
-      parameters.iterations = (uint32_t)3e6;
+      parameters.iterations = (uint32_t)1e3;
       parameters.population = 50;
       parameters.mutationProb = 1.0;
       parameters.crossoverProb = 1.0 / parameters.population;
-      BlackBoxEA<TSPpermutation>::Run(graph, parameters, true, visualizer);
+      PermutationProblems::Result res = BlackBoxEA<TSPpermutation>::Run(graph, parameters, true, nullptr);
 
-      visualizer->WaitForClose();
-      delete visualizer;
+      //visualizer->WaitForClose();
+      //delete visualizer;
+
+      std::ofstream outputStream;
+      outputStream.open(outputFile);
+
+      outputStream << "--------------------------------------------- " << "\n";
+      outputStream << "Job Complete \n";
+      outputStream << "Iterations: " << res.iterations << "\n";
+      outputStream << "GENERATIONAL" << "\n";
+      outputStream << "Best Solution Fitness: " << res.bestFitness << "\n";
+
+      outputStream << "--------------------------------------------- " << std::endl;
+
+      outputStream.close();
+
+      return res;
   }
 
-  void RunBlackbox1(const std::string& file)
+  Result RunBlackbox1(const std::string& file, const std::string& outputFile)
   {
     Graph graph = Utils::Parser::ParseTSPGraph(file);
     TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
-    Visualizer* visualizer = new Visualizer(graph, permutation.order);
-    std::thread visualizerThread(StartVisualizer, visualizer);
-    visualizerThread.detach();
+    //Visualizer* visualizer = new Visualizer(graph, permutation.order);
+    //std::thread visualizerThread(StartVisualizer, visualizer);
+    //visualizerThread.detach();
 
     BlackBoxEA<TSPpermutation>::Parameters parameters;
-    parameters.iterations = (uint32_t)100;
+    parameters.iterations = (uint32_t)3e5;
     parameters.population = 50;
     parameters.mutationProb = 1.0;
     parameters.crossoverProb = 1.0 / parameters.population;
-    BlackBoxEA<TSPpermutation>::Run(graph, parameters, false, visualizer);
+    PermutationProblems::Result res = BlackBoxEA<TSPpermutation>::Run(graph, parameters, false, nullptr);
 
-    visualizer->WaitForClose();
-    delete visualizer;
+    //visualizer->WaitForClose();
+    //delete visualizer;
+
+    std::ofstream outputStream;
+    outputStream.open(outputFile);
+
+    outputStream << "--------------------------------------------- " << "\n";
+    outputStream << "Job Complete \n";
+    outputStream << "Iterations: " << res.iterations << "\n";
+    
+    outputStream << "NOT GENERATIONAL" << "\n";
+    
+    outputStream << "Best Solution Fitness: " << res.bestFitness << "\n";
+
+    outputStream << "--------------------------------------------- " << std::endl;
+
+    outputStream.close();
+
+
+    return res;
+
   }
 };
