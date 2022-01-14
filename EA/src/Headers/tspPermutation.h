@@ -60,7 +60,8 @@ public:
 	void updateFitness(const Graph& graph) const;
 	void LinKernighan(const Graph& graph, Visualizer* visualizer = nullptr);
 	static TSPpermutation orderCrossover(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm);
-	static std::optional<std::pair<TSPpermutation,TSPpermutation>> GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph);
+	static std::optional<std::pair<TSPpermutation, TSPpermutation>> GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph);
+	static std::optional<std::pair<TSPpermutation,TSPpermutation>> GPXComponentSearchModification(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph);
 	static std::vector<uint32_t> fromEdgesToPermutation(const std::vector<Edge>& childEdges);
 
 };

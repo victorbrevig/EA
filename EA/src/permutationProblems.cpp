@@ -19,7 +19,7 @@ namespace PermutationProblems
       visualizer->StartVisualization();
   }
 
-  void RunGraybox(const std::string& file)
+  void RunGraybox(const std::string& file, bool modifiedComponentSearch)
   {
 
     struct Edge {
@@ -40,6 +40,20 @@ namespace PermutationProblems
     };
 
     Graph graph = Utils::Parser::ParseTSPGraph(file);
+
+    /*
+    
+    HYBRID ORDERINGS (USE TEST14.TSP)
+
+    std::vector<uint32_t> od1 = { 0,1,2,3,4,5,6,7,9,8,10,11,12,13 };
+    TSPpermutation p1(od1);
+    std::vector<uint32_t> od2 = { 0,2,1,3,4,12,5,6,8,7,9,10,11,13 };
+    TSPpermutation p2(od2);
+    auto optionalChildren = TSPpermutation::GPXComponentSearchModification(p1, p2, graph);
+    
+    
+    */
+    
     TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
     Visualizer* visualizer = new Visualizer(graph, permutation.order);
     std::thread visualizerThread(StartVisualizer, visualizer);
@@ -54,7 +68,7 @@ namespace PermutationProblems
 
 
     const uint32_t populationSize = 10;
-    const uint32_t maxNumberOfGenerations = 50;
+    const uint32_t maxNumberOfGenerations = 10;
 
     // create P1 population of random permutation
     std::vector<TSPpermutation> P1(populationSize, numberOfVertices);
@@ -133,7 +147,14 @@ namespace PermutationProblems
 
             TSPpermutation& currentPerm = P1[i];
 
-            auto optionalChildren = TSPpermutation::GPX(bestPerm, currentPerm, graph);
+            std::optional<std::pair<TSPpermutation, TSPpermutation>> optionalChildren;
+            if (modifiedComponentSearch) {
+                optionalChildren = TSPpermutation::GPXComponentSearchModification(bestPerm, currentPerm, graph);
+            }
+            else {
+                optionalChildren = TSPpermutation::GPX(bestPerm, currentPerm, graph);
+            }
+            
             if (optionalChildren.has_value()) {
                 // children
                 offsprings.emplace_back(std::move(optionalChildren->first));
