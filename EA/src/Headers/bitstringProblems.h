@@ -20,6 +20,37 @@ namespace BitstringProblems
     bool isOptimal;
   };
 
+  struct CombinedResult
+  {
+    uint32_t runs = 0;
+    std::vector<uint32_t> fitnesses;
+    std::vector<uint32_t> iterations;
+    uint32_t optimalCount = 0;
+
+    void operator+=(Result result)
+    {
+      runs++;
+      if (result.isOptimal)
+        optimalCount++;
+      fitnesses.emplace_back(result.bestFitness);
+      iterations.emplace_back(result.iterations);
+    }
+
+    void PrintAndClear()
+    {
+      Utils::Files::PrintLine("-------------");
+      Utils::Files::PrintLine("Mean Fitness: " + std::to_string(Utils::Statistic::Mean(fitnesses)) + ", SD: " + std::to_string(Utils::Statistic::StandardDeviation(fitnesses)));
+      Utils::Files::PrintLine("Mean Iterations: " + std::to_string(Utils::Statistic::Mean(iterations)) + ", SD: " + std::to_string(Utils::Statistic::StandardDeviation(iterations)));
+      Utils::Files::PrintLine("Optimal count: " + std::to_string(optimalCount) + "/" + std::to_string(runs));
+      Utils::Files::PrintLine("");
+      Utils::Files::PrintLine("");
+      runs = 0;
+      fitnesses.clear();
+      iterations.clear();
+      optimalCount = 0;
+    }
+  };
+
   bool ShouldStop(long long msStart, uint32_t milliseconds);
 
   Result RunHybrid(const std::string& file, HybridVersion hybridVersion, uint32_t runningTimeMilliseconds, const std::string& outputFile);
