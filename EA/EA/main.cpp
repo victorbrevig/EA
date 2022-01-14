@@ -7,7 +7,8 @@
 
 enum class Job {
   TSP_BLACK_BOX,
-  TSP_GRAY_BOX,
+  TSP_GRAY_BOX_STANDARD_GPX,
+  TSP_GRAY_BOX_GPX_MODIFIED,
   TSP_BLACK_BOX_GENERATIONAL,
   SAT3_HYBRID_NO_CROSSOVER,
   SAT3_HYBRID_2POINT,
@@ -48,8 +49,11 @@ void RunJob(const std::string& file, Job job, const std::string outputFile = "")
   case Job::TSP_BLACK_BOX:
     PermutationProblems::RunBlackbox1(file);
     break;
-  case Job::TSP_GRAY_BOX:
-    PermutationProblems::RunGraybox(file);
+  case Job::TSP_GRAY_BOX_STANDARD_GPX:
+    PermutationProblems::RunGraybox(file, false);
+    break;
+  case Job::TSP_GRAY_BOX_GPX_MODIFIED:
+    PermutationProblems::RunGraybox(file, true);
     break;
   case Job::TSP_BLACK_BOX_GENERATIONAL:
     break;
@@ -215,7 +219,7 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
 
 int main()
 {
-  bool runTestSuite = true;
+  bool runTestSuite = false;
 
   if (runTestSuite)
   {
@@ -236,7 +240,7 @@ int main()
       for (const std::string& file : TSPFiles)
       {
         RunJob(file, Job::TSP_BLACK_BOX);
-        RunJob(file, Job::TSP_GRAY_BOX);
+        RunJob(file, Job::TSP_GRAY_BOX_STANDARD_GPX);
         RunJob(file, Job::TSP_BLACK_BOX_GENERATIONAL);
       }
     };
@@ -281,7 +285,7 @@ int main()
   else
   {
     //Some manual job
-    RunJob("..\\ALL_tsp\\pcb3038.tsp", Job::TSP_GRAY_BOX);
+    RunJob("..\\ALL_tsp\\test14.tsp", Job::TSP_GRAY_BOX_GPX_MODIFIED);
   }
 
   return 0;
