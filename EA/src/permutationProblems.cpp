@@ -19,7 +19,7 @@ namespace PermutationProblems
       visualizer->StartVisualization();
   }
 
-  void RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion, const std::string& outputFile)
+  Result RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion, const std::string& outputFile)
   {
 
     struct Edge {

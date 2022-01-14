@@ -46,9 +46,11 @@ PermutationProblems::Result RunTSPJob(const std::string& file, Job job, const st
     case Job::TSP_BLACK_BOX:
         return PermutationProblems::RunBlackbox1(file, outputFile);
     case Job::TSP_GRAY_BOX_STANDARD_GPX:
-        return PermutationProblems::RunGraybox(file, false, outputFile);
-    case Job::TSP_GRAY_BOX_GPX_MODIFIED:
-        return PermutationProblems::RunGraybox(file, true, outputFile);
+        return PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::GPX_STANDARD, outputFile);
+    case Job::TSP_GRAY_BOX_CHAINED_PX:
+      return PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::PX_CHAINED, outputFile);
+    case Job::TSP_GRAY_BOX_CHAINED_GPX:
+        return PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::GPX_CHAINED, outputFile);
     case Job::TSP_BLACK_BOX_GENERATIONAL:
         return PermutationProblems::RunBlackboxGenerational(file, outputFile);
     default:
