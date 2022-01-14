@@ -52,26 +52,8 @@ namespace Utils
 
   namespace Statistic
   {
-    double Mean(const std::vector<int>& fitness)
-    {
-      double total = 0.0;
-      for (int f : fitness)
-        total += (double)f;
-      return total / (double)fitness.size();
-    }
-
-    double StandardDeviation(const std::vector<int>& fitness)
-    {
-      double mean = Mean(fitness);
-      double sqrDiffs = 0.0;
-      for (int f : fitness)
-      {
-        double diff = (double)f - mean;
-        sqrDiffs += diff * diff;
-      }
-      double sqrDiffsMean = sqrDiffs / fitness.size();
-      return sqrt(sqrDiffsMean);
-    }
+    double Mean(const std::vector<int>& fitness);
+    double StandardDeviation(const std::vector<int>& fitness);
   }
 }
 #endif
