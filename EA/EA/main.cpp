@@ -277,6 +277,8 @@ void RunTSPBatch(const std::pair<std::string, std::string>& directories)
 
 
     int numberOfTimesToRun = 100;
+
+    PermutationProblems::CombinedResult combinedResult;
     
     // BLACKBOX
     Utils::Files::PrintLine("----------------------------------------------");
@@ -288,9 +290,10 @@ void RunTSPBatch(const std::pair<std::string, std::string>& directories)
     {
         std::string outputFile = outputDirectoryBlackBox + "RunNumber_" + std::to_string(i) + "_" + Utils::Files::GetNameFromFilePath(file);
         PermutationProblems::Result result = RunTSPJob(file, Job::TSP_BLACK_BOX, outputFile);
-        
+        combinedResult += result;
         Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
     }
+    combinedResult.PrintAndClear();
     
     // BLACKBOX GENERATIONAL
     Utils::Files::PrintLine("----------------------------------------------");
@@ -301,11 +304,11 @@ void RunTSPBatch(const std::pair<std::string, std::string>& directories)
     for (int i = 0; i < numberOfTimesToRun; i++)
     {
         std::string outputFile = outputDirectoryBlackBoxGenerational + "RunNumber_" + std::to_string(i) + "_" + Utils::Files::GetNameFromFilePath(file);
-        
         PermutationProblems::Result result = RunTSPJob(file, Job::TSP_BLACK_BOX_GENERATIONAL, outputFile);
-
+        combinedResult += result;
         Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
     }
+    combinedResult.PrintAndClear();
 
     // GRAYBOX HYBRID STANDARD GPX
     Utils::Files::PrintLine("----------------------------------------------");
@@ -317,10 +320,10 @@ void RunTSPBatch(const std::pair<std::string, std::string>& directories)
     {
         std::string outputFile = outputDirectoryGrayBoxGPX + "RunNumber_" + std::to_string(i) + "_" + Utils::Files::GetNameFromFilePath(file);
         PermutationProblems::Result result = RunTSPJob(file, Job::TSP_GRAY_BOX_STANDARD_GPX, outputFile);
-
+        combinedResult += result;
         Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
     }
-
+    combinedResult.PrintAndClear();
 
     // GRAY BOX  CHAINED GPX
     Utils::Files::PrintLine("----------------------------------------------");
@@ -332,9 +335,10 @@ void RunTSPBatch(const std::pair<std::string, std::string>& directories)
     {
         std::string outputFile = outputDirectoryGrayBoxGPXChained + "RunNumber_" + std::to_string(i) + "_" + Utils::Files::GetNameFromFilePath(file);
         PermutationProblems::Result result = RunTSPJob(file, Job::TSP_GRAY_BOX_CHAINED_GPX, outputFile);
-
+        combinedResult += result;
         Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
     }
+    combinedResult.PrintAndClear();
 
     // GRAY BOX  CHAINED PX
     Utils::Files::PrintLine("----------------------------------------------");
@@ -346,9 +350,10 @@ void RunTSPBatch(const std::pair<std::string, std::string>& directories)
     {
         std::string outputFile = outputDirectoryGrayBoxPXChained + "RunNumber_" + std::to_string(i) + "_" + Utils::Files::GetNameFromFilePath(file);
         PermutationProblems::Result result = RunTSPJob(file, Job::TSP_GRAY_BOX_CHAINED_PX, outputFile);
-
+        combinedResult += result;
         Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
     }
+    combinedResult.PrintAndClear();
     
 
 
@@ -417,7 +422,7 @@ int main()
     Utils::Files::OpenOutputStream(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\output.txt");
 
     Run3SATJobs();
-    //RunTSPJobs();
+    RunTSPJobs();
 
     Utils::Files::CloseOutputStream();
   }

@@ -31,7 +31,7 @@ public:
 	unsigned int currentNumberOfIterations=0;
 	double mutationProb;
 	double crossoverProb;
-
+	std::pair<uint32_t, uint32_t> selection();
 	bool iterate(const Graph& graph);
 	bool iterateGenerational(const Graph& graph);
 	static PermutationProblems::Result Run(const Graph& graph, Parameters parameters, bool generational, Visualizer* visualizer = nullptr);
