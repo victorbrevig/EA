@@ -154,7 +154,7 @@ std::pair<Bitstring, Bitstring> Bitstring::OnePointCrossover(const Bitstring& a,
   return { child1, child2 };
 }
 
-Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATInstance& threeSATInstance)
+Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATInstance& threeSATInstance, uint32_t* numberOfComponentCountOut)
 {
   ASSERT(a.content.size() == b.content.size());
 
@@ -193,10 +193,7 @@ Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATI
 
 
 
-#ifdef DEBUG
   uint32_t numberOfConnectedComponents = 0;
-  uint32_t numberOfLargeConnectedComponents = 0;
-#endif
   bool choice1 = false;
   bool choice2 = false;
   while (remainingVertices.size() > 0) {
@@ -244,12 +241,8 @@ Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATI
       if (f1.GetFitness(threeSATInstance) < f2.GetFitness(threeSATInstance))
         choice2 = true;
     }
-#ifdef DEBUG
-    numberOfConnectedComponents++;
 
-    if (connectedComponent.size() > 1)
-      numberOfLargeConnectedComponents++;
-#endif
+    numberOfConnectedComponents++;
   }
 #ifdef DEBUG
 
@@ -265,5 +258,9 @@ Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATI
   ASSERT(child.GetFitness(threeSATInstance) >= b.GetFitness(threeSATInstance));
 
 #endif
+
+  if (numberOfComponentCountOut != nullptr)
+    *numberOfComponentCountOut = numberOfConnectedComponents;
+
   return a;
 }

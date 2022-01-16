@@ -18,6 +18,8 @@ namespace BitstringProblems
     auto HybridVersionToString = [](HybridVersion hybridVersion) {
       switch (hybridVersion)
       {
+      case BitstringProblems::HybridVersion::PartionCrossoverEqualVarsAndClauses:
+        return "Partition Crossover with equal number of vars and clauses";
       case BitstringProblems::HybridVersion::PartionCrossover:
         return "Partition Crossover";
       case BitstringProblems::HybridVersion::TwoPointCrossover:
@@ -36,7 +38,7 @@ namespace BitstringProblems
     std::ofstream outputStream;
     outputStream.open(outputFile);
 
-    ThreeSATInstance instance = Utils::Parser::parse3SAT(file);
+    ThreeSATInstance instance = Utils::Parser::parse3SAT(file, hybridVersion == BitstringProblems::HybridVersion::PartionCrossoverEqualVarsAndClauses);
     outputStream << "--------------------------------------------- \n";
     outputStream << "Job start \n";
     outputStream << "Search space: Bitstring \n";
@@ -78,6 +80,12 @@ namespace BitstringProblems
       outputStream << "Not Optimal \n";
     }
 
+    if ((hybridVersion == HybridVersion::PartionCrossover || hybridVersion == HybridVersion::PartionCrossoverEqualVarsAndClauses) && hybrid.crossoverCount != 0)
+    {
+      outputStream << "------------------------------- \n";
+      outputStream << "Maximum number of components in parition crossover: " << hybrid.maxcomponentCount << "\n";
+    }
+
     if (hybridVersion == HybridVersion::TwoPointCrossoverImproved)
     {
       outputStream << "------------------------------- \n";
@@ -90,7 +98,24 @@ namespace BitstringProblems
 
     outputStream.close();
 
-    return { bestFitnessSoFar, iterations, bestFitnessSoFar == instance.numberOfClauses };
+
+    Result res;
+    res.iterations = iterations;
+    res.isOptimal = (bestFitnessSoFar == instance.numberOfClauses);
+    res.bestFitness = bestFitnessSoFar;
+    res.crossoverCount = hybrid.crossoverCount;
+    if (hybridVersion == HybridVersion::TwoPointCrossoverImproved)
+    {
+      res.crossoverLocalOptimalCount = hybrid.timesTwoPointCrossoverWasLocalOptimum;
+      res.useCrossoverLocalOptimalCount = true;
+    }
+    else if (hybridVersion == HybridVersion::PartionCrossover || hybridVersion == HybridVersion::PartionCrossoverEqualVarsAndClauses)
+    {
+      res.usePartitionCrossoverComponentCount = true;
+      res.partitionCrossoverMaxComponentCount = hybrid.maxcomponentCount;
+    }
+
+    return res;
   }
 
   Result RunBlackBoxGenerational(const std::string& file, uint32_t runningTimeMilliseconds, const std::string& outputFile)
@@ -142,7 +167,11 @@ namespace BitstringProblems
     }
     outputStream << "--------------------------------------------- " << std::endl;
 
-    return { bestFitnessSoFar, iterations, bestFitnessSoFar == instance.numberOfClauses };
+    Result res;
+    res.iterations = iterations;
+    res.isOptimal = (bestFitnessSoFar == instance.numberOfClauses);
+    res.bestFitness = bestFitnessSoFar;
+    return res;
   }
 
   Hybrid::Hybrid(uint32_t populationSize, double _crossoverProb, const ThreeSATInstance& _threeSATInstance, HybridVersion _hybridVersion)
@@ -154,6 +183,8 @@ namespace BitstringProblems
     }
     timesTwoPointCrossoverWasLocalOptimum = 0;
     timesTwoPointCrossoverWasNotLocalOptimum = 0;
+    crossoverCount = 0;
+    maxcomponentCount = 0;
 
   }
 
@@ -171,8 +202,13 @@ namespace BitstringProblems
       if (Utils::Random::WithProbability(crossoverProb))
       {
         //Crossover
-        if (hybridVersion == HybridVersion::PartionCrossover)
-          newPopulation.emplace_back(Bitstring::GPX(population[p1], population[p2], threeSATInstance));
+        crossoverCount++;
+        if (hybridVersion == HybridVersion::PartionCrossover || hybridVersion == HybridVersion::PartionCrossoverEqualVarsAndClauses)
+        {
+          uint32_t connectedComponents = 0;
+          newPopulation.emplace_back(Bitstring::GPX(population[p1], population[p2], threeSATInstance, &connectedComponents));
+          maxcomponentCount = std::max(maxcomponentCount, connectedComponents);
+        }
         else
           newPopulation.emplace_back(Bitstring::TwoPointCrossover(population[p1], population[p2]));
         if (hybridVersion == HybridVersion::TwoPointCrossoverImproved)
