@@ -45,8 +45,8 @@ namespace PermutationProblems
     
     TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
     Visualizer* visualizer = new Visualizer(graph, permutation.order);
-    std::thread visualizerThread(StartVisualizer, visualizer);
-    visualizerThread.detach();
+    //std::thread visualizerThread(StartVisualizer, visualizer);
+    //visualizerThread.detach();
 
     graph.UpdateNearNeighbors();
 

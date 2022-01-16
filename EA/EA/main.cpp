@@ -306,11 +306,15 @@ void RunTSPBatch(const std::pair<std::string, std::string>& directories)
     std::filesystem::create_directories(outputDirectoryBlackBoxGenerational);
     const std::string& outputDirectoryGrayBoxGPX = outputDirectory + "GrayBox_GPX\\";
     std::filesystem::create_directories(outputDirectoryGrayBoxGPX);
-    const std::string& outputDirectoryGrayBoxCompSearch = outputDirectory + "GrayBox_component_search\\";
-    std::filesystem::create_directories(outputDirectoryGrayBoxCompSearch);
+    const std::string& outputDirectoryGrayBoxGPXChained = outputDirectory + "GrayBox_GPX_Chained\\";
+    std::filesystem::create_directories(outputDirectoryGrayBoxGPXChained);
+    const std::string& outputDirectoryGrayBoxPXChained = outputDirectory + "GrayBox_PX_Chained\\";
+    std::filesystem::create_directories(outputDirectoryGrayBoxPXChained);
 
 
     int numberOfTimesToRun = 100;
+
+    PermutationProblems::CombinedResult combinedResult;
     
     // BLACKBOX
     Utils::Files::PrintLine("----------------------------------------------");
@@ -322,9 +326,10 @@ void RunTSPBatch(const std::pair<std::string, std::string>& directories)
     {
         std::string outputFile = outputDirectoryBlackBox + "RunNumber_" + std::to_string(i) + "_" + Utils::Files::GetNameFromFilePath(file);
         PermutationProblems::Result result = RunTSPJob(file, Job::TSP_BLACK_BOX, outputFile);
-        
+        combinedResult += result;
         Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
     }
+    combinedResult.PrintAndClear();
     
     // BLACKBOX GENERATIONAL
     Utils::Files::PrintLine("----------------------------------------------");
@@ -335,11 +340,11 @@ void RunTSPBatch(const std::pair<std::string, std::string>& directories)
     for (int i = 0; i < numberOfTimesToRun; i++)
     {
         std::string outputFile = outputDirectoryBlackBoxGenerational + "RunNumber_" + std::to_string(i) + "_" + Utils::Files::GetNameFromFilePath(file);
-        
         PermutationProblems::Result result = RunTSPJob(file, Job::TSP_BLACK_BOX_GENERATIONAL, outputFile);
-
+        combinedResult += result;
         Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
     }
+    combinedResult.PrintAndClear();
 
     // GRAYBOX HYBRID STANDARD GPX
     Utils::Files::PrintLine("----------------------------------------------");
@@ -351,25 +356,41 @@ void RunTSPBatch(const std::pair<std::string, std::string>& directories)
     {
         std::string outputFile = outputDirectoryGrayBoxGPX + "RunNumber_" + std::to_string(i) + "_" + Utils::Files::GetNameFromFilePath(file);
         PermutationProblems::Result result = RunTSPJob(file, Job::TSP_GRAY_BOX_STANDARD_GPX, outputFile);
-
+        combinedResult += result;
         Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
     }
+    combinedResult.PrintAndClear();
 
-    // GRAYBOX HYBRID MODIFIED GPX COMPONENT SEARCH
-    /*
+    // GRAY BOX  CHAINED GPX
     Utils::Files::PrintLine("----------------------------------------------");
-    Utils::Files::PrintLine("Running TSP GrayBox Hybrid (LK+GPX) with modified component search");
+    Utils::Files::PrintLine("Running TSP Gray Box GPX Chained");
     Utils::Files::PrintLine("File name: " + Utils::Files::GetNameFromFilePath(file));
-    Utils::Files::PrintLine("Detailed output files in directory: " + outputDirectoryGrayBoxCompSearch);
+    Utils::Files::PrintLine("Detailed output files in directory: " + outputDirectoryGrayBoxGPXChained);
     Utils::Files::PrintLine("Results: ");
     for (int i = 0; i < numberOfTimesToRun; i++)
     {
-        std::string outputFile = outputDirectoryGrayBoxCompSearch + "RunNumber_" + std::to_string(i) + "_" + Utils::Files::GetNameFromFilePath(file);
-        PermutationProblems::Result result = RunTSPJob(file, Job::TSP_GRAY_BOX_GPX_MODIFIED, outputFile);
-
+        std::string outputFile = outputDirectoryGrayBoxGPXChained + "RunNumber_" + std::to_string(i) + "_" + Utils::Files::GetNameFromFilePath(file);
+        PermutationProblems::Result result = RunTSPJob(file, Job::TSP_GRAY_BOX_CHAINED_GPX, outputFile);
+        combinedResult += result;
         Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
     }
-    */
+    combinedResult.PrintAndClear();
+
+    // GRAY BOX  CHAINED PX
+    Utils::Files::PrintLine("----------------------------------------------");
+    Utils::Files::PrintLine("Running TSP Gray Box PX Chained");
+    Utils::Files::PrintLine("File name: " + Utils::Files::GetNameFromFilePath(file));
+    Utils::Files::PrintLine("Detailed output files in directory: " + outputDirectoryGrayBoxPXChained);
+    Utils::Files::PrintLine("Results: ");
+    for (int i = 0; i < numberOfTimesToRun; i++)
+    {
+        std::string outputFile = outputDirectoryGrayBoxPXChained + "RunNumber_" + std::to_string(i) + "_" + Utils::Files::GetNameFromFilePath(file);
+        PermutationProblems::Result result = RunTSPJob(file, Job::TSP_GRAY_BOX_CHAINED_PX, outputFile);
+        combinedResult += result;
+        Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
+    }
+    combinedResult.PrintAndClear();
+    
 
 
 }
@@ -398,12 +419,7 @@ int main()
 
       for (auto& directory : TSPfileAndOutDir)
       {
-        /*
-        RunJob(directory.first, Job::TSP_BLACK_BOX);
-        RunJob(directory.first, Job::TSP_GRAY_BOX_STANDARD_GPX);
-        RunJob(directory.first, Job::TSP_BLACK_BOX_GENERATIONAL);
-        */
-          RunTSPBatch(directory);
+        RunTSPBatch(directory);
       }
     };
 
@@ -441,7 +457,7 @@ int main()
     Utils::Files::OpenOutputStream(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\output.txt");
 
     Run3SATJobs();
-    //RunTSPJobs();
+    RunTSPJobs();
 
     Utils::Files::CloseOutputStream();
   }

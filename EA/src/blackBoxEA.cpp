@@ -12,6 +12,8 @@ BlackBoxEA<TSPpermutation>::BlackBoxEA(std::vector<TSPpermutation>& population, 
   crossoverProb = _crossoverProb;
 }
 
+
+
 bool BlackBoxEA<TSPpermutation>::iterate(const Graph& graph)
 {
   if (currentNumberOfIterations > maxNumberOfIterations)
@@ -71,11 +73,10 @@ bool BlackBoxEA<T>::iterateGenerational(const Graph& graph)
     newPopulation.reserve(population.size());
     while (newPopulation.size() < population.size())
     {
-        // randomly select two parents
-        uint32_t rand1 = Utils::Random::GetRange(0, (unsigned int)population.size() - 2);
-        uint32_t rand2 = Utils::Random::GetRange(rand1 + 1, (unsigned int)population.size() - 1);
-        TSPpermutation& p1 = population[rand1];
-        TSPpermutation& p2 = population[rand2];
+        
+        auto [index1, index2] = selection();
+        TSPpermutation& p1 = population[index1];
+        TSPpermutation& p2 = population[index2];
 
         if (Utils::Random::WithProbability(crossoverProb)) {
             p1.updateFitness(graph);
@@ -95,11 +96,11 @@ bool BlackBoxEA<T>::iterateGenerational(const Graph& graph)
             }
         }
         else {
-            TSPpermutation child1 = population[rand1];
+            TSPpermutation child1 = population[index1];
             if (Utils::Random::WithProbability(mutationProb)) child1.mutate_2OPT(graph);
             newPopulation.emplace_back(std::move(child1));
             if (newPopulation.size() < population.size()) {
-                TSPpermutation child2 = population[rand2];
+                TSPpermutation child2 = population[index2];
                 if (Utils::Random::WithProbability(mutationProb)) child2.mutate_2OPT(graph);
                 newPopulation.emplace_back(std::move(child2));
             }
@@ -170,4 +171,23 @@ PermutationProblems::Result BlackBoxEA<TSPpermutation>::Run(const Graph& graph, 
 
   return { (uint32_t)population[0].GetFitness(), parameters.iterations };
 
+}
+
+
+template<class T>
+std::pair<uint32_t, uint32_t> BlackBoxEA<T>::selection()
+{
+    auto GetParent = [this]() {
+        auto [p1, p2] = Utils::Random::GetTwoDistinct(0, (uint32_t)population.size() - 1);
+        bool b = Utils::Random::WithProbability(0.5);
+        uint32_t p1_unordered = b ? p1 : p2;
+        uint32_t p2_unordered = b ? p2 : p1;
+
+        if (population[p1_unordered].GetFitness() > population[p2_unordered].GetFitness())
+            return p1_unordered;
+        return p2_unordered;
+    };
+
+
+    return { GetParent(), GetParent() };
 }
