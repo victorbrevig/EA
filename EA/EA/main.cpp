@@ -471,7 +471,7 @@ int main()
     //Some manual job
     std::filesystem::create_directories(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\");
     Utils::Files::OpenOutputStream(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\output.txt");
-    RunJob("..\\ALL_tsp\\bier127.tsp", Job::TSP_BLACK_BOX);
+    RunJob("..\\ALL_tsp\\bier127.tsp", Job::TSP_BLACK_BOX_GENERATIONAL);
     Utils::Files::CloseOutputStream();
   }
 
