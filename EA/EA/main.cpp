@@ -403,7 +403,7 @@ void RunTSPBatch(const std::pair<std::string, std::string>& directories)
 
 int main()
 {
-  bool runTestSuite = true;
+  bool runTestSuite = false;
 
   if (runTestSuite)
   {
@@ -469,7 +469,10 @@ int main()
   else
   {
     //Some manual job
-    RunJob("..\\ALL_tsp\\berlin52.tsp", Job::TSP_BLACK_BOX);
+    std::filesystem::create_directories(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\");
+    Utils::Files::OpenOutputStream(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\output.txt");
+    RunJob("..\\ALL_tsp\\bier127.tsp", Job::TSP_BLACK_BOX);
+    Utils::Files::CloseOutputStream();
   }
 
   return 0;

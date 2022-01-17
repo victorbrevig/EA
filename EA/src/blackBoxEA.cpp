@@ -21,10 +21,9 @@ bool BlackBoxEA<TSPpermutation>::iterate(const Graph& graph)
   currentNumberOfIterations++;
 
   // SELECTION - FIND TWO PARENTS
-  uint32_t rand1 = Utils::Random::GetRange(0, (unsigned int)population.size() - 2);
-  uint32_t rand2 = Utils::Random::GetRange(rand1 + 1, (unsigned int)population.size() - 1);
-  TSPpermutation& p1 = population[rand1];
-  TSPpermutation& p2 = population[rand2];
+  auto parents = Utils::Random::GetTwoDistinct(0, population.size() - 1);
+  TSPpermutation& p1 = population[parents.first];
+  TSPpermutation& p2 = population[parents.second];
 
 
   // CROSSOVER
@@ -118,7 +117,7 @@ PermutationProblems::Result BlackBoxEA<TSPpermutation>::Run(const Graph& graph, 
   for (size_t i = 0; i < parameters.population; i++)
     population.emplace_back((unsigned int)graph.GetNumberOfVertices());
 
-  BlackBoxEA<TSPpermutation> ea(population, (unsigned int)parameters.iterations, 1.0, 0);
+  BlackBoxEA<TSPpermutation> ea(population, (unsigned int)parameters.iterations, parameters.mutationProb, parameters.crossoverProb);
 
 
   while (true)
@@ -133,11 +132,11 @@ PermutationProblems::Result BlackBoxEA<TSPpermutation>::Run(const Graph& graph, 
     }
 
     if (visualizer)
-      visualizer->UpdatePermutation(population[0].order, true);
+      visualizer->UpdatePermutation(population[0].order);
   }
 
   if (visualizer)
-    visualizer->UpdatePermutation(population[0].order);
+    visualizer->UpdatePermutation(population[0].order, true);
 
   for (TSPpermutation& individual : population)
     individual.updateFitness(graph);

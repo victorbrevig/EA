@@ -315,19 +315,20 @@ namespace PermutationProblems
   {
     Graph graph = Utils::Parser::ParseTSPGraph(file);
     TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
-    //Visualizer* visualizer = new Visualizer(graph, permutation.order);
-    //std::thread visualizerThread(StartVisualizer, visualizer);
-    //visualizerThread.detach();
+
+    Visualizer* visualizer = new Visualizer(graph, permutation.order);
+    std::thread visualizerThread(StartVisualizer, visualizer);
+    visualizerThread.detach();
 
     BlackBoxEA<TSPpermutation>::Parameters parameters;
-    parameters.iterations = (uint32_t)2e5;
-    parameters.population = 50;
+    parameters.population = 5;
     parameters.mutationProb = 1.0;
-    parameters.crossoverProb = 1.0 / parameters.population;
-    PermutationProblems::Result res = BlackBoxEA<TSPpermutation>::Run(graph, parameters, false, nullptr);
+    parameters.crossoverProb = (double)1.0 / (double)permutation.order.size();
+    parameters.iterations = permutation.order.size() * permutation.order.size() * parameters.population;
+    PermutationProblems::Result res = BlackBoxEA<TSPpermutation>::Run(graph, parameters, false, visualizer);
 
-    //visualizer->WaitForClose();
-    //delete visualizer;
+    visualizer->WaitForClose();
+    delete visualizer;
 
     std::ofstream outputStream;
     outputStream.open(outputFile);
