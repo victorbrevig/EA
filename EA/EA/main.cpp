@@ -15,12 +15,13 @@ enum class Job {
   SAT3_HYBRID_2POINT,
   SAT3_HYBRID_2POINT_IMPROVED,
   SAT3_HYBRID_GPX,
+  SAT3_HYBRID_GPX_EQ_VARS_AND_CLAUSES,
   SAT3_BLACK_BOX_GENERATIONAL
 };
 
 BitstringProblems::Result RunBitstringJob(const std::string& file, Job job, const std::string outputFile = "")
 {
-  uint32_t runningTime = 7; //Seconds
+  uint32_t runningTime = 15; //Seconds
   runningTime *= 1000; //To milliseconds
 
   switch (job)
@@ -33,6 +34,8 @@ BitstringProblems::Result RunBitstringJob(const std::string& file, Job job, cons
     return BitstringProblems::RunHybrid(file, BitstringProblems::HybridVersion::TwoPointCrossoverImproved, runningTime, outputFile);
   case Job::SAT3_HYBRID_GPX:
     return BitstringProblems::RunHybrid(file, BitstringProblems::HybridVersion::PartionCrossover, runningTime, outputFile);
+  case Job::SAT3_HYBRID_GPX_EQ_VARS_AND_CLAUSES:
+    return BitstringProblems::RunHybrid(file, BitstringProblems::HybridVersion::PartionCrossoverEqualVarsAndClauses, runningTime, outputFile);
   case Job::SAT3_BLACK_BOX_GENERATIONAL:
     return BitstringProblems::RunBlackBoxGenerational(file, runningTime, outputFile);
   default:
@@ -97,6 +100,9 @@ void RunJob(const std::string& file, Job job, const std::string outputFile = "")
   case Job::SAT3_HYBRID_GPX:
     BitstringProblems::RunHybrid(file, BitstringProblems::HybridVersion::PartionCrossover, bitstringRunningTime, outputFile);
     break;
+  case Job::SAT3_HYBRID_GPX_EQ_VARS_AND_CLAUSES:
+    BitstringProblems::RunHybrid(file, BitstringProblems::HybridVersion::PartionCrossoverEqualVarsAndClauses, bitstringRunningTime, outputFile);
+    break;
   case Job::SAT3_BLACK_BOX_GENERATIONAL:
     BitstringProblems::RunBlackBoxGenerational(file, bitstringRunningTime, outputFile);
     break;
@@ -105,7 +111,7 @@ void RunJob(const std::string& file, Job job, const std::string outputFile = "")
   }
 }
 
-void Run3SATBatch(const std::pair<std::string, std::string>& directories)
+void Run3SATBatch(const std::pair<std::string, std::string>& directories, bool runEqVarsAndClauses = false)
 {
   const std::string& directory = directories.first;
   const std::string& outputDirectory = Utils::Files::GetWorkingDirectory() + directories.second;
@@ -118,6 +124,8 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
   std::filesystem::create_directories(outputDirectory2PointImproved);
   const std::string& outputDirectoryGPX = outputDirectory + "PartitionCrossover\\";
   std::filesystem::create_directories(outputDirectoryGPX);
+  const std::string& outputDirectoryGPXEqVarCl = outputDirectory + "PartitionCrossoverEqVarsAndClauses\\";
+  std::filesystem::create_directories(outputDirectoryGPXEqVarCl);
   const std::string& outputDirectoryBlackbox = outputDirectory + "BlackBox\\";
   std::filesystem::create_directories(outputDirectoryBlackbox);
   std::vector<std::string> files = Utils::Files::GetAllFilePathsInDirectory(directory);
@@ -232,6 +240,34 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories)
     }
   }
 
+  if (runEqVarsAndClauses)
+  {
+#pragma omp single
+    {
+      combinedResult.PrintAndClear();
+
+
+      Utils::Files::PrintLine("----------------------------------------------");
+      Utils::Files::PrintLine("Running 3 SAT Hybrid with Partition Crossover with equal number of vars and clauses");
+      Utils::Files::PrintLine("Files in directory: " + directory);
+      Utils::Files::PrintLine("Detailed output files in directory: " + outputDirectoryGPXEqVarCl);
+      Utils::Files::PrintLine("Results: ");
+    }
+
+#pragma omp for schedule(dynamic)
+    for (int i = 0; i < numberOfFiles; i++)
+    {
+      std::string& file = files[i];
+      std::string fileName = Utils::Files::GetNameFromFilePath(file);
+      std::string outputFile = outputDirectoryGPXEqVarCl + fileName;
+      BitstringProblems::Result result = RunBitstringJob(file, Job::SAT3_HYBRID_GPX_EQ_VARS_AND_CLAUSES, outputFile);
+#pragma omp critical
+      {
+        combinedResult += result;
+        Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness) + ", Is optimal: " + (result.isOptimal ? "true" : "false"));
+      }
+    }
+  }
 
 #pragma omp single
   {
@@ -402,8 +438,7 @@ int main()
       //Each size is in the same directory
 
       std::vector<std::pair<std::string, std::string>> ThreeSATDirectories = {
-        {"..\\ALL_3SAT\\uf75-325\\", "..\\OUTPUT\\3SAT\\uf75-325\\" }/*,
-        Uncomment when doing full job
+        {"..\\ALL_3SAT\\uf20-91\\", "..\\OUTPUT\\3SAT\\uf20-91\\" },
         {"..\\ALL_3SAT\\uf50-218\\", "..\\OUTPUT\\3SAT\\uf50-218\\"},
         {"..\\ALL_3SAT\\uf75-325\\", "..\\OUTPUT\\3SAT\\uf75-325\\" },
         {"..\\ALL_3SAT\\uf100-430\\", "..\\OUTPUT\\3SAT\\uf100-430\\" },
@@ -412,12 +447,12 @@ int main()
         {"..\\ALL_3SAT\\uf175-753\\", "..\\OUTPUT\\3SAT\\uf175-753\\" },
         {"..\\ALL_3SAT\\uf200-860\\", "..\\OUTPUT\\3SAT\\uf200-860\\" },
         {"..\\ALL_3SAT\\uf225-960\\", "..\\OUTPUT\\3SAT\\uf225-960\\" },
-        {"..\\ALL_3SAT\\uf250-1065\\", "..\\OUTPUT\\3SAT\\uf250-1065\\" }*/
+        {"..\\ALL_3SAT\\uf250-1065\\", "..\\OUTPUT\\3SAT\\uf250-1065\\" }
       };
 
       for (const auto& directory : ThreeSATDirectories)
       {
-        Run3SATBatch(directory);
+        Run3SATBatch(directory, directory.first == "..\\ALL_3SAT\\uf250-1065\\");
       }
     };
 

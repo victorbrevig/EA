@@ -7,11 +7,12 @@ namespace Utils
     namespace Parser
     {
 
-        ThreeSATInstance parse3SAT(const std::string& filePath) {
+        ThreeSATInstance parse3SAT(const std::string& filePath, bool equalVarsAndClauses) {
             std::string fileContent = Files::ReadFile(filePath);
             
             auto [vars, clauses] = getNumberOfVarsAndClauses(fileContent);
-            
+            if (equalVarsAndClauses)
+              clauses = vars;
             ThreeSATInstance threeSATinstance(
                 clauses,
                 vars, 
@@ -80,7 +81,7 @@ namespace Utils
 
             words.push_back(line);
             
-            return { std::stoi(words[2]), std::stoi(words[3]) };
+            return { std::stoi(words[2]), std::stoi(words[3])};
         }
     }
 } 
