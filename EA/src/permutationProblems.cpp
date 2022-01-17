@@ -19,7 +19,7 @@ namespace PermutationProblems
       visualizer->StartVisualization();
   }
 
-  Result RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion, const std::string& outputFile)
+  Result RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion, const std::string& outputFile, const uint32_t maxNumberOfGenerations)
   {
 
     struct Edge {
@@ -84,7 +84,6 @@ namespace PermutationProblems
 
 
     const uint32_t populationSize = 10;
-    const uint32_t maxNumberOfGenerations = 10;
 
     // create P1 population of random permutation
     std::vector<TSPpermutation> P1(populationSize, numberOfVertices);
@@ -321,7 +320,7 @@ namespace PermutationProblems
     //visualizerThread.detach();
 
     BlackBoxEA<TSPpermutation>::Parameters parameters;
-    parameters.iterations = (uint32_t)3e5;
+    parameters.iterations = (uint32_t)2e5;
     parameters.population = 50;
     parameters.mutationProb = 1.0;
     parameters.crossoverProb = 1.0 / parameters.population;

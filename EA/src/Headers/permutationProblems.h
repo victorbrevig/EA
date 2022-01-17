@@ -48,7 +48,7 @@ namespace PermutationProblems
 
 
   Result RunBlackbox1(const std::string& file, const std::string& outputFile);
-  Result RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion, const std::string& outputFile);
+  Result RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion, const std::string& outputFile, const uint32_t maxNumberOfGenerations);
   Result RunBlackboxGenerational(const std::string& file, const std::string& outputFile);
 
   class Hybrid

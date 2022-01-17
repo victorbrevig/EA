@@ -41,16 +41,19 @@ BitstringProblems::Result RunBitstringJob(const std::string& file, Job job, cons
 }
 
 PermutationProblems::Result RunTSPJob(const std::string& file, Job job, const std::string outputFile = "") {
+
+    uint32_t maxNumberOfGenerations = 10;
+
     switch (job)
     {
     case Job::TSP_BLACK_BOX:
         return PermutationProblems::RunBlackbox1(file, outputFile);
     case Job::TSP_GRAY_BOX_STANDARD_GPX:
-        return PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::GPX_STANDARD, outputFile);
+        return PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::GPX_STANDARD, outputFile, maxNumberOfGenerations);
     case Job::TSP_GRAY_BOX_CHAINED_PX:
-      return PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::PX_CHAINED, outputFile);
+      return PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::PX_CHAINED, outputFile, maxNumberOfGenerations);
     case Job::TSP_GRAY_BOX_CHAINED_GPX:
-        return PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::GPX_CHAINED, outputFile);
+        return PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::GPX_CHAINED, outputFile, maxNumberOfGenerations);
     case Job::TSP_BLACK_BOX_GENERATIONAL:
         return PermutationProblems::RunBlackboxGenerational(file, outputFile);
     default:
@@ -63,19 +66,21 @@ void RunJob(const std::string& file, Job job, const std::string outputFile = "")
   uint32_t bitstringRunningTime = 5; //Seconds
   bitstringRunningTime *= 1000; //To milliseconds
 
+  uint32_t maxNumberOfGenerationsTSP = 10;
+
   switch (job)
   {
   case Job::TSP_BLACK_BOX:
     PermutationProblems::RunBlackbox1(file, outputFile);
     break;
   case Job::TSP_GRAY_BOX_STANDARD_GPX:
-    PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::GPX_STANDARD, outputFile);
+    PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::GPX_STANDARD, outputFile, maxNumberOfGenerationsTSP);
     break;
   case Job::TSP_GRAY_BOX_CHAINED_PX:
-    PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::PX_CHAINED, outputFile);
+    PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::PX_CHAINED, outputFile, maxNumberOfGenerationsTSP);
     break;
   case Job::TSP_GRAY_BOX_CHAINED_GPX:
-    PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::GPX_CHAINED, outputFile);
+    PermutationProblems::RunGraybox(file, PermutationProblems::PartitionCrossoverVersion::GPX_CHAINED, outputFile, maxNumberOfGenerationsTSP);
     break;
   case Job::TSP_BLACK_BOX_GENERATIONAL:
     PermutationProblems::RunBlackboxGenerational(file, outputFile);
@@ -369,16 +374,16 @@ int main()
     
     auto RunTSPJobs = []() {
         std::vector<std::pair<std::string, std::string>> TSPfileAndOutDir = {
-        {"..\\ALL_tsp\\berlin52.tsp", "..\\OUTPUT\\TSP\\berlin52\\"}/*,
+        /*{"..\\ALL_tsp\\berlin52.tsp", "..\\OUTPUT\\TSP\\berlin52\\"},
         {"..\\ALL_tsp\\bier127.tsp", "..\\OUTPUT\\TSP\\bier127\\"},
         {"..\\ALL_tsp\\d493.tsp", "..\\OUTPUT\\TSP\\d493\\"},
         {"..\\ALL_tsp\\att532.tsp", "..\\OUTPUT\\TSP\\att532\\"},
         {"..\\ALL_tsp\\d657.tsp", "..\\OUTPUT\\TSP\\d657\\"},
         {"..\\ALL_tsp\\u1817.tsp", "..\\OUTPUT\\TSP\\u1817\\"},
         {"..\\ALL_tsp\\pcb3038.tsp", "..\\OUTPUT\\TSP\\pcb3038\\"},
-        {"..\\ALL_tsp\\rl5915.tsp", "..\\OUTPUT\\TSP\\rl5915\\"},
-        {"..\\ALL_tsp\\usa13509.tsp", "..\\OUTPUT\\TSP\\usa13509\\"},
-        {"..\\ALL_tsp\\d15112.tsp", "..\\OUTPUT\\TSP\\d15112\\"}*/
+        {"..\\ALL_tsp\\rl5915.tsp", "..\\OUTPUT\\TSP\\rl5915\\"},*/
+        {"..\\ALL_tsp\\usa13509.tsp", "..\\OUTPUT\\TSP\\usa13509\\"}
+       // {"..\\ALL_tsp\\d15112.tsp", "..\\OUTPUT\\TSP\\d15112\\"}
       };
 
       for (auto& directory : TSPfileAndOutDir)
@@ -421,7 +426,7 @@ int main()
     std::filesystem::create_directories(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\");
     Utils::Files::OpenOutputStream(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\output.txt");
 
-    Run3SATJobs();
+    //Run3SATJobs();
     RunTSPJobs();
 
     Utils::Files::CloseOutputStream();
@@ -429,7 +434,7 @@ int main()
   else
   {
     //Some manual job
-    RunJob("..\\ALL_tsp\\usa13509.tsp", Job::TSP_GRAY_BOX_CHAINED_GPX);
+    RunJob("..\\ALL_tsp\\berlin52.tsp", Job::TSP_BLACK_BOX);
   }
 
   return 0;
