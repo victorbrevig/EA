@@ -6,7 +6,7 @@ namespace Utils
 {
   class Matrix
   {
-    std::vector<double> content;
+    std::vector<int> content;
     size_t firstDim;
     size_t RowAndColToContentIndex(size_t i, size_t j);
   public:

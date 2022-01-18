@@ -58,7 +58,7 @@ Utils::BoundingBox Graph::GetBoundingBox() const
   return ret;
 }
 
-double Graph::GetEdge(size_t from, size_t to) const
+int Graph::GetEdge(size_t from, size_t to) const
 {
   if (edges != nullptr)
     return edges->Get(from, to);
@@ -119,7 +119,7 @@ void Graph::UpdateNearNeighbors() const
   {
 #pragma omp single
   {
-    std::cout << "Preprocessing nearest neighbors with " << omp_get_num_threads() << " threads\n";
+    //std::cout << "Preprocessing nearest neighbors with " << omp_get_num_threads() << " threads\n";
   }
 
     const std::vector<Utils::Vec2D> pointsCopy = points2D;
@@ -132,7 +132,7 @@ void Graph::UpdateNearNeighbors() const
         neighbors[j] = orderedIncidence[j + 1];
     }
   }
-  std::cout << "Preprocessing done\n";
+  //std::cout << "Preprocessing done\n";
 }
 
 double Graph::calculateDistBetweenTwoVertices(uint32_t v1, uint32_t v2) const {

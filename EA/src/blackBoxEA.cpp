@@ -21,7 +21,7 @@ bool BlackBoxEA<TSPpermutation>::iterate(const Graph& graph)
   currentNumberOfIterations++;
 
   // SELECTION - FIND TWO PARENTS
-  auto parents = Utils::Random::GetTwoDistinct(0, population.size() - 1);
+  auto parents = Utils::Random::GetTwoDistinct(0, (unsigned int)(population.size() - 1));
   TSPpermutation& p1 = population[parents.first];
   TSPpermutation& p2 = population[parents.second];
 
@@ -148,25 +148,6 @@ PermutationProblems::Result BlackBoxEA<TSPpermutation>::Run(const Graph& graph, 
   //auto bestFitness = std::min_element(population.begin(), population.end(), customLess);
   std::sort(population.begin(), population.end(), customLess);
 
-
-  // INTERACTIVE VISUALIZATION OF PERMUTATIONS FOUND
-  /*
-  std::cout << "Click space to view permutations in final population" << "\n";
-  uint32_t individualIndex = 0;
-  while (true)
-  {
-    std::cout << individualIndex << ": Fitness: " << population[individualIndex].GetFitness() << "\n";
-    if (visualizer)
-    {
-      visualizer->UpdatePermutation(population[individualIndex].order);
-      visualizer->WaitForSpace();
-    }
-
-    individualIndex = (individualIndex + 1) % population.size();
-    if (individualIndex == 0)
-      break;
-  }
-  */
 
   return { (uint32_t)population[0].GetFitness(), parameters.iterations };
 

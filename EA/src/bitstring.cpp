@@ -219,7 +219,7 @@ Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATI
     double fitness2 = f2.GetFitness(threeSATInstance);
     bool choosef1 = fitness1 > fitness2;
     if (fitness1 == fitness2)
-      choosef1 == Utils::Random::WithProbability(0.5);
+      choosef1 = Utils::Random::WithProbability(0.5);
     if (choosef1)
     {
       for (const auto& v : connectedComponent)

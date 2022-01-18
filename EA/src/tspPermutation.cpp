@@ -582,15 +582,6 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 	child2.updateFitness(graph);
 
 
-	// DEBUG INFO
-	std::cout << "GPX APPLIED - cut counters:" << std::endl;
-	for (auto& it : cutCounters) {
-		std::cout << "Cut size " << it.first << ": " << it.second << std::endl;
-	}
-
-	std::cout << "\n";
-
-
  	return { std::make_pair(child1, child2)};
 }
 
@@ -769,7 +760,7 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::PXChain
 			{
 				//Might as well chose the biggest 2 cost component to start with
 				startVertex = component.vertexA;
-				chosenComponentSize = component.vertices.size();
+				chosenComponentSize = (uint32_t)component.vertices.size();
 			}
 
 			partitionEndpoints.insert(component.vertexA);
@@ -925,7 +916,7 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::PXChain
 			{
 				longestChainOtherOrder.clear();
 				longestChain = chainLength;
-				longestChainEnd = childOrder.size();
+				longestChainEnd = (uint32_t)childOrder.size();
 				longestChainStart = longestChainEnd - chainLength;
 				ApplyChain2(longestChainOtherOrder, startPoint2, point2);
 			}
@@ -937,7 +928,7 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::PXChain
 			{
 				longestChainOtherOrder.clear();
 				longestChain = chainLength;
-				longestChainEnd = childOrder.size();
+				longestChainEnd = (uint32_t)childOrder.size();
 				longestChainStart = longestChainEnd - chainLength;
 				ApplyChain1(longestChainOtherOrder, startPoint1, point1);
 			}
@@ -962,15 +953,6 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::PXChain
 	ASSERT(child1.GetFitness(graph) <= firstPerm.GetFitness(graph));
 	ASSERT(child1.GetFitness(graph) <= secondPerm.GetFitness(graph));
 #endif // DEBUG
-
-
-	// DEBUG INFO
-	std::cout << "GPX COMPONENT SEARCH MODIFICATION APPLIED - cut counters:" << std::endl;
-	for (auto& it : cutCounters) {
-		std::cout << "Cut size " << it.first << ": " << it.second << std::endl;
-	}
-
-	std::cout << "\n";
 
 
 	return { std::make_pair(child1, child2) };
@@ -1086,7 +1068,7 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXImpr
 			{
 				//Might as well chose the biggest 2 cost component to start with
 				startVertex = component.vertexA;
-				chosenComponentSize = component.vertices.size();
+				chosenComponentSize = (uint32_t)component.vertices.size();
 			}
 
 			partitionEndpoints.insert(component.vertexA);
@@ -1307,13 +1289,11 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXImpr
 			childOrder.pop_back();
 		}
 
-		std::cout << "Child order size: " << childOrder.size() << "\n";
 		ASSERT(childOrder.size() == permSize);
 	};
 	
 	FillChildOrder(child1Order, true);
 	FillChildOrder(child2Order, false);
-	std::cout << std::endl;
 
 	TSPpermutation child1(child1Order);
 	child1.updateFitness(graph);
@@ -1327,27 +1307,8 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXImpr
 	ASSERT(bestFitness <= secondPerm.GetFitness(graph));
 #endif // DEBUG
 
-
-	// DEBUG INFO
-	std::cout << "GPX COMPONENT SEARCH MODIFICATION APPLIED - cut counters:" << std::endl;
-	for (auto& it : cutCounters) {
-		std::cout << "Cut size " << it.first << ": " << it.second << std::endl;
-	}
-
-	std::cout << "\n";
-
-
 	return { std::make_pair(child1, child2) };
 }
-
-
-
-
-
-
-
-
-
 
 
 std::vector<uint32_t> TSPpermutation::fromEdgesToPermutation(const std::vector<Edge>& childEdges)

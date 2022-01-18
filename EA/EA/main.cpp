@@ -21,7 +21,7 @@ enum class Job {
 
 BitstringProblems::Result RunBitstringJob(const std::string& file, Job job, const std::string outputFile = "")
 {
-  uint32_t runningTime = 30; //Seconds
+  uint32_t runningTime = 60; //Seconds
   runningTime *= 1000; //To milliseconds
 
   switch (job)
@@ -42,6 +42,12 @@ BitstringProblems::Result RunBitstringJob(const std::string& file, Job job, cons
     break;
   }
 }
+
+
+
+/*
+
+*/
 
 PermutationProblems::Result RunTSPJob(const std::string& file, Job job, const std::string outputFile = "") {
 
@@ -300,7 +306,7 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories, bool r
 }
 
 
-void RunTSPBatch(const std::pair<std::string, std::string>& directories)
+void RunTSPBatch(const std::pair<std::string, std::string>& directories, bool alsoGenerational = true, uint32_t runs = 100)
 {
     const std::string& file = directories.first;
     const std::string& outputDirectory = Utils::Files::GetWorkingDirectory() + directories.second;
@@ -317,38 +323,63 @@ void RunTSPBatch(const std::pair<std::string, std::string>& directories)
     std::filesystem::create_directories(outputDirectoryGrayBoxPXChained);
 
 
-    int numberOfTimesToRun = 100;
+    int numberOfTimesToRun = (int)runs;
 
     PermutationProblems::CombinedResult combinedResult;
     
+#pragma omp parallel
+    {
+
     // BLACKBOX
-    Utils::Files::PrintLine("----------------------------------------------");
-    Utils::Files::PrintLine("Running TSP BlackBox");
-    Utils::Files::PrintLine("File name: " + Utils::Files::GetNameFromFilePath(file));
-    Utils::Files::PrintLine("Detailed output files in directory: " + outputDirectoryBlackBox);
-    Utils::Files::PrintLine("Results: ");
+#pragma omp single
+    {
+      Utils::Files::PrintLine("----------------------------------------------");
+      Utils::Files::PrintLine("Running TSP BlackBox");
+      Utils::Files::PrintLine("File name: " + Utils::Files::GetNameFromFilePath(file));
+      Utils::Files::PrintLine("Detailed output files in directory: " + outputDirectoryBlackBox);
+      Utils::Files::PrintLine("Results: ");
+    }
+#pragma omp for
     for (int i = 0; i < numberOfTimesToRun; i++)
     {
         std::string outputFile = outputDirectoryBlackBox + "RunNumber_" + std::to_string(i) + "_" + Utils::Files::GetNameFromFilePath(file);
         PermutationProblems::Result result = RunTSPJob(file, Job::TSP_BLACK_BOX, outputFile);
-        combinedResult += result;
-        Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
+#pragma omp critical
+        {
+          combinedResult += result;
+          Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
+        }
     }
-    combinedResult.PrintAndClear();
-    
-    // BLACKBOX GENERATIONAL
-    Utils::Files::PrintLine("----------------------------------------------");
-    Utils::Files::PrintLine("Running TSP BlackBox Generational");
-    Utils::Files::PrintLine("File name: " + Utils::Files::GetNameFromFilePath(file));
-    Utils::Files::PrintLine("Detailed output files in directory: " + outputDirectoryBlackBoxGenerational);
-    Utils::Files::PrintLine("Results: ");
-    for (int i = 0; i < numberOfTimesToRun; i++)
+
+    if (alsoGenerational)
     {
+#pragma omp single
+      {
+        combinedResult.PrintAndClear();
+
+        // BLACKBOX GENERATIONAL
+
+        Utils::Files::PrintLine("----------------------------------------------");
+        Utils::Files::PrintLine("Running TSP BlackBox Generational");
+        Utils::Files::PrintLine("File name: " + Utils::Files::GetNameFromFilePath(file));
+        Utils::Files::PrintLine("Detailed output files in directory: " + outputDirectoryBlackBoxGenerational);
+        Utils::Files::PrintLine("Results: ");
+      }
+#pragma omp for
+      for (int i = 0; i < numberOfTimesToRun; i++)
+      {
         std::string outputFile = outputDirectoryBlackBoxGenerational + "RunNumber_" + std::to_string(i) + "_" + Utils::Files::GetNameFromFilePath(file);
         PermutationProblems::Result result = RunTSPJob(file, Job::TSP_BLACK_BOX_GENERATIONAL, outputFile);
-        combinedResult += result;
-        Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
+#pragma omp critical
+        {
+          combinedResult += result;
+          Utils::Files::PrintLine("Fitness: " + std::to_string(result.bestFitness));
+        }
+      }
     }
+
+    }
+
     combinedResult.PrintAndClear();
 
     // GRAYBOX HYBRID STANDARD GPX
@@ -408,23 +439,29 @@ int main()
   if (runTestSuite)
   {
     
+    struct BatchJobs {
+      std::string inputFile;
+      std::string outputDir;
+      bool runGenerational;
+      uint32_t runs;
+    };
+
     auto RunTSPJobs = []() {
-        std::vector<std::pair<std::string, std::string>> TSPfileAndOutDir = {
-        /*{"..\\ALL_tsp\\berlin52.tsp", "..\\OUTPUT\\TSP\\berlin52\\"},
-        {"..\\ALL_tsp\\bier127.tsp", "..\\OUTPUT\\TSP\\bier127\\"},
-        {"..\\ALL_tsp\\d493.tsp", "..\\OUTPUT\\TSP\\d493\\"},
-        {"..\\ALL_tsp\\att532.tsp", "..\\OUTPUT\\TSP\\att532\\"},
-        {"..\\ALL_tsp\\d657.tsp", "..\\OUTPUT\\TSP\\d657\\"},
-        {"..\\ALL_tsp\\u1817.tsp", "..\\OUTPUT\\TSP\\u1817\\"},
-        {"..\\ALL_tsp\\pcb3038.tsp", "..\\OUTPUT\\TSP\\pcb3038\\"},
-        {"..\\ALL_tsp\\rl5915.tsp", "..\\OUTPUT\\TSP\\rl5915\\"},*/
-        {"..\\ALL_tsp\\usa13509.tsp", "..\\OUTPUT\\TSP\\usa13509\\"}
-       // {"..\\ALL_tsp\\d15112.tsp", "..\\OUTPUT\\TSP\\d15112\\"}
+        std::vector<BatchJobs> Jobs = {
+        {"..\\ALL_tsp\\berlin52.tsp", "..\\OUTPUT\\TSP\\berlin52\\", true, 100 },
+        {"..\\ALL_tsp\\bier127.tsp", "..\\OUTPUT\\TSP\\bier127\\", true, 100 },
+        {"..\\ALL_tsp\\d493.tsp", "..\\OUTPUT\\TSP\\d493\\", true, 100 },
+        {"..\\ALL_tsp\\att532.tsp", "..\\OUTPUT\\TSP\\att532\\", true, 100 },
+        {"..\\ALL_tsp\\d657.tsp", "..\\OUTPUT\\TSP\\d657\\", true, 100 },
+        {"..\\ALL_tsp\\u1817.tsp", "..\\OUTPUT\\TSP\\u1817\\", false, 100 },
+        {"..\\ALL_tsp\\pcb3038.tsp", "..\\OUTPUT\\TSP\\pcb3038", false, 64 },
+        {"..\\ALL_tsp\\rl5915.tsp", "..\\OUTPUT\\TSP\\rl5915\\", false, 32 },
+        {"..\\ALL_tsp\\usa13509.tsp", "..\\OUTPUT\\TSP\\usa13509\\", false, 8 }
       };
 
-      for (auto& directory : TSPfileAndOutDir)
+      for (BatchJobs& job : Jobs)
       {
-        RunTSPBatch(directory);
+        RunTSPBatch(std::pair<std::string, std::string>(job.inputFile,job.outputDir), job.runGenerational, job.runs);
       }
     };
 
@@ -438,7 +475,7 @@ int main()
       //Each size is in the same directory
 
       std::vector<std::pair<std::string, std::string>> ThreeSATDirectories = {
-        /*{"..\\ALL_3SAT\\uf20-91\\", "..\\OUTPUT\\3SAT\\uf20-91\\" },
+        {"..\\ALL_3SAT\\uf20-91\\", "..\\OUTPUT\\3SAT\\uf20-91\\" },
         {"..\\ALL_3SAT\\uf50-218\\", "..\\OUTPUT\\3SAT\\uf50-218\\"},
         {"..\\ALL_3SAT\\uf75-325\\", "..\\OUTPUT\\3SAT\\uf75-325\\" },
         {"..\\ALL_3SAT\\uf100-430\\", "..\\OUTPUT\\3SAT\\uf100-430\\" },
@@ -446,7 +483,7 @@ int main()
         {"..\\ALL_3SAT\\uf150-645\\", "..\\OUTPUT\\3SAT\\uf150-645\\" },
         {"..\\ALL_3SAT\\uf175-753\\", "..\\OUTPUT\\3SAT\\uf175-753\\" },
         {"..\\ALL_3SAT\\uf200-860\\", "..\\OUTPUT\\3SAT\\uf200-860\\" },
-        {"..\\ALL_3SAT\\uf225-960\\", "..\\OUTPUT\\3SAT\\uf225-960\\" },*/
+        {"..\\ALL_3SAT\\uf225-960\\", "..\\OUTPUT\\3SAT\\uf225-960\\" },
         {"..\\ALL_3SAT\\uf250-1065\\", "..\\OUTPUT\\3SAT\\uf250-1065\\" }
       };
 
@@ -461,18 +498,15 @@ int main()
     std::filesystem::create_directories(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\");
     Utils::Files::OpenOutputStream(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\output.txt");
 
-    Run3SATJobs();
-    //RunTSPJobs();
+    //Run3SATJobs();
+    RunTSPJobs();
 
     Utils::Files::CloseOutputStream();
   }
   else
   {
     //Some manual job
-    std::filesystem::create_directories(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\");
-    Utils::Files::OpenOutputStream(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\output.txt");
-    RunJob("..\\ALL_3SAT\\uf250-1065\\uf250-01.cnf", Job::SAT3_HYBRID_GPX);
-    Utils::Files::CloseOutputStream();
+    PermutationProblems::RunGraybox("..\\ALL_tsp\\rl5915.tsp", PermutationProblems::PartitionCrossoverVersion::GPX_CHAINED, "", 10, true);
   }
 
   return 0;

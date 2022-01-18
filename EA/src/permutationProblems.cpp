@@ -19,7 +19,7 @@ namespace PermutationProblems
       visualizer->StartVisualization();
   }
 
-  Result RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion, const std::string& outputFile, const uint32_t maxNumberOfGenerations)
+  Result RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion, const std::string& outputFile, const uint32_t maxNumberOfGenerations, bool visualize)
   {
 
     struct Edge {
@@ -39,51 +39,59 @@ namespace PermutationProblems
         }
     };
 
+    auto HybridVersionToString = [](PartitionCrossoverVersion crossoverVersion) {
+      switch (crossoverVersion)
+      {
+      case PartitionCrossoverVersion::GPX_STANDARD:
+        return "Generalized Partition Crossover";
+      case PartitionCrossoverVersion::PX_CHAINED:
+        return "Chained Partition Crossover";
+      case PartitionCrossoverVersion::GPX_CHAINED:
+        return "Chained Generalized Partition Crossover";
+      default:
+        break;
+      }
+
+      return "";
+    };
+
+
+
     Graph graph = Utils::Parser::ParseTSPGraph(file);
 
     
     
     TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
-    Visualizer* visualizer = new Visualizer(graph, permutation.order);
-    //std::thread visualizerThread(StartVisualizer, visualizer);
-    //visualizerThread.detach();
+
+    
+    Visualizer* visualizer = visualize ? new Visualizer(graph, permutation.order) : nullptr;
+    if (visualizer)
+    {
+      std::thread visualizerThread(StartVisualizer, visualizer);
+      visualizerThread.detach();
+    }
+
 
     graph.UpdateNearNeighbors();
 
-    /*std::vector<uint32_t> od1 = {0,1,2,3,4,5,6,7,9,8,10,11,12,13};
-    TSPpermutation p1(od1);
-    std::vector<uint32_t> od2 = { 0,2,1,3,4,12,5,6,8,7,9,10,11,13 };
-    TSPpermutation p2(od2);
-    visualizer->UpdatePermutation({p1.order, p2.order}, true);
-    visualizer->WaitForSpace();
-    auto optionalChildren = TSPpermutation::GPXImproved(p1, p2, graph);
-
-    if (optionalChildren.has_value())
-    {
-      while (true)
-      {
-        visualizer->UpdatePermutation(optionalChildren->first.order, true);
-        visualizer->WaitForSpace();
-
-        visualizer->UpdatePermutation(optionalChildren->second.order, true);
-        visualizer->WaitForSpace();
-
-        visualizer->UpdatePermutation({ p1.order, p2.order }, true);
-        visualizer->WaitForSpace();
-      }
-    }
-
-    return;*/
-
-
-    //std::cout << "Ready" << "\n";
-    //visualizer->WaitForSpace();
 
 
     uint32_t numberOfVertices = (uint32_t)graph.GetNumberOfVertices();
 
 
     const uint32_t populationSize = 10;
+
+    std::ofstream outputStream;
+    outputStream.open(outputFile);
+    outputStream << "--------------------------------------------- \n";
+    outputStream << "Job start \n";
+    outputStream << "Search space: Permutation \n";
+    outputStream << "Problem: The Travelling Salesman Problem \n";
+    outputStream << "Problem instance: " << file << "\n";
+    outputStream << "Algorithm: " << "Hybrid with " << HybridVersionToString(crossoverVersion) << "\n";
+    outputStream << "Population: " << populationSize << "\n";
+
+
 
     // create P1 population of random permutation
     std::vector<TSPpermutation> P1(populationSize, numberOfVertices);
@@ -99,8 +107,11 @@ namespace PermutationProblems
     {
 #pragma omp single
     {
-        std::cout << "Running initial Lin-Kernighan on a population of size " << P1.size() << " with " << omp_get_num_threads() << " threads\n";
-        std::cout << "Visualizer is showing one of these indiviuals\n";
+        if (visualizer)
+        {
+          std::cout << "Running initial Lin-Kernighan on a population of size " << P1.size() << " with " << omp_get_num_threads() << " threads\n";
+          std::cout << "Visualizer is showing one of these indiviuals\n";
+        }
     }
 #pragma omp for
       for (int i = 0; i < P1.size(); i++) 
@@ -112,8 +123,11 @@ namespace PermutationProblems
 
 #pragma omp single
       {
-        std::cout << "Initial LK-Search done\n";
-        std::cout << "From now on showing best solution so far\n";
+        if (visualizer)
+        {
+          std::cout << "Initial LK-Search done\n";
+          std::cout << "From now on showing best solution so far\n";
+        }
       }
     }
 
@@ -122,10 +136,14 @@ namespace PermutationProblems
     if (visualizer)
       visualizer->UpdatePermutation(P1[0].order);
 
-    auto UpdateBestSolutionSoFar = [&graph, &bestSolutionFoundSoFar, &visualizer](const TSPpermutation& candidate) {
+    auto UpdateBestSolutionSoFar = [&outputStream , &graph, &bestSolutionFoundSoFar, &visualizer](const TSPpermutation& candidate) {
       if (candidate.GetFitness(graph) < bestSolutionFoundSoFar.GetFitness(graph)) {
         bestSolutionFoundSoFar = candidate;
-        std::cout << "New Best Solution Fitness: " << bestSolutionFoundSoFar.GetFitness(graph) << "\n";
+        outputStream << "New Best Solution Fitness: " << bestSolutionFoundSoFar.GetFitness(graph) << "\n";
+        if (visualizer)
+        {
+          std::cout << "New Best Solution Fitness: " << bestSolutionFoundSoFar.GetFitness(graph) << "\n";
+        }
         if (visualizer)
           visualizer->UpdatePermutation(bestSolutionFoundSoFar.order);
       }
@@ -138,8 +156,11 @@ namespace PermutationProblems
 
     while (generationNumber <= maxNumberOfGenerations) {
 
+      outputStream << "Generation: " << generationNumber << "\n";
+      if (visualizer)
+      {
         std::cout << "Generation: " << generationNumber << "\n";
-        
+      }
         // Find best permutation in P1
         double bestFitness = 1.7976931348623157E+308;
         uint32_t bestFitnessIndex = 0;
@@ -256,88 +277,107 @@ namespace PermutationProblems
     for (const TSPpermutation& perm : P1)
       UpdateBestSolutionSoFar(perm);
 
-    //visualizer->UpdatePermutation(bestSolutionFoundSoFar.order, true);
+    if (visualizer)
+      visualizer->UpdatePermutation(bestSolutionFoundSoFar.order, true);
     
-    std::ofstream outputStream;
-    outputStream.open(outputFile);
     
-    outputStream << "--------------------------------------------- " << "\n";
+    outputStream << "-------------------------" << "\n";
     outputStream << "Job Complete \n";
     outputStream << "Iterations: " << generationNumber - 1 << "\n";
     outputStream << "Best Solution Fitness: " << bestSolutionFoundSoFar.GetFitness() << " \n";
     outputStream << "--------------------------------------------- " << std::endl;
     outputStream.close();
 
-
-    
-    //visualizer->WaitForClose();
-
+    if (visualizer)
+      visualizer->WaitForClose();
 
     return { (uint32_t)bestSolutionFoundSoFar.GetFitness(), generationNumber - 1 };
 
   }
 
-  Result RunBlackboxGenerational(const std::string& file, const std::string& outputFile)
+  Result RunBlackboxGenerational(const std::string& file, const std::string& outputFile, bool visualize)
   {
       Graph graph = Utils::Parser::ParseTSPGraph(file);
       TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
-      Visualizer* visualizer = new Visualizer(graph, permutation.order);
-      std::thread visualizerThread(StartVisualizer, visualizer);
-      visualizerThread.detach();
+
+      Visualizer* visualizer = visualize ? new Visualizer(graph, permutation.order) : nullptr;
+      if (visualizer)
+      {
+        std::thread visualizerThread(StartVisualizer, visualizer);
+        visualizerThread.detach();
+      }
 
       BlackBoxEA<TSPpermutation>::Parameters parameters;
       parameters.population = 10;
       parameters.mutationProb = 1.0;
       parameters.crossoverProb = 1.0 / (double)permutation.order.size();
-      parameters.iterations = permutation.order.size() * permutation.order.size() * parameters.population;
-      PermutationProblems::Result res = BlackBoxEA<TSPpermutation>::Run(graph, parameters, true, visualizer);
-
-      visualizer->WaitForClose();
-      delete visualizer;
+      parameters.iterations = (uint32_t)(permutation.order.size() * permutation.order.size()) * parameters.population;
 
       std::ofstream outputStream;
       outputStream.open(outputFile);
+      outputStream << "--------------------------------------------- \n";
+      outputStream << "Job start \n";
+      outputStream << "Search space: Permutation \n";
+      outputStream << "Problem: The Travelling Salesman Problem \n";
+      outputStream << "Problem instance: " << file << "\n";
+      outputStream << "Algorithm: " << "Black Box Generational \n";
+      outputStream << "Population: " << parameters.population << "\n";
+      outputStream << "Mutation probability: " << parameters.mutationProb << "\n";
+      outputStream << "Crossover probability: " << parameters.crossoverProb << "\n";
 
-      outputStream << "--------------------------------------------- " << "\n";
+      PermutationProblems::Result res = BlackBoxEA<TSPpermutation>::Run(graph, parameters, true, visualizer);
+
+      outputStream << "---------------" << "\n";
       outputStream << "Job Complete \n";
       outputStream << "Iterations: " << res.iterations << "\n";
-      outputStream << "GENERATIONAL" << "\n";
       outputStream << "Best Solution Fitness: " << res.bestFitness << "\n";
 
       outputStream << "--------------------------------------------- " << std::endl;
 
       outputStream.close();
 
+      if (visualizer)
+        visualizer->WaitForClose();
+
       return res;
   }
 
-  Result RunBlackbox1(const std::string& file, const std::string& outputFile)
+  Result RunBlackbox1(const std::string& file, const std::string& outputFile, bool visualize)
   {
     Graph graph = Utils::Parser::ParseTSPGraph(file);
     TSPpermutation permutation((unsigned int)graph.GetNumberOfVertices());
 
-    Visualizer* visualizer = new Visualizer(graph, permutation.order);
-    std::thread visualizerThread(StartVisualizer, visualizer);
-    visualizerThread.detach();
+    Visualizer* visualizer = visualize ? new Visualizer(graph, permutation.order) : nullptr;
+    if (visualizer)
+    {
+      std::thread visualizerThread(StartVisualizer, visualizer);
+      visualizerThread.detach();
+    }
 
     BlackBoxEA<TSPpermutation>::Parameters parameters;
-    parameters.population = 5;
+    parameters.population = 10;
     parameters.mutationProb = 1.0;
     parameters.crossoverProb = (double)1.0 / (double)permutation.order.size();
-    parameters.iterations = permutation.order.size() * permutation.order.size() * parameters.population;
-    PermutationProblems::Result res = BlackBoxEA<TSPpermutation>::Run(graph, parameters, false, visualizer);
-
-    visualizer->WaitForClose();
-    delete visualizer;
+    parameters.iterations = (uint32_t)(permutation.order.size() * permutation.order.size()) * parameters.population;
 
     std::ofstream outputStream;
     outputStream.open(outputFile);
+    outputStream << "--------------------------------------------- \n";
+    outputStream << "Job start \n";
+    outputStream << "Search space: Permutation \n";
+    outputStream << "Problem: The Travelling Salesman Problem \n";
+    outputStream << "Problem instance: " << file << "\n";
+    outputStream << "Algorithm: " << "Black Box Steady State \n";
+    outputStream << "Population: " << parameters.population << "\n";
+    outputStream << "Mutation probability: " << parameters.mutationProb << "\n";
+    outputStream << "Crossover probability: " << parameters.crossoverProb << "\n";
 
-    outputStream << "--------------------------------------------- " << "\n";
+    PermutationProblems::Result res = BlackBoxEA<TSPpermutation>::Run(graph, parameters, false, visualizer);
+
+
+    outputStream << "--------------------------" << "\n";
     outputStream << "Job Complete \n";
     outputStream << "Iterations: " << res.iterations << "\n";
-    
-    outputStream << "NOT GENERATIONAL" << "\n";
     
     outputStream << "Best Solution Fitness: " << res.bestFitness << "\n";
 
@@ -345,6 +385,8 @@ namespace PermutationProblems
 
     outputStream.close();
 
+    if (visualizer)
+      visualizer->WaitForClose();
 
     return res;
 

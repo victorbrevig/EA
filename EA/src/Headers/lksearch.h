@@ -17,10 +17,10 @@ class LKSearch {
   };
 
   struct PromissingVertex {
-    PromissingVertex(uint32_t v, double r, bool mm)
+    PromissingVertex(uint32_t v, int r, bool mm)
       : vertex(v), reward(r), isMakMorton(mm) {};
     uint32_t vertex;
-    double reward;
+    int reward;
     union
     {
       bool isMakMorton;
@@ -65,17 +65,17 @@ class LKSearch {
   std::priority_queue<PromissingVertex, std::vector<PromissingVertex>, LKSearch::Compare> GetAOrdering();
   std::priority_queue<PromissingVertex, std::vector<PromissingVertex>, LKSearch::Compare> GetBOrdering(uint32_t a1);
   std::priority_queue<PromissingVertex, std::vector<PromissingVertex>, LKSearch::Compare> GetDOrdering(uint32_t a1, uint32_t b1);
-  std::priority_queue<PromissingVertex, std::vector<PromissingVertex>, LKSearch::Compare> GetLKOrdering(double delta);
-  double Step(uint32_t level, double delta);
-  double StepAlternate();
+  std::priority_queue<PromissingVertex, std::vector<PromissingVertex>, LKSearch::Compare> GetLKOrdering(int delta);
+  int Step(uint32_t level, int delta);
+  int StepAlternate();
 
   void PerformFlipToCurrentTour(Flip flip);
-  double AddToFlipSequence(uint32_t from, uint32_t to);
+  int AddToFlipSequence(uint32_t from, uint32_t to);
   void DeleteFromFlipSequence();
 
   struct SearchResult {
     std::vector<uint32_t> new_Tour;
-    double improvement;
+    int improvement;
   };
 
 public:

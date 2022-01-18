@@ -28,7 +28,7 @@ public:
   std::vector<GLfloat> PointsToGLFloats() const;
   std::vector<GLfloat> PointsToGLFloats(const std::vector<uint32_t>& order) const;
   Utils::BoundingBox GetBoundingBox() const;
-  double GetEdge(size_t from, size_t to) const;
+  int GetEdge(size_t from, size_t to) const;
   void Add2DCoordinate(double x, double y);
   void ObtainEdgesFrom2DPoints();
   size_t GetNumberOfVertices() const;

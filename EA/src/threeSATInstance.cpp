@@ -14,7 +14,7 @@ uint32_t ThreeSATInstance::GetSatisfiedClauses(const std::vector<bool>& variable
 {
 	ASSERT(variableAssignments.size() == numberOfVariables);
 	uint32_t count = 0;
-	for (uint32_t i = 0; i < numberOfClauses; i++)
+	for (uint32_t i = 0; i < (uint32_t)numberOfClauses; i++)
 	{
 		bool satisfied = false;
 		uint32_t offset = i * 3;
@@ -41,7 +41,7 @@ void ThreeSATInstance::GenerateVariableInteractionGraph() const
 {
 	variableInteractionGraph = std::make_unique<UndirectedGraph>(numberOfVariables);
 
-	for (uint32_t i = 0; i < numberOfClauses; i++)
+	for (uint32_t i = 0; i < (uint32_t)numberOfClauses; i++)
 	{
 		uint32_t offset = i * 3;
 		uint32_t var1 = std::abs(allClauseLiterals[offset]) - 1;

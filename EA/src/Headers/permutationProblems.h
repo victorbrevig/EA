@@ -2,6 +2,7 @@
 #define PERMUTATIONPROBLEMS_H
 
 #include "bitstring.h"
+#include "visualizer.h"
 
 namespace PermutationProblems 
 {
@@ -47,9 +48,9 @@ namespace PermutationProblems
   };
 
 
-  Result RunBlackbox1(const std::string& file, const std::string& outputFile);
-  Result RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion, const std::string& outputFile, const uint32_t maxNumberOfGenerations);
-  Result RunBlackboxGenerational(const std::string& file, const std::string& outputFile);
+  Result RunBlackbox1(const std::string& file, const std::string& outputFile, bool visualize = false);
+  Result RunGraybox(const std::string& file, PartitionCrossoverVersion crossoverVersion, const std::string& outputFile, const uint32_t maxNumberOfGenerations, bool visualize = false);
+  Result RunBlackboxGenerational(const std::string& file, const std::string& outputFile, bool visualize = false);
 
   class Hybrid
   {
