@@ -18,32 +18,47 @@ namespace PermutationProblems
   struct Result
   {
     uint32_t bestFitness;
-    uint32_t iterations;
+    bool usePartitionCrossover;
+    std::vector<uint32_t> partitionCrossoverTwoCostComponents;
+    std::vector<uint32_t> partitionCrossoverChoices;
   };
 
   struct CombinedResult
   {
       uint32_t runs = 0;
       std::vector<uint32_t> fitnesses;
-      std::vector<uint32_t> iterations;
-
+      std::vector<uint32_t> partitionCrossoverTwoCostComponents;
+      std::vector<uint32_t> partitionCrossoverChoices;
       void operator+=(Result result)
       {
           runs++;
           fitnesses.emplace_back(result.bestFitness);
-          iterations.emplace_back(result.iterations);
+          if (result.usePartitionCrossover)
+          {
+            partitionCrossoverTwoCostComponents.insert(partitionCrossoverTwoCostComponents.end(), result.partitionCrossoverTwoCostComponents.begin(), result.partitionCrossoverTwoCostComponents.end());
+            partitionCrossoverChoices.insert(partitionCrossoverChoices.end(), result.partitionCrossoverChoices.begin(), result.partitionCrossoverChoices.end());
+          }
       }
 
       void PrintAndClear()
       {
           Utils::Files::PrintLine("-------------");
+          Utils::Files::PrintLine("Runs: " + std::to_string(fitnesses.size()));
           Utils::Files::PrintLine("Mean Fitness: " + std::to_string(Utils::Statistic::Mean(fitnesses)) + ", SD: " + std::to_string(Utils::Statistic::StandardDeviation(fitnesses)));
-          Utils::Files::PrintLine("Mean Iterations: " + std::to_string(Utils::Statistic::Mean(iterations)) + ", SD: " + std::to_string(Utils::Statistic::StandardDeviation(iterations)));
+          if (partitionCrossoverTwoCostComponents.size() > 0)
+          {
+            Utils::Files::PrintLine("Mean number of 2 cost components: " + std::to_string(Utils::Statistic::Mean(partitionCrossoverTwoCostComponents)) + ", SD: " + std::to_string(Utils::Statistic::StandardDeviation(partitionCrossoverTwoCostComponents)));
+          }
+          if (partitionCrossoverChoices.size() > 0)
+          {
+            Utils::Files::PrintLine("Mean number of sub-tour choices: " + std::to_string(Utils::Statistic::Mean(partitionCrossoverChoices)) + ", SD: " + std::to_string(Utils::Statistic::StandardDeviation(partitionCrossoverChoices)));
+          }
           Utils::Files::PrintLine("");
           Utils::Files::PrintLine("");
           runs = 0;
           fitnesses.clear();
-          iterations.clear();
+          partitionCrossoverTwoCostComponents.clear();
+          partitionCrossoverChoices.clear();
       }
   };
 

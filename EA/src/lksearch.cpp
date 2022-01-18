@@ -453,11 +453,6 @@ std::vector<uint32_t> LKSearch::LinKernighan(const TSPpermutation& initialTour)
 		
 		if (IsImprovement(newOrder.improvement))
 		{
-			if (updateCounter % 1000 == 0 && m_Graph.calculateDistByOrder(newOrder.new_Tour) >= m_Graph.calculateDistByOrder(lk_tour))
-			{
-				markedVertices.erase(markedVertex);
-				continue;
-			}
 
 			while (!m_FlipSequence.empty())
 			{

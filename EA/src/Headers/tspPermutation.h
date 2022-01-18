@@ -64,6 +64,13 @@ class TSPpermutation
 
 
 public:
+
+	struct Stats
+	{
+		uint32_t twoCostComponents;
+		uint32_t choices;
+	};
+
 	TSPpermutation();
 	TSPpermutation(unsigned int numberOfVertices);
 	TSPpermutation(const std::vector<uint32_t>& _order);
@@ -76,9 +83,9 @@ public:
 	void LinKernighan(const Graph& graph, Visualizer* visualizer = nullptr);
 	static TSPpermutation orderCrossover(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm);
 	static std::vector<PartitionComponent> FindPartitionComponents(UndirectedGraph& G, UndirectedGraph& Gu, uint32_t permSize, const std::unordered_map<uint32_t, std::vector<uint32_t>>& commonEdgesOfVerts);
-	static std::optional<std::pair<TSPpermutation, TSPpermutation>> GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph);
-	static std::optional<std::pair<TSPpermutation, TSPpermutation>> PXChained(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph);
-	static std::optional<std::pair<TSPpermutation, TSPpermutation>> GPXImproved(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph);
+	static std::optional<std::pair<TSPpermutation, TSPpermutation>> GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph, Stats* stats = nullptr);
+	static std::optional<std::pair<TSPpermutation, TSPpermutation>> PXChained(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph, Stats* stats = nullptr);
+	static std::optional<std::pair<TSPpermutation, TSPpermutation>> GPXImproved(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph, Stats* stats = nullptr);
 	static std::vector<uint32_t> fromEdgesToPermutation(const std::vector<Edge>& childEdges);
 
 };

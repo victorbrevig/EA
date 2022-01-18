@@ -73,7 +73,7 @@ bool BlackBoxEA<T>::iterateGenerational(const Graph& graph)
     while (newPopulation.size() < population.size())
     {
         
-        auto [index1, index2] = selection();
+        auto [index1, index2] = selection(graph);
         TSPpermutation& p1 = population[index1];
         TSPpermutation& p2 = population[index2];
 
@@ -148,22 +148,25 @@ PermutationProblems::Result BlackBoxEA<TSPpermutation>::Run(const Graph& graph, 
   //auto bestFitness = std::min_element(population.begin(), population.end(), customLess);
   std::sort(population.begin(), population.end(), customLess);
 
+  PermutationProblems::Result result;
+  result.bestFitness = (uint32_t)population[0].GetFitness();
+  result.usePartitionCrossover = false;
 
-  return { (uint32_t)population[0].GetFitness(), parameters.iterations };
+  return result;
 
 }
 
 
 template<class T>
-std::pair<uint32_t, uint32_t> BlackBoxEA<T>::selection()
+std::pair<uint32_t, uint32_t> BlackBoxEA<T>::selection(const Graph& graph)
 {
-    auto GetParent = [this]() {
+    auto GetParent = [this, &graph]() {
         auto [p1, p2] = Utils::Random::GetTwoDistinct(0, (uint32_t)population.size() - 1);
         bool b = Utils::Random::WithProbability(0.5);
         uint32_t p1_unordered = b ? p1 : p2;
         uint32_t p2_unordered = b ? p2 : p1;
 
-        if (population[p1_unordered].GetFitness() > population[p2_unordered].GetFitness())
+        if (population[p1_unordered].GetFitness(graph) < population[p2_unordered].GetFitness(graph))
             return p1_unordered;
         return p2_unordered;
     };

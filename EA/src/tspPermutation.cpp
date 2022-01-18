@@ -158,9 +158,13 @@ TSPpermutation TSPpermutation::orderCrossover(const TSPpermutation& firstPerm, c
 
 
 
-std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
+std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph, Stats* stats)
 {
-
+	if (stats)
+	{
+		stats->choices = 0;
+		stats->twoCostComponents = 0;
+	}
 	// REMOVE ALL COMMON EDGES
 	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> nonCommonEdges;
 	std::vector<Edge> commonEdges;
@@ -443,12 +447,15 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 		return std::nullopt;
 	}
 
+	uint32_t moreChoices = 0;
 	// GO THROUGH THE REST OF G AND RUN BFS. APPEND BEST PATHS
 	// need to find remaining vertices to start from
 	while (remainingVerticesInG.size() > 0) {
 		// take first vertex in remainingVertices as start vertex for BFS
 		uint32_t startVert = *begin(remainingVerticesInG);
 		std::vector<uint32_t> connectedComp = G.BFS(startVert);
+
+		moreChoices++;
 
 		// remove vertices in connectedComponent from remainingVertices
 		for (const auto& v : connectedComp) {
@@ -581,6 +588,11 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 	TSPpermutation child2(fromEdgesToPermutation(secondChildEdges));
 	child2.updateFitness(graph);
 
+	if (stats)
+	{
+		stats->twoCostComponents = cutCounters[2];
+		stats->choices = stats->twoCostComponents + moreChoices;
+	}
 
  	return { std::make_pair(child1, child2)};
 }
@@ -654,8 +666,13 @@ std::vector<TSPpermutation::PartitionComponent> TSPpermutation::FindPartitionCom
 }
 
 
-std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::PXChained(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
+std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::PXChained(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph, Stats* stats)
 {
+	if (stats)
+	{
+		stats->choices = 0;
+		stats->twoCostComponents = 0;
+	}
 	// REMOVE ALL COMMON EDGES
 	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> nonCommonEdges;
 	std::vector<Edge> commonEdges;
@@ -886,6 +903,7 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::PXChain
 	uint32_t longestChainStart = 0;
 	uint32_t longestChainEnd = 0;
 	std::vector<uint32_t> longestChainOtherOrder;
+	uint32_t choices = 0;
 	//This while loop is the interesting part
 	//Here we actually combine the two parents using the Apply chain function
 	while (childOrder.size() < permSize)
@@ -894,8 +912,10 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::PXChain
 		std::unordered_set<uint32_t> needsVisit;
 		uint32_t startPoint1 = point1;
 		uint32_t startPoint2 = point2;
+		uint32_t count = 0;
 		do
 		{
+			count++;
 			point1 = Step1(point1);
 			point2 = Step2(point2);
 			if (!needsVisit.erase(point1)) {
@@ -907,6 +927,9 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::PXChain
 				needsVisit.insert(point2);
 			}
 		} while (!(needsVisit.empty() && (point1 == point2)));
+
+		if (count > 1)
+			choices++;
 
 		//Apply best chain
 		if (TourCost1(startPoint1, point1) < TourCost2(startPoint2, point2))
@@ -954,6 +977,12 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::PXChain
 	ASSERT(child1.GetFitness(graph) <= secondPerm.GetFitness(graph));
 #endif // DEBUG
 
+	if (stats)
+	{
+		stats->twoCostComponents = cutCounters[2];
+		stats->choices = choices;
+	}
+
 
 	return { std::make_pair(child1, child2) };
 }
@@ -962,8 +991,14 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::PXChain
 
 
 
-std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXImproved(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph)
+std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXImproved(const TSPpermutation& firstPerm, const TSPpermutation& secondPerm, const Graph& graph, Stats* stats)
 {
+	if (stats)
+	{
+		stats->choices = 0;
+		stats->twoCostComponents = 0;
+	}
+
 	// REMOVE ALL COMMON EDGES
 	std::unordered_set<EdgeOwner, EdgeOwner_hash, EdgeOwner_equals> nonCommonEdges;
 	std::vector<Edge> commonEdges;
@@ -1203,6 +1238,7 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXImpr
 	{
 		int count1 = 0;
 		int count2 = 0;
+		uint32_t choices = 0;
 		ASSERT(childOrder.size() == 1);
 		uint32_t point1 = childOrder[0];
 		uint32_t point2 = childOrder[0];
@@ -1215,8 +1251,10 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXImpr
 			uint32_t startPoint2 = point2;
 			bool haltPoint1 = false;
 			bool haltPoint2 = false;
+			uint32_t count = 0;
 			do
 			{
+				count++;
 				if (!haltPoint1)
 				{
 					point1 = Step1(point1);
@@ -1241,6 +1279,8 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXImpr
 				}
 			} while (!(needsVisit.empty() && (point1 == point2)) && !haltPoint1 && !haltPoint2);
 
+			if (count > 1)
+				choices++; //This happens if the points diverted and there is a choice
 
 			if (!(needsVisit.empty() && (point1 == point2)))
 			{
@@ -1290,9 +1330,11 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXImpr
 		}
 
 		ASSERT(childOrder.size() == permSize);
+
+		return choices;
 	};
 	
-	FillChildOrder(child1Order, true);
+	uint32_t choices = FillChildOrder(child1Order, true);
 	FillChildOrder(child2Order, false);
 
 	TSPpermutation child1(child1Order);
@@ -1306,6 +1348,12 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXImpr
 	ASSERT(bestFitness <= firstPerm.GetFitness(graph));
 	ASSERT(bestFitness <= secondPerm.GetFitness(graph));
 #endif // DEBUG
+
+	if (stats)
+	{
+		stats->twoCostComponents = cutCounters[2];
+		stats->choices = choices;
+	}
 
 	return { std::make_pair(child1, child2) };
 }

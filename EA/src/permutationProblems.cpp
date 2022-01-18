@@ -154,6 +154,8 @@ namespace PermutationProblems
 
     std::unordered_map<Edge, uint32_t, Edge_hash, Edge_equals> offspringEdgesCounters;
 
+    Result result;
+
     while (generationNumber <= maxNumberOfGenerations) {
 
       outputStream << "Generation: " << generationNumber << "\n";
@@ -183,22 +185,35 @@ namespace PermutationProblems
 
             TSPpermutation& currentPerm = P1[i];
 
+            TSPpermutation::Stats stats;
+
             std::optional<std::pair<TSPpermutation, TSPpermutation>> optionalChildren;
             switch (crossoverVersion)
             {
             case PermutationProblems::PartitionCrossoverVersion::GPX_STANDARD:
-              optionalChildren = TSPpermutation::GPX(bestPerm, currentPerm, graph);
+              optionalChildren = TSPpermutation::GPX(bestPerm, currentPerm, graph, &stats);
               break;
             case PermutationProblems::PartitionCrossoverVersion::PX_CHAINED:
-              optionalChildren = TSPpermutation::PXChained(bestPerm, currentPerm, graph);
+              optionalChildren = TSPpermutation::PXChained(bestPerm, currentPerm, graph, &stats);
               break;
             case PermutationProblems::PartitionCrossoverVersion::GPX_CHAINED:
-              optionalChildren = TSPpermutation::GPXImproved(bestPerm, currentPerm, graph);
+              optionalChildren = TSPpermutation::GPXImproved(bestPerm, currentPerm, graph, &stats);
               break;
             default:
               break;
             }
-            
+
+            if (generationNumber <= 2)
+            {
+              if (crossoverVersion != PermutationProblems::PartitionCrossoverVersion::GPX_STANDARD)
+              {
+                result.partitionCrossoverChoices.emplace_back(stats.choices);
+              }
+
+              result.partitionCrossoverTwoCostComponents.emplace_back(stats.twoCostComponents);
+            }
+
+
             if (optionalChildren.has_value()) {
                 // children
                 offsprings.emplace_back(std::move(optionalChildren->first));
@@ -284,6 +299,8 @@ namespace PermutationProblems
     outputStream << "-------------------------" << "\n";
     outputStream << "Job Complete \n";
     outputStream << "Iterations: " << generationNumber - 1 << "\n";
+    outputStream << "Mean 2-Cost components: " << Utils::Statistic::Mean(result.partitionCrossoverTwoCostComponents) << " \n";
+    outputStream << "Mean sub-tour choices: " << Utils::Statistic::Mean(result.partitionCrossoverChoices) << " \n";
     outputStream << "Best Solution Fitness: " << bestSolutionFoundSoFar.GetFitness() << " \n";
     outputStream << "--------------------------------------------- " << std::endl;
     outputStream.close();
@@ -291,8 +308,10 @@ namespace PermutationProblems
     if (visualizer)
       visualizer->WaitForClose();
 
-    return { (uint32_t)bestSolutionFoundSoFar.GetFitness(), generationNumber - 1 };
+    result.bestFitness = (uint32_t)bestSolutionFoundSoFar.GetFitness();
+    result.usePartitionCrossover = true;
 
+    return result;
   }
 
   Result RunBlackboxGenerational(const std::string& file, const std::string& outputFile, bool visualize)
@@ -329,7 +348,7 @@ namespace PermutationProblems
 
       outputStream << "---------------" << "\n";
       outputStream << "Job Complete \n";
-      outputStream << "Iterations: " << res.iterations << "\n";
+      outputStream << "Iterations: " << parameters.iterations << "\n";
       outputStream << "Best Solution Fitness: " << res.bestFitness << "\n";
 
       outputStream << "--------------------------------------------- " << std::endl;
@@ -377,10 +396,9 @@ namespace PermutationProblems
 
     outputStream << "--------------------------" << "\n";
     outputStream << "Job Complete \n";
-    outputStream << "Iterations: " << res.iterations << "\n";
     
     outputStream << "Best Solution Fitness: " << res.bestFitness << "\n";
-
+    outputStream << "Iterations: " << parameters.iterations << "\n";
     outputStream << "--------------------------------------------- " << std::endl;
 
     outputStream.close();
