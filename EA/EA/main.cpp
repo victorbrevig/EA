@@ -21,7 +21,7 @@ enum class Job {
 
 BitstringProblems::Result RunBitstringJob(const std::string& file, Job job, const std::string outputFile = "")
 {
-  uint32_t runningTime = 15; //Seconds
+  uint32_t runningTime = 30; //Seconds
   runningTime *= 1000; //To milliseconds
 
   switch (job)
@@ -130,7 +130,7 @@ void Run3SATBatch(const std::pair<std::string, std::string>& directories, bool r
   std::filesystem::create_directories(outputDirectoryBlackbox);
   std::vector<std::string> files = Utils::Files::GetAllFilePathsInDirectory(directory);
 
-  int numberOfFiles = std::min((int)files.size(), 100);
+  int numberOfFiles = std::min((int)files.size(), 8);
 
   BitstringProblems::CombinedResult combinedResult;
 
@@ -403,7 +403,7 @@ void RunTSPBatch(const std::pair<std::string, std::string>& directories)
 
 int main()
 {
-  bool runTestSuite = false;
+  bool runTestSuite = true;
 
   if (runTestSuite)
   {
@@ -438,7 +438,7 @@ int main()
       //Each size is in the same directory
 
       std::vector<std::pair<std::string, std::string>> ThreeSATDirectories = {
-        {"..\\ALL_3SAT\\uf20-91\\", "..\\OUTPUT\\3SAT\\uf20-91\\" },
+        /*{"..\\ALL_3SAT\\uf20-91\\", "..\\OUTPUT\\3SAT\\uf20-91\\" },
         {"..\\ALL_3SAT\\uf50-218\\", "..\\OUTPUT\\3SAT\\uf50-218\\"},
         {"..\\ALL_3SAT\\uf75-325\\", "..\\OUTPUT\\3SAT\\uf75-325\\" },
         {"..\\ALL_3SAT\\uf100-430\\", "..\\OUTPUT\\3SAT\\uf100-430\\" },
@@ -446,7 +446,7 @@ int main()
         {"..\\ALL_3SAT\\uf150-645\\", "..\\OUTPUT\\3SAT\\uf150-645\\" },
         {"..\\ALL_3SAT\\uf175-753\\", "..\\OUTPUT\\3SAT\\uf175-753\\" },
         {"..\\ALL_3SAT\\uf200-860\\", "..\\OUTPUT\\3SAT\\uf200-860\\" },
-        {"..\\ALL_3SAT\\uf225-960\\", "..\\OUTPUT\\3SAT\\uf225-960\\" },
+        {"..\\ALL_3SAT\\uf225-960\\", "..\\OUTPUT\\3SAT\\uf225-960\\" },*/
         {"..\\ALL_3SAT\\uf250-1065\\", "..\\OUTPUT\\3SAT\\uf250-1065\\" }
       };
 
@@ -461,8 +461,8 @@ int main()
     std::filesystem::create_directories(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\");
     Utils::Files::OpenOutputStream(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\output.txt");
 
-    //Run3SATJobs();
-    RunTSPJobs();
+    Run3SATJobs();
+    //RunTSPJobs();
 
     Utils::Files::CloseOutputStream();
   }
@@ -471,7 +471,7 @@ int main()
     //Some manual job
     std::filesystem::create_directories(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\");
     Utils::Files::OpenOutputStream(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\output.txt");
-    RunJob("..\\ALL_tsp\\bier127.tsp", Job::TSP_BLACK_BOX_GENERATIONAL);
+    RunJob("..\\ALL_3SAT\\uf250-1065\\uf250-01.cnf", Job::SAT3_HYBRID_GPX);
     Utils::Files::CloseOutputStream();
   }
 

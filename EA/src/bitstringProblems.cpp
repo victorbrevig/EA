@@ -84,6 +84,7 @@ namespace BitstringProblems
     {
       outputStream << "------------------------------- \n";
       outputStream << "Maximum number of components in parition crossover: " << hybrid.maxcomponentCount << "\n";
+      outputStream << "Average number of components in parition crossover: " << (double)hybrid.componentCount / (double)hybrid.crossoverCount << "\n";
     }
 
     if (hybridVersion == HybridVersion::TwoPointCrossoverImproved)
@@ -113,6 +114,7 @@ namespace BitstringProblems
     {
       res.usePartitionCrossoverComponentCount = true;
       res.partitionCrossoverMaxComponentCount = hybrid.maxcomponentCount;
+      res.partitionCrossoveComponentCount = hybrid.componentCount;
     }
 
     return res;
@@ -185,7 +187,7 @@ namespace BitstringProblems
     timesTwoPointCrossoverWasNotLocalOptimum = 0;
     crossoverCount = 0;
     maxcomponentCount = 0;
-
+    componentCount = 0;
   }
 
   void Hybrid::Iterate(uint32_t iteration)
@@ -208,6 +210,7 @@ namespace BitstringProblems
           uint32_t connectedComponents = 0;
           newPopulation.emplace_back(Bitstring::GPX(population[p1], population[p2], threeSATInstance, &connectedComponents));
           maxcomponentCount = std::max(maxcomponentCount, connectedComponents);
+          componentCount += connectedComponents;
         }
         else
           newPopulation.emplace_back(Bitstring::TwoPointCrossover(population[p1], population[p2]));

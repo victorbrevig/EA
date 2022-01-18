@@ -25,6 +25,7 @@ namespace BitstringProblems
       crossoverLocalOptimalCount = 0;
       usePartitionCrossoverComponentCount = false;
       partitionCrossoverMaxComponentCount = 0;
+      partitionCrossoveComponentCount = 0;
       isOptimal = false;
     }
     uint32_t bestFitness;
@@ -34,6 +35,7 @@ namespace BitstringProblems
     uint32_t crossoverLocalOptimalCount;
     bool usePartitionCrossoverComponentCount;
     uint32_t partitionCrossoverMaxComponentCount;
+    uint32_t partitionCrossoveComponentCount;
     bool isOptimal;
   };
 
@@ -49,7 +51,7 @@ namespace BitstringProblems
     uint32_t crossoverLocalOptimalCount = 0;
     bool usePartitionCrossoverComponentCount = false;
     uint32_t partitionCrossoverMaxComponentCount = 0;
-
+    std::vector<double> componentCounts;
     void operator+=(Result result)
     {
       runs++;
@@ -69,6 +71,7 @@ namespace BitstringProblems
       {
         usePartitionCrossoverComponentCount = true;
         partitionCrossoverMaxComponentCount += result.partitionCrossoverMaxComponentCount;
+        componentCounts.emplace_back((double)result.partitionCrossoveComponentCount / (double)result.crossoverCount);
       }
     }
 
@@ -81,7 +84,10 @@ namespace BitstringProblems
       if (useCrossoverLocalOptimalCount)
         Utils::Files::PrintLine("2-point crossover local optimal count: " + std::to_string(crossoverLocalOptimalCount) + "/" + std::to_string(crossoverCount));
       if (usePartitionCrossoverComponentCount)
+      {
         Utils::Files::PrintLine("Average number of max components in partition crossover: " + std::to_string((double)partitionCrossoverMaxComponentCount / (double)runs));
+        Utils::Files::PrintLine("Mean number of components in partition crossover: " + std::to_string(Utils::Statistic::Mean(componentCounts)) + ", SD: " + std::to_string(Utils::Statistic::StandardDeviation(componentCounts)));
+      }
       Utils::Files::PrintLine("");
       Utils::Files::PrintLine("");
       runs = 0;
@@ -94,6 +100,7 @@ namespace BitstringProblems
       crossoverLocalOptimalCount = 0;
       usePartitionCrossoverComponentCount = false;
       partitionCrossoverMaxComponentCount = 0;
+      componentCounts.clear();
     }
   };
 
@@ -115,6 +122,7 @@ namespace BitstringProblems
     uint32_t timesTwoPointCrossoverWasNotLocalOptimum;
     uint32_t crossoverCount;
     uint32_t maxcomponentCount;
+    uint32_t componentCount;
     Hybrid(uint32_t populationSize, double _crossoverProb, const ThreeSATInstance& _threeSATInstance, HybridVersion _hybridVersion);
     void Iterate(uint32_t iteration);
     uint32_t GetBestSolution();

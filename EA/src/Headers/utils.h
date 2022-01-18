@@ -52,6 +52,8 @@ namespace Utils
 
   namespace Statistic
   {
+    double Mean(const std::vector<double>& fitness);
+    double StandardDeviation(const std::vector<double>& fitness);
     double Mean(const std::vector<uint32_t>& fitness);
     double StandardDeviation(const std::vector<uint32_t>& fitness);
     double Mean(const std::vector<int>& fitness);

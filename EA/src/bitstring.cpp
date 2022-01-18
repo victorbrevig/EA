@@ -194,8 +194,6 @@ Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATI
 
 
   uint32_t numberOfConnectedComponents = 0;
-  bool choice1 = false;
-  bool choice2 = false;
   while (remainingVertices.size() > 0) {
     // take first vertex in remainingVertices as start vertex for BFS
     uint32_t startVertex = *begin(remainingVertices);
@@ -217,7 +215,12 @@ Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATI
       f2.Setbit(v, b.content[v]);
     }
 
-    if (f1.GetFitness(threeSATInstance) > f2.GetFitness(threeSATInstance))
+    double fitness1 = f1.GetFitness(threeSATInstance);
+    double fitness2 = f2.GetFitness(threeSATInstance);
+    bool choosef1 = fitness1 > fitness2;
+    if (fitness1 == fitness2)
+      choosef1 == Utils::Random::WithProbability(0.5);
+    if (choosef1)
     {
       for (const auto& v : connectedComponent)
       {
@@ -226,7 +229,6 @@ Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATI
         setChildBits[v] = true;
 #endif // DEBUG
       }
-      choice1 = true;
     }
     else 
     {
@@ -237,9 +239,6 @@ Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATI
         setChildBits[v] = true;
 #endif // DEBUG
       }
-
-      if (f1.GetFitness(threeSATInstance) < f2.GetFitness(threeSATInstance))
-        choice2 = true;
     }
 
     numberOfConnectedComponents++;
@@ -262,5 +261,5 @@ Bitstring Bitstring::GPX(const Bitstring& a, const Bitstring& b, const ThreeSATI
   if (numberOfComponentCountOut != nullptr)
     *numberOfComponentCountOut = numberOfConnectedComponents;
 
-  return a;
+  return child;
 }
