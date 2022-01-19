@@ -448,15 +448,15 @@ int main()
 
     auto RunTSPJobs = []() {
         std::vector<BatchJobs> Jobs = {
-        {"..\\ALL_tsp\\berlin52.tsp", "..\\OUTPUT\\TSP\\berlin52\\", true, 100 },
+        /*{"..\\ALL_tsp\\berlin52.tsp", "..\\OUTPUT\\TSP\\berlin52\\", true, 100 },
         {"..\\ALL_tsp\\bier127.tsp", "..\\OUTPUT\\TSP\\bier127\\", true, 100 },
         {"..\\ALL_tsp\\d493.tsp", "..\\OUTPUT\\TSP\\d493\\", true, 100 },
         {"..\\ALL_tsp\\att532.tsp", "..\\OUTPUT\\TSP\\att532\\", true, 100 },
-        {"..\\ALL_tsp\\d657.tsp", "..\\OUTPUT\\TSP\\d657\\", true, 100 },
-        {"..\\ALL_tsp\\u1817.tsp", "..\\OUTPUT\\TSP\\u1817\\", false, 100 },
-        {"..\\ALL_tsp\\pcb3038.tsp", "..\\OUTPUT\\TSP\\pcb3038", false, 64 },
+        {"..\\ALL_tsp\\d657.tsp", "..\\OUTPUT\\TSP\\d657\\", true, 100 },*/ 
+        {"..\\ALL_tsp\\u1817.tsp", "..\\OUTPUT\\TSP\\u1817\\", false, 2 },
+        /*{"..\\ALL_tsp\\pcb3038.tsp", "..\\OUTPUT\\TSP\\pcb3038", false, 64 },
         {"..\\ALL_tsp\\rl5915.tsp", "..\\OUTPUT\\TSP\\rl5915\\", false, 32 },
-        {"..\\ALL_tsp\\usa13509.tsp", "..\\OUTPUT\\TSP\\usa13509\\", false, 8 }
+        {"..\\ALL_tsp\\usa13509.tsp", "..\\OUTPUT\\TSP\\usa13509\\", false, 8 }*/
       };
 
       for (BatchJobs& job : Jobs)
@@ -506,7 +506,7 @@ int main()
   else
   {
     //Some manual job
-    PermutationProblems::RunGraybox("..\\ALL_tsp\\rl5915.tsp", PermutationProblems::PartitionCrossoverVersion::GPX_CHAINED, "", 10, true);
+    PermutationProblems::RunGraybox("..\\ALL_tsp\\rl5915.tsp", PermutationProblems::PartitionCrossoverVersion::GPX_STANDARD, "", 10, true);
   }
 
   return 0;

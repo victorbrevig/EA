@@ -186,8 +186,9 @@ namespace PermutationProblems
             TSPpermutation& currentPerm = P1[i];
 
             TSPpermutation::Stats stats;
-
+            TSPpermutation::Stats stats2;
             std::optional<std::pair<TSPpermutation, TSPpermutation>> optionalChildren;
+            std::optional<std::pair<TSPpermutation, TSPpermutation>> optionalChildren2;
             switch (crossoverVersion)
             {
             case PermutationProblems::PartitionCrossoverVersion::GPX_STANDARD:
@@ -203,15 +204,8 @@ namespace PermutationProblems
               break;
             }
 
-            if (generationNumber <= 2)
-            {
-              if (crossoverVersion != PermutationProblems::PartitionCrossoverVersion::GPX_STANDARD)
-              {
-                result.partitionCrossoverChoices.emplace_back(stats.choices);
-              }
-
-              result.partitionCrossoverTwoCostComponents.emplace_back(stats.twoCostComponents);
-            }
+            result.partitionCrossoverChoices.emplace_back(stats.choices);
+            result.partitionCrossoverTwoCostComponents.emplace_back(stats.twoCostComponents);
 
 
             if (optionalChildren.has_value()) {
