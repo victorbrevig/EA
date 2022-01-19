@@ -448,31 +448,26 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 	}
 
 	uint32_t moreChoices = 0;
-	// GO THROUGH THE REST OF G AND RUN BFS. APPEND BEST PATHS
+	// GO THROUGH THE REST OF G AND RUN BFS. APPEND BEST PATH
 	// need to find remaining vertices to start from
+
+
+	double sumFirstParent = 0;
+	double sumSecondParent = 0;
+	std::vector<Edge> firstParentCompEdges;
+	std::vector<Edge> secondParentCompEdges;
+
+
 	while (remainingVerticesInG.size() > 0) {
 		// take first vertex in remainingVertices as start vertex for BFS
 		uint32_t startVert = *begin(remainingVerticesInG);
 		std::vector<uint32_t> connectedComp = G.BFS(startVert);
-
-		moreChoices++;
 
 		// remove vertices in connectedComponent from remainingVertices
 		for (const auto& v : connectedComp) {
 			std::unordered_set<uint32_t>::iterator it = remainingVerticesInG.find(v);
 			remainingVerticesInG.erase(it);
 		}
-
-		if (connectedComp.size() > largestCompSizeSeen) {
-			largestCompSizeSeen = (uint32_t) connectedComp.size();
-			largestCompJustSet = true;
-		}
-
-		// add best path
-		double sumFirstParent = 0;
-		double sumSecondParent = 0;
-		std::vector<Edge> firstParentCompEdges;
-		std::vector<Edge> secondParentCompEdges;
 
 		for (const auto& v : connectedComp) {
 			// loop over edges associated with that vertex
@@ -494,33 +489,40 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 			}
 		}
 
-		if (largestCompJustSet) {
-			largestCompFirstParentEdges = firstParentCompEdges;
-			largestCompSecondParentEdges = secondParentCompEdges;
-		}
+		
 
-		// pick parent path with smallest sum:
-		ASSERT(firstParentCompEdges.size() == secondParentCompEdges.size());
-		if (sumFirstParent <= sumSecondParent) {
-			if (largestCompJustSet) {
-				firstParentSelectedInLargestComp = true;
-				largestCompStartIndex = (uint32_t) childEdges.size();
-				largestCompEndIndex = largestCompStartIndex + (uint32_t) firstParentCompEdges.size() - 1;
-			}
-			childEdges.insert(childEdges.end(), firstParentCompEdges.begin(), firstParentCompEdges.end());
-		}
-		else {
-			if (largestCompJustSet) {
-				firstParentSelectedInLargestComp = false;
-				largestCompStartIndex = (uint32_t) childEdges.size();
-				largestCompEndIndex = largestCompStartIndex + (uint32_t) secondParentCompEdges.size() - 1;
-			}
-			childEdges.insert(childEdges.end(), secondParentCompEdges.begin(), secondParentCompEdges.end());
-		}
-		firstParentCompEdges.clear();
-		secondParentCompEdges.clear();
-		largestCompJustSet = false;
 	}
+
+	ASSERT(firstParentCompEdges.size() == secondParentCompEdges.size());
+	if (firstParentCompEdges.size() > largestCompSizeSeen) {
+		largestCompSizeSeen = (uint32_t) firstParentCompEdges.size();
+		largestCompJustSet = true;
+	}
+	if (largestCompJustSet) {
+		largestCompFirstParentEdges = firstParentCompEdges;
+		largestCompSecondParentEdges = secondParentCompEdges;
+	}
+
+
+	// choose best path for all the rest of G (this is only one choice)
+	if (sumFirstParent <= sumSecondParent) {
+		if (largestCompJustSet) {
+			firstParentSelectedInLargestComp = true;
+			largestCompStartIndex = (uint32_t)childEdges.size();
+			largestCompEndIndex = largestCompStartIndex + (uint32_t)firstParentCompEdges.size() - 1;
+		}
+		childEdges.insert(childEdges.end(), firstParentCompEdges.begin(), firstParentCompEdges.end());
+	}
+	else {
+		if (largestCompJustSet) {
+			firstParentSelectedInLargestComp = false;
+			largestCompStartIndex = (uint32_t)childEdges.size();
+			largestCompEndIndex = largestCompStartIndex + (uint32_t)secondParentCompEdges.size() - 1;
+		}
+		childEdges.insert(childEdges.end(), secondParentCompEdges.begin(), secondParentCompEdges.end());
+	}
+	largestCompJustSet = false;
+	moreChoices++;
 
 
 
@@ -546,9 +548,7 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 		}
 	}
 
-
 #ifdef DEBUG
-
 	for (Edge edge : childEdges)
 	{
 		bool found = false;
@@ -579,6 +579,7 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPX(con
 		ASSERT(count == 2);
 	}
 #endif
+
 
 	ASSERT(childEdges.size() == firstPerm.order.size());
 	ASSERT(secondChildEdges.size() == firstPerm.order.size());
