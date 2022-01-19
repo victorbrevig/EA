@@ -648,11 +648,40 @@ std::vector<TSPpermutation::PartitionComponent> TSPpermutation::FindPartitionCom
 			{
 				if (connectedComponentVerts.find(otherVert) == connectedComponentVerts.end())
 				{
-					cutCount++;
-					if (cutCount == 1)
-						connectedComponent.vertexA = v;
-					if (cutCount == 2)
-						connectedComponent.vertexB = v;
+					//Now make sure this vert does not loop back, follow it
+					bool followingConnectedCommonEdges = true;
+					bool loopsBack = false;
+					uint32_t prevVert = v;
+					uint32_t vert = otherVert;
+					while (followingConnectedCommonEdges)
+					{
+						followingConnectedCommonEdges = false;
+						auto it2 = commonEdgesOfVerts.find(vert);
+						const std::vector<uint32_t>& commonEdges2 = it2->second;
+						if (commonEdges2.size() == 2)
+						{
+							uint32_t temp = vert;
+							if (commonEdges2[0] == prevVert)
+								vert = commonEdges2[1];
+							else
+								vert = commonEdges2[0];
+							prevVert = temp;
+							if (connectedComponentVerts.find(vert) != connectedComponentVerts.end())
+								loopsBack = true;
+							else
+								followingConnectedCommonEdges = true;
+						}
+					}
+
+
+					if (!loopsBack)
+					{
+						cutCount++;
+						if (cutCount == 1)
+							connectedComponent.vertexA = v;
+						if (cutCount == 2)
+							connectedComponent.vertexB = v;
+					}
 				}
 			}
 		}
@@ -719,8 +748,6 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::PXChain
 		commonEdgesOfVerts[edge.from].push_back(edge.to);
 		commonEdgesOfVerts[edge.to].push_back(edge.from);
 	}
-
-
 
 #ifdef DEBUG
 	uint32_t countCommon = 0;
@@ -1240,6 +1267,7 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXImpr
 		int count1 = 0;
 		int count2 = 0;
 		uint32_t choices = 0;
+		bool haveCountedPref = false;
 		ASSERT(childOrder.size() == 1);
 		uint32_t point1 = childOrder[0];
 		uint32_t point2 = childOrder[0];
@@ -1281,7 +1309,16 @@ std::optional<std::pair<TSPpermutation, TSPpermutation>> TSPpermutation::GPXImpr
 			} while (!(needsVisit.empty() && (point1 == point2)) && !haltPoint1 && !haltPoint2);
 
 			if (count > 1)
-				choices++; //This happens if the points diverted and there is a choice
+			{
+				if (!(needsVisit.empty() && (point1 == point2)))
+				{
+					if (!haveCountedPref)
+						choices++; //This happens if the points diverted and there is a choice
+					haveCountedPref = true;
+				}
+				else choices++;
+			}
+
 
 			if (!(needsVisit.empty() && (point1 == point2)))
 			{

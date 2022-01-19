@@ -2,6 +2,7 @@
 #include "lksearch.h"
 #include <array>
 #include <set>
+#include <unordered_set>
 
 bool IsWorse(int improvement)
 {
@@ -173,7 +174,7 @@ uint32_t LKSearch::Breadth(uint32_t level)
 	switch (level)
 	{
 	case 1:
-		return 18;
+		return 12;
 	case 2:
 		return 5;
 	case 3:
@@ -442,7 +443,7 @@ std::vector<uint32_t> LKSearch::LinKernighan(const TSPpermutation& initialTour)
 {
 	std::vector<uint32_t> lk_tour = initialTour.order;
 
-	std::set<uint32_t> markedVertices;
+	std::unordered_set<uint32_t> markedVertices;
 	for (uint32_t i = 0; i < initialTour.order.size(); i++)
 		markedVertices.insert(i);
 	uint32_t updateCounter = 0;
