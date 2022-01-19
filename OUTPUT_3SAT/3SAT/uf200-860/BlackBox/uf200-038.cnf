@@ -1,0 +1,58 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf200-860/uf200-038.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 767
+Iteration: 2, Fitness: 769
+Iteration: 3, Fitness: 771
+Iteration: 4, Fitness: 773
+Iteration: 5, Fitness: 778
+Iteration: 8, Fitness: 783
+Iteration: 11, Fitness: 786
+Iteration: 12, Fitness: 787
+Iteration: 13, Fitness: 791
+Iteration: 15, Fitness: 793
+Iteration: 17, Fitness: 796
+Iteration: 18, Fitness: 799
+Iteration: 19, Fitness: 800
+Iteration: 21, Fitness: 802
+Iteration: 22, Fitness: 803
+Iteration: 23, Fitness: 805
+Iteration: 25, Fitness: 806
+Iteration: 26, Fitness: 807
+Iteration: 27, Fitness: 811
+Iteration: 28, Fitness: 813
+Iteration: 32, Fitness: 817
+Iteration: 33, Fitness: 818
+Iteration: 40, Fitness: 819
+Iteration: 41, Fitness: 820
+Iteration: 42, Fitness: 821
+Iteration: 43, Fitness: 822
+Iteration: 46, Fitness: 824
+Iteration: 48, Fitness: 828
+Iteration: 57, Fitness: 830
+Iteration: 64, Fitness: 834
+Iteration: 66, Fitness: 835
+Iteration: 72, Fitness: 836
+Iteration: 74, Fitness: 837
+Iteration: 80, Fitness: 838
+Iteration: 81, Fitness: 840
+Iteration: 91, Fitness: 841
+Iteration: 96, Fitness: 842
+Iteration: 109, Fitness: 843
+Iteration: 116, Fitness: 844
+Iteration: 138, Fitness: 847
+Iteration: 163, Fitness: 848
+Iteration: 169, Fitness: 849
+Iteration: 193, Fitness: 850
+Iteration: 251, Fitness: 851
+Iteration: 313, Fitness: 852
+------------------------------- 
+Job Complete 
+Iterations: 3874
+Best Solution Fitness: 852 
+Not Optimal 
+--------------------------------------------- 

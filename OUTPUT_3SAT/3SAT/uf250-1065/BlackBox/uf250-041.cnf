@@ -1,0 +1,72 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf250-1065/uf250-041.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 942
+Iteration: 1, Fitness: 943
+Iteration: 2, Fitness: 945
+Iteration: 3, Fitness: 947
+Iteration: 4, Fitness: 953
+Iteration: 5, Fitness: 963
+Iteration: 8, Fitness: 969
+Iteration: 10, Fitness: 972
+Iteration: 11, Fitness: 974
+Iteration: 12, Fitness: 975
+Iteration: 13, Fitness: 976
+Iteration: 14, Fitness: 977
+Iteration: 15, Fitness: 983
+Iteration: 17, Fitness: 984
+Iteration: 18, Fitness: 985
+Iteration: 19, Fitness: 991
+Iteration: 20, Fitness: 992
+Iteration: 21, Fitness: 993
+Iteration: 22, Fitness: 998
+Iteration: 25, Fitness: 1001
+Iteration: 27, Fitness: 1002
+Iteration: 28, Fitness: 1005
+Iteration: 31, Fitness: 1008
+Iteration: 33, Fitness: 1010
+Iteration: 34, Fitness: 1011
+Iteration: 38, Fitness: 1012
+Iteration: 39, Fitness: 1013
+Iteration: 42, Fitness: 1014
+Iteration: 43, Fitness: 1016
+Iteration: 48, Fitness: 1018
+Iteration: 49, Fitness: 1022
+Iteration: 54, Fitness: 1023
+Iteration: 55, Fitness: 1025
+Iteration: 56, Fitness: 1027
+Iteration: 58, Fitness: 1028
+Iteration: 59, Fitness: 1030
+Iteration: 61, Fitness: 1031
+Iteration: 65, Fitness: 1033
+Iteration: 68, Fitness: 1034
+Iteration: 72, Fitness: 1035
+Iteration: 76, Fitness: 1037
+Iteration: 82, Fitness: 1039
+Iteration: 92, Fitness: 1040
+Iteration: 95, Fitness: 1041
+Iteration: 96, Fitness: 1042
+Iteration: 102, Fitness: 1044
+Iteration: 110, Fitness: 1045
+Iteration: 120, Fitness: 1046
+Iteration: 144, Fitness: 1047
+Iteration: 148, Fitness: 1048
+Iteration: 181, Fitness: 1049
+Iteration: 213, Fitness: 1050
+Iteration: 274, Fitness: 1051
+Iteration: 390, Fitness: 1052
+Iteration: 520, Fitness: 1053
+Iteration: 572, Fitness: 1054
+Iteration: 686, Fitness: 1055
+Iteration: 806, Fitness: 1056
+Iteration: 3024, Fitness: 1057
+------------------------------- 
+Job Complete 
+Iterations: 3159
+Best Solution Fitness: 1057 
+Not Optimal 
+--------------------------------------------- 

@@ -1,0 +1,72 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf225-960/uf225-024.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 839
+Iteration: 1, Fitness: 844
+Iteration: 3, Fitness: 847
+Iteration: 4, Fitness: 851
+Iteration: 5, Fitness: 853
+Iteration: 6, Fitness: 861
+Iteration: 8, Fitness: 864
+Iteration: 9, Fitness: 867
+Iteration: 10, Fitness: 869
+Iteration: 11, Fitness: 870
+Iteration: 12, Fitness: 872
+Iteration: 13, Fitness: 874
+Iteration: 14, Fitness: 877
+Iteration: 15, Fitness: 878
+Iteration: 16, Fitness: 879
+Iteration: 17, Fitness: 884
+Iteration: 18, Fitness: 887
+Iteration: 19, Fitness: 891
+Iteration: 21, Fitness: 892
+Iteration: 22, Fitness: 894
+Iteration: 23, Fitness: 898
+Iteration: 24, Fitness: 899
+Iteration: 26, Fitness: 902
+Iteration: 27, Fitness: 906
+Iteration: 31, Fitness: 907
+Iteration: 33, Fitness: 908
+Iteration: 34, Fitness: 909
+Iteration: 35, Fitness: 914
+Iteration: 39, Fitness: 916
+Iteration: 40, Fitness: 917
+Iteration: 41, Fitness: 919
+Iteration: 44, Fitness: 921
+Iteration: 45, Fitness: 922
+Iteration: 48, Fitness: 923
+Iteration: 49, Fitness: 924
+Iteration: 50, Fitness: 927
+Iteration: 52, Fitness: 928
+Iteration: 58, Fitness: 929
+Iteration: 62, Fitness: 930
+Iteration: 63, Fitness: 931
+Iteration: 64, Fitness: 933
+Iteration: 65, Fitness: 935
+Iteration: 73, Fitness: 937
+Iteration: 77, Fitness: 938
+Iteration: 79, Fitness: 939
+Iteration: 87, Fitness: 940
+Iteration: 92, Fitness: 941
+Iteration: 95, Fitness: 942
+Iteration: 98, Fitness: 943
+Iteration: 99, Fitness: 944
+Iteration: 111, Fitness: 946
+Iteration: 116, Fitness: 947
+Iteration: 131, Fitness: 948
+Iteration: 146, Fitness: 949
+Iteration: 240, Fitness: 950
+Iteration: 268, Fitness: 951
+Iteration: 379, Fitness: 952
+Iteration: 761, Fitness: 953
+Iteration: 1972, Fitness: 954
+------------------------------- 
+Job Complete 
+Iterations: 3491
+Best Solution Fitness: 954 
+Not Optimal 
+--------------------------------------------- 

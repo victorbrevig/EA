@@ -1,0 +1,71 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf200-860/uf200-05.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 751
+Iteration: 1, Fitness: 755
+Iteration: 2, Fitness: 756
+Iteration: 3, Fitness: 762
+Iteration: 4, Fitness: 763
+Iteration: 5, Fitness: 765
+Iteration: 6, Fitness: 767
+Iteration: 7, Fitness: 768
+Iteration: 8, Fitness: 771
+Iteration: 9, Fitness: 774
+Iteration: 10, Fitness: 778
+Iteration: 12, Fitness: 781
+Iteration: 13, Fitness: 788
+Iteration: 15, Fitness: 791
+Iteration: 19, Fitness: 794
+Iteration: 20, Fitness: 797
+Iteration: 21, Fitness: 799
+Iteration: 23, Fitness: 802
+Iteration: 24, Fitness: 804
+Iteration: 26, Fitness: 806
+Iteration: 27, Fitness: 808
+Iteration: 28, Fitness: 809
+Iteration: 30, Fitness: 810
+Iteration: 31, Fitness: 811
+Iteration: 33, Fitness: 814
+Iteration: 34, Fitness: 818
+Iteration: 37, Fitness: 820
+Iteration: 40, Fitness: 822
+Iteration: 42, Fitness: 823
+Iteration: 45, Fitness: 825
+Iteration: 48, Fitness: 826
+Iteration: 50, Fitness: 827
+Iteration: 52, Fitness: 828
+Iteration: 55, Fitness: 830
+Iteration: 60, Fitness: 831
+Iteration: 62, Fitness: 833
+Iteration: 64, Fitness: 834
+Iteration: 68, Fitness: 836
+Iteration: 69, Fitness: 837
+Iteration: 76, Fitness: 839
+Iteration: 82, Fitness: 840
+Iteration: 84, Fitness: 842
+Iteration: 88, Fitness: 843
+Iteration: 100, Fitness: 844
+Iteration: 118, Fitness: 845
+Iteration: 129, Fitness: 846
+Iteration: 141, Fitness: 847
+Iteration: 150, Fitness: 848
+Iteration: 171, Fitness: 849
+Iteration: 173, Fitness: 850
+Iteration: 233, Fitness: 851
+Iteration: 306, Fitness: 852
+Iteration: 518, Fitness: 853
+Iteration: 635, Fitness: 854
+Iteration: 1069, Fitness: 855
+Iteration: 3152, Fitness: 856
+Iteration: 3414, Fitness: 857
+Iteration: 3511, Fitness: 858
+------------------------------- 
+Job Complete 
+Iterations: 3870
+Best Solution Fitness: 858 
+Not Optimal 
+--------------------------------------------- 

@@ -1,0 +1,27 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf225-960/uf225-045.cnf
+Algorithm: Hybrid with Partition Crossover
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 945
+Iteration: 4, Fitness: 946
+Iteration: 5, Fitness: 947
+Iteration: 10, Fitness: 948
+Iteration: 13, Fitness: 949
+Iteration: 20, Fitness: 950
+Iteration: 40, Fitness: 951
+Iteration: 48, Fitness: 952
+Iteration: 50, Fitness: 953
+Iteration: 60, Fitness: 954
+Iteration: 90, Fitness: 957
+------------------------------- 
+Job Complete 
+Iterations: 1690
+Best Solution Fitness: 957 
+Not Optimal 
+------------------------------- 
+Maximum number of components in parition crossover: 12
+Average number of components in parition crossover: 3.99737
+--------------------------------------------- 

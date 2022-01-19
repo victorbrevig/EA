@@ -1,0 +1,69 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf200-860/uf200-046.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 762
+Iteration: 1, Fitness: 765
+Iteration: 2, Fitness: 767
+Iteration: 3, Fitness: 769
+Iteration: 5, Fitness: 771
+Iteration: 6, Fitness: 774
+Iteration: 7, Fitness: 775
+Iteration: 8, Fitness: 776
+Iteration: 9, Fitness: 781
+Iteration: 11, Fitness: 783
+Iteration: 13, Fitness: 789
+Iteration: 16, Fitness: 791
+Iteration: 19, Fitness: 792
+Iteration: 21, Fitness: 797
+Iteration: 23, Fitness: 799
+Iteration: 26, Fitness: 800
+Iteration: 27, Fitness: 803
+Iteration: 30, Fitness: 804
+Iteration: 32, Fitness: 806
+Iteration: 33, Fitness: 809
+Iteration: 36, Fitness: 810
+Iteration: 38, Fitness: 811
+Iteration: 42, Fitness: 813
+Iteration: 44, Fitness: 816
+Iteration: 48, Fitness: 817
+Iteration: 50, Fitness: 819
+Iteration: 51, Fitness: 820
+Iteration: 55, Fitness: 822
+Iteration: 59, Fitness: 823
+Iteration: 60, Fitness: 825
+Iteration: 66, Fitness: 827
+Iteration: 73, Fitness: 830
+Iteration: 79, Fitness: 832
+Iteration: 83, Fitness: 833
+Iteration: 84, Fitness: 834
+Iteration: 88, Fitness: 835
+Iteration: 95, Fitness: 836
+Iteration: 96, Fitness: 837
+Iteration: 110, Fitness: 839
+Iteration: 120, Fitness: 840
+Iteration: 123, Fitness: 841
+Iteration: 128, Fitness: 842
+Iteration: 141, Fitness: 843
+Iteration: 151, Fitness: 844
+Iteration: 167, Fitness: 845
+Iteration: 175, Fitness: 846
+Iteration: 205, Fitness: 847
+Iteration: 213, Fitness: 848
+Iteration: 279, Fitness: 849
+Iteration: 399, Fitness: 850
+Iteration: 890, Fitness: 851
+Iteration: 963, Fitness: 852
+Iteration: 1074, Fitness: 853
+Iteration: 1215, Fitness: 854
+Iteration: 1448, Fitness: 855
+Iteration: 1735, Fitness: 856
+------------------------------- 
+Job Complete 
+Iterations: 3883
+Best Solution Fitness: 856 
+Not Optimal 
+--------------------------------------------- 

@@ -1,0 +1,3780 @@
+----------------------------------------------
+Running TSP BlackBox
+File name: berlin52.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\berlin52\BlackBox\
+Results: 
+Fitness: 7903
+Fitness: 7618
+Fitness: 8108
+Fitness: 7870
+Fitness: 8293
+Fitness: 8740
+Fitness: 8218
+Fitness: 8301
+Fitness: 8187
+Fitness: 8106
+Fitness: 8104
+Fitness: 7908
+Fitness: 8191
+Fitness: 8118
+Fitness: 8137
+Fitness: 7688
+Fitness: 7775
+Fitness: 8332
+Fitness: 7837
+Fitness: 8027
+Fitness: 8165
+Fitness: 8170
+Fitness: 7902
+Fitness: 7678
+Fitness: 7927
+Fitness: 7746
+Fitness: 7775
+Fitness: 8440
+Fitness: 7986
+Fitness: 7873
+Fitness: 7918
+Fitness: 8098
+Fitness: 7658
+Fitness: 8159
+Fitness: 7736
+Fitness: 8479
+Fitness: 8274
+Fitness: 8105
+Fitness: 7932
+Fitness: 8219
+Fitness: 8152
+Fitness: 8332
+Fitness: 8689
+Fitness: 8392
+Fitness: 8336
+Fitness: 8210
+Fitness: 8183
+Fitness: 8406
+Fitness: 8182
+Fitness: 8401
+Fitness: 7990
+Fitness: 7937
+Fitness: 8212
+Fitness: 7699
+Fitness: 8250
+Fitness: 7775
+Fitness: 7542
+Fitness: 7857
+Fitness: 8176
+Fitness: 8165
+Fitness: 8316
+Fitness: 8164
+Fitness: 8295
+Fitness: 7677
+Fitness: 8124
+Fitness: 8277
+Fitness: 7974
+Fitness: 7797
+Fitness: 8036
+Fitness: 7913
+Fitness: 7945
+Fitness: 8306
+Fitness: 7851
+Fitness: 7658
+Fitness: 8596
+Fitness: 7990
+Fitness: 7811
+Fitness: 7901
+Fitness: 8510
+Fitness: 7682
+Fitness: 8008
+Fitness: 7787
+Fitness: 8093
+Fitness: 8705
+Fitness: 8062
+Fitness: 7831
+Fitness: 7596
+Fitness: 8096
+Fitness: 7854
+Fitness: 7806
+Fitness: 8452
+Fitness: 7901
+Fitness: 8073
+Fitness: 8424
+Fitness: 7934
+Fitness: 7842
+Fitness: 8105
+Fitness: 8202
+Fitness: 7811
+Fitness: 7775
+-------------
+Runs: 100
+Mean Fitness: 8057.670000, SD: 261.377201
+
+
+----------------------------------------------
+Running TSP BlackBox Generational
+File name: berlin52.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\berlin52\BlackBox_Generational\
+Results: 
+Fitness: 8575
+Fitness: 8891
+Fitness: 8906
+Fitness: 8538
+Fitness: 8395
+Fitness: 8054
+Fitness: 8111
+Fitness: 8215
+Fitness: 8251
+Fitness: 8278
+Fitness: 8107
+Fitness: 8414
+Fitness: 8054
+Fitness: 8343
+Fitness: 8506
+Fitness: 8640
+Fitness: 8543
+Fitness: 8663
+Fitness: 8158
+Fitness: 8247
+Fitness: 8614
+Fitness: 8260
+Fitness: 8644
+Fitness: 7910
+Fitness: 8087
+Fitness: 8568
+Fitness: 8222
+Fitness: 8800
+Fitness: 8161
+Fitness: 7888
+Fitness: 8479
+Fitness: 7669
+Fitness: 8510
+Fitness: 8072
+Fitness: 8598
+Fitness: 8665
+Fitness: 8413
+Fitness: 7849
+Fitness: 8388
+Fitness: 8150
+Fitness: 8552
+Fitness: 8303
+Fitness: 8569
+Fitness: 8491
+Fitness: 8262
+Fitness: 8459
+Fitness: 7618
+Fitness: 8178
+Fitness: 7975
+Fitness: 8481
+Fitness: 8598
+Fitness: 8062
+Fitness: 8712
+Fitness: 8747
+Fitness: 8526
+Fitness: 8278
+Fitness: 8351
+Fitness: 8333
+Fitness: 8400
+Fitness: 8289
+Fitness: 8720
+Fitness: 8110
+Fitness: 8348
+Fitness: 8103
+Fitness: 8209
+Fitness: 8398
+Fitness: 8064
+Fitness: 8469
+Fitness: 8102
+Fitness: 8353
+Fitness: 8248
+Fitness: 8425
+Fitness: 8038
+Fitness: 8140
+Fitness: 8177
+Fitness: 8493
+Fitness: 8570
+Fitness: 8272
+Fitness: 8156
+Fitness: 8749
+Fitness: 8582
+Fitness: 8073
+Fitness: 8096
+Fitness: 8637
+Fitness: 7989
+Fitness: 8053
+Fitness: 7542
+Fitness: 8266
+Fitness: 8408
+Fitness: 8883
+Fitness: 8375
+Fitness: 8407
+Fitness: 8481
+Fitness: 8182
+Fitness: 8443
+Fitness: 8438
+Fitness: 8419
+Fitness: 8105
+Fitness: 8544
+Fitness: 8258
+-------------
+Runs: 100
+Mean Fitness: 8333.450000, SD: 266.626569
+
+
+----------------------------------------------
+Running TSP GrayBox Hybrid (LK+GPX)
+File name: berlin52.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\berlin52\GrayBox_GPX\
+Results: 
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+-------------
+Runs: 100
+Mean Fitness: 7542.000000, SD: 0.000000
+Mean number of 2 cost components: 0.014000, SD: 0.168733
+Mean number of sub-tour choices: 0.021111, SD: 0.251659
+
+
+----------------------------------------------
+Running TSP Gray Box GPX Chained
+File name: berlin52.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\berlin52\GrayBox_GPX_Chained\
+Results: 
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+-------------
+Runs: 100
+Mean Fitness: 7542.000000, SD: 0.000000
+Mean number of 2 cost components: 0.010111, SD: 0.135023
+Mean number of sub-tour choices: 0.012111, SD: 0.156233
+
+
+----------------------------------------------
+Running TSP Gray Box PX Chained
+File name: berlin52.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\berlin52\GrayBox_PX_Chained\
+Results: 
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+Fitness: 7542
+-------------
+Runs: 100
+Mean Fitness: 7542.000000, SD: 0.000000
+Mean number of 2 cost components: 0.013333, SD: 0.155063
+Mean number of sub-tour choices: 0.015778, SD: 0.176937
+
+
+----------------------------------------------
+Running TSP BlackBox
+File name: bier127.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\bier127\BlackBox\
+Results: 
+Fitness: 125917
+Fitness: 132941
+Fitness: 127378
+Fitness: 126443
+Fitness: 125426
+Fitness: 125793
+Fitness: 128758
+Fitness: 124810
+Fitness: 127992
+Fitness: 124553
+Fitness: 132794
+Fitness: 129877
+Fitness: 129702
+Fitness: 137160
+Fitness: 132105
+Fitness: 121461
+Fitness: 134029
+Fitness: 128063
+Fitness: 129190
+Fitness: 122804
+Fitness: 130961
+Fitness: 123947
+Fitness: 128326
+Fitness: 125830
+Fitness: 128053
+Fitness: 134776
+Fitness: 131703
+Fitness: 126784
+Fitness: 131139
+Fitness: 130068
+Fitness: 128258
+Fitness: 127873
+Fitness: 130111
+Fitness: 125865
+Fitness: 127760
+Fitness: 130060
+Fitness: 123396
+Fitness: 125023
+Fitness: 127272
+Fitness: 122230
+Fitness: 130272
+Fitness: 127331
+Fitness: 125863
+Fitness: 130777
+Fitness: 131334
+Fitness: 126042
+Fitness: 126791
+Fitness: 122909
+Fitness: 128915
+Fitness: 125767
+Fitness: 134368
+Fitness: 131276
+Fitness: 131793
+Fitness: 127760
+Fitness: 129074
+Fitness: 126395
+Fitness: 128600
+Fitness: 130463
+Fitness: 130651
+Fitness: 127861
+Fitness: 130563
+Fitness: 127402
+Fitness: 125750
+Fitness: 129543
+Fitness: 131602
+Fitness: 130619
+Fitness: 126053
+Fitness: 131378
+Fitness: 127376
+Fitness: 125235
+Fitness: 125289
+Fitness: 126413
+Fitness: 131451
+Fitness: 127334
+Fitness: 127202
+Fitness: 122064
+Fitness: 126721
+Fitness: 133663
+Fitness: 130399
+Fitness: 132241
+Fitness: 131495
+Fitness: 129536
+Fitness: 131955
+Fitness: 125891
+Fitness: 130591
+Fitness: 125045
+Fitness: 124544
+Fitness: 130444
+Fitness: 127624
+Fitness: 123278
+Fitness: 128753
+Fitness: 133220
+Fitness: 125249
+Fitness: 123682
+Fitness: 128652
+Fitness: 126684
+Fitness: 134801
+Fitness: 127452
+Fitness: 129205
+Fitness: 124848
+-------------
+Runs: 100
+Mean Fitness: 128321.200000, SD: 3165.647365
+
+
+----------------------------------------------
+Running TSP BlackBox Generational
+File name: bier127.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\bier127\BlackBox_Generational\
+Results: 
+Fitness: 131558
+Fitness: 128542
+Fitness: 132468
+Fitness: 129068
+Fitness: 129590
+Fitness: 129596
+Fitness: 136862
+Fitness: 129618
+Fitness: 131337
+Fitness: 132419
+Fitness: 130719
+Fitness: 138103
+Fitness: 130182
+Fitness: 131065
+Fitness: 131029
+Fitness: 137334
+Fitness: 131524
+Fitness: 122654
+Fitness: 127629
+Fitness: 132238
+Fitness: 134433
+Fitness: 122484
+Fitness: 132843
+Fitness: 124824
+Fitness: 128931
+Fitness: 127137
+Fitness: 133110
+Fitness: 122188
+Fitness: 125596
+Fitness: 131373
+Fitness: 127943
+Fitness: 133881
+Fitness: 126920
+Fitness: 127820
+Fitness: 126212
+Fitness: 133685
+Fitness: 131433
+Fitness: 124405
+Fitness: 132922
+Fitness: 128634
+Fitness: 132519
+Fitness: 130148
+Fitness: 135011
+Fitness: 123461
+Fitness: 127341
+Fitness: 128951
+Fitness: 126585
+Fitness: 128806
+Fitness: 129570
+Fitness: 131069
+Fitness: 127171
+Fitness: 125344
+Fitness: 129844
+Fitness: 131949
+Fitness: 132370
+Fitness: 124945
+Fitness: 130513
+Fitness: 136976
+Fitness: 129216
+Fitness: 133534
+Fitness: 130905
+Fitness: 131496
+Fitness: 124979
+Fitness: 128583
+Fitness: 130813
+Fitness: 129897
+Fitness: 131517
+Fitness: 129031
+Fitness: 128995
+Fitness: 125288
+Fitness: 131080
+Fitness: 129019
+Fitness: 127454
+Fitness: 130947
+Fitness: 130795
+Fitness: 128931
+Fitness: 137618
+Fitness: 130235
+Fitness: 131515
+Fitness: 133222
+Fitness: 126821
+Fitness: 126699
+Fitness: 124530
+Fitness: 129873
+Fitness: 129464
+Fitness: 129417
+Fitness: 135888
+Fitness: 130730
+Fitness: 129812
+Fitness: 139821
+Fitness: 128023
+Fitness: 130523
+Fitness: 133180
+Fitness: 128636
+Fitness: 127435
+Fitness: 134583
+Fitness: 132343
+Fitness: 134085
+Fitness: 131608
+Fitness: 129802
+-------------
+Runs: 100
+Mean Fitness: 130112.250000, SD: 3445.127862
+
+
+----------------------------------------------
+Running TSP GrayBox Hybrid (LK+GPX)
+File name: bier127.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\bier127\GrayBox_GPX\
+Results: 
+Fitness: 118710
+Fitness: 118423
+Fitness: 118549
+Fitness: 119157
+Fitness: 118423
+Fitness: 118759
+Fitness: 118579
+Fitness: 118423
+Fitness: 118936
+Fitness: 118564
+Fitness: 118461
+Fitness: 118423
+Fitness: 119042
+Fitness: 118683
+Fitness: 118282
+Fitness: 118282
+Fitness: 118282
+Fitness: 118615
+Fitness: 118461
+Fitness: 118693
+Fitness: 118616
+Fitness: 118958
+Fitness: 118856
+Fitness: 118282
+Fitness: 118423
+Fitness: 118423
+Fitness: 118657
+Fitness: 118579
+Fitness: 118356
+Fitness: 118710
+Fitness: 118497
+Fitness: 118780
+Fitness: 118579
+Fitness: 118282
+Fitness: 118616
+Fitness: 118579
+Fitness: 118497
+Fitness: 118282
+Fitness: 118616
+Fitness: 118497
+Fitness: 118682
+Fitness: 118715
+Fitness: 118423
+Fitness: 118423
+Fitness: 118282
+Fitness: 118282
+Fitness: 118282
+Fitness: 118854
+Fitness: 118282
+Fitness: 118282
+Fitness: 118780
+Fitness: 118615
+Fitness: 118682
+Fitness: 118423
+Fitness: 118546
+Fitness: 118423
+Fitness: 118616
+Fitness: 118682
+Fitness: 118423
+Fitness: 118930
+Fitness: 118423
+Fitness: 118616
+Fitness: 118423
+Fitness: 118282
+Fitness: 118790
+Fitness: 118559
+Fitness: 118423
+Fitness: 118682
+Fitness: 118423
+Fitness: 118616
+Fitness: 118423
+Fitness: 118621
+Fitness: 118856
+Fitness: 118609
+Fitness: 118616
+Fitness: 118423
+Fitness: 118682
+Fitness: 118584
+Fitness: 118282
+Fitness: 118282
+Fitness: 118282
+Fitness: 118615
+Fitness: 118682
+Fitness: 118423
+Fitness: 118564
+Fitness: 118282
+Fitness: 118282
+Fitness: 118423
+Fitness: 118423
+Fitness: 118616
+Fitness: 118715
+Fitness: 118891
+Fitness: 118851
+Fitness: 118780
+Fitness: 118616
+Fitness: 118579
+Fitness: 118282
+Fitness: 118423
+Fitness: 118282
+Fitness: 119161
+-------------
+Runs: 100
+Mean Fitness: 118552.460000, SD: 206.904394
+Mean number of 2 cost components: 0.134333, SD: 0.468163
+Mean number of sub-tour choices: 0.219333, SD: 0.736737
+
+
+----------------------------------------------
+Running TSP Gray Box GPX Chained
+File name: bier127.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\bier127\GrayBox_GPX_Chained\
+Results: 
+Fitness: 118282
+Fitness: 118497
+Fitness: 119313
+Fitness: 118282
+Fitness: 118282
+Fitness: 118615
+Fitness: 118647
+Fitness: 118282
+Fitness: 118423
+Fitness: 118579
+Fitness: 118497
+Fitness: 118657
+Fitness: 118962
+Fitness: 118579
+Fitness: 118423
+Fitness: 118282
+Fitness: 118923
+Fitness: 118423
+Fitness: 118490
+Fitness: 118579
+Fitness: 118423
+Fitness: 118423
+Fitness: 118282
+Fitness: 118282
+Fitness: 118423
+Fitness: 118282
+Fitness: 118497
+Fitness: 118423
+Fitness: 118683
+Fitness: 118497
+Fitness: 118616
+Fitness: 118282
+Fitness: 118579
+Fitness: 118423
+Fitness: 118356
+Fitness: 118423
+Fitness: 119400
+Fitness: 118549
+Fitness: 118497
+Fitness: 118423
+Fitness: 118423
+Fitness: 118282
+Fitness: 118423
+Fitness: 118423
+Fitness: 118616
+Fitness: 118423
+Fitness: 118423
+Fitness: 118423
+Fitness: 118423
+Fitness: 118657
+Fitness: 118579
+Fitness: 118423
+Fitness: 118780
+Fitness: 118282
+Fitness: 118657
+Fitness: 118715
+Fitness: 118282
+Fitness: 118423
+Fitness: 118282
+Fitness: 118665
+Fitness: 118282
+Fitness: 118423
+Fitness: 118423
+Fitness: 118715
+Fitness: 119259
+Fitness: 118715
+Fitness: 118973
+Fitness: 118282
+Fitness: 118546
+Fitness: 118621
+Fitness: 118856
+Fitness: 118356
+Fitness: 118657
+Fitness: 118965
+Fitness: 118759
+Fitness: 119029
+Fitness: 118282
+Fitness: 118579
+Fitness: 118423
+Fitness: 118715
+Fitness: 118282
+Fitness: 118780
+Fitness: 118780
+Fitness: 118616
+Fitness: 118282
+Fitness: 118423
+Fitness: 118282
+Fitness: 118788
+Fitness: 118559
+Fitness: 118282
+Fitness: 118616
+Fitness: 118282
+Fitness: 118282
+Fitness: 118973
+Fitness: 118615
+Fitness: 118423
+Fitness: 118423
+Fitness: 118461
+Fitness: 118423
+Fitness: 118891
+-------------
+Runs: 100
+Mean Fitness: 118537.070000, SD: 237.894273
+Mean number of 2 cost components: 0.139111, SD: 0.466647
+Mean number of sub-tour choices: 0.188556, SD: 0.600280
+
+
+----------------------------------------------
+Running TSP Gray Box PX Chained
+File name: bier127.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\bier127\GrayBox_PX_Chained\
+Results: 
+Fitness: 118476
+Fitness: 118497
+Fitness: 118423
+Fitness: 118961
+Fitness: 118423
+Fitness: 118423
+Fitness: 118609
+Fitness: 118873
+Fitness: 118282
+Fitness: 118616
+Fitness: 118579
+Fitness: 118282
+Fitness: 118282
+Fitness: 118423
+Fitness: 118282
+Fitness: 118282
+Fitness: 119001
+Fitness: 118579
+Fitness: 118616
+Fitness: 118771
+Fitness: 118582
+Fitness: 118423
+Fitness: 118282
+Fitness: 118423
+Fitness: 118856
+Fitness: 118662
+Fitness: 118579
+Fitness: 118615
+Fitness: 118497
+Fitness: 118423
+Fitness: 118856
+Fitness: 118616
+Fitness: 118282
+Fitness: 118423
+Fitness: 118282
+Fitness: 118497
+Fitness: 118790
+Fitness: 118356
+Fitness: 118657
+Fitness: 118282
+Fitness: 118423
+Fitness: 118579
+Fitness: 118856
+Fitness: 118579
+Fitness: 118497
+Fitness: 118682
+Fitness: 118579
+Fitness: 118682
+Fitness: 118616
+Fitness: 118282
+Fitness: 118423
+Fitness: 118282
+Fitness: 118461
+Fitness: 118282
+Fitness: 118282
+Fitness: 118616
+Fitness: 118423
+Fitness: 118282
+Fitness: 118423
+Fitness: 118282
+Fitness: 118497
+Fitness: 118856
+Fitness: 118715
+Fitness: 118616
+Fitness: 118423
+Fitness: 118282
+Fitness: 118423
+Fitness: 118282
+Fitness: 118710
+Fitness: 118282
+Fitness: 118423
+Fitness: 118682
+Fitness: 118423
+Fitness: 118423
+Fitness: 118423
+Fitness: 118616
+Fitness: 118656
+Fitness: 118497
+Fitness: 118490
+Fitness: 118423
+Fitness: 118490
+Fitness: 118282
+Fitness: 118423
+Fitness: 118856
+Fitness: 118616
+Fitness: 119002
+Fitness: 118616
+Fitness: 118759
+Fitness: 118888
+Fitness: 118423
+Fitness: 118657
+Fitness: 118616
+Fitness: 118616
+Fitness: 118423
+Fitness: 118662
+Fitness: 118615
+Fitness: 118856
+Fitness: 118584
+Fitness: 118282
+Fitness: 118423
+-------------
+Runs: 100
+Mean Fitness: 118528.250000, SD: 189.043824
+Mean number of 2 cost components: 0.138556, SD: 0.473782
+Mean number of sub-tour choices: 0.182333, SD: 0.586685
+
+
+----------------------------------------------
+Running TSP BlackBox
+File name: d493.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\d493\BlackBox\
+Results: 
+Fitness: 38868
+Fitness: 39562
+Fitness: 38568
+Fitness: 38586
+Fitness: 38117
+Fitness: 38860
+Fitness: 38387
+Fitness: 39009
+Fitness: 38969
+Fitness: 38503
+Fitness: 38548
+Fitness: 39435
+Fitness: 38378
+Fitness: 38555
+Fitness: 39457
+Fitness: 38061
+Fitness: 38109
+Fitness: 38612
+Fitness: 38725
+Fitness: 39102
+Fitness: 39099
+Fitness: 38321
+Fitness: 38684
+Fitness: 39471
+Fitness: 39139
+Fitness: 38357
+Fitness: 39078
+Fitness: 38245
+Fitness: 39052
+Fitness: 39131
+Fitness: 38353
+Fitness: 37636
+Fitness: 38728
+Fitness: 37964
+Fitness: 39061
+Fitness: 37796
+Fitness: 38852
+Fitness: 38085
+Fitness: 37813
+Fitness: 37697
+Fitness: 38450
+Fitness: 39990
+Fitness: 38724
+Fitness: 38434
+Fitness: 38840
+Fitness: 38470
+Fitness: 37682
+Fitness: 38183
+Fitness: 38493
+Fitness: 38592
+Fitness: 39169
+Fitness: 38856
+Fitness: 38634
+Fitness: 39022
+Fitness: 37564
+Fitness: 38980
+Fitness: 38058
+Fitness: 38920
+Fitness: 38331
+Fitness: 38155
+Fitness: 38032
+Fitness: 37790
+Fitness: 39597
+Fitness: 40192
+Fitness: 39079
+Fitness: 38221
+Fitness: 37863
+Fitness: 39543
+Fitness: 38657
+Fitness: 38081
+Fitness: 38022
+Fitness: 39724
+Fitness: 38398
+Fitness: 38302
+Fitness: 37969
+Fitness: 38799
+Fitness: 39151
+Fitness: 38905
+Fitness: 38089
+Fitness: 39415
+Fitness: 39226
+Fitness: 39418
+Fitness: 39404
+Fitness: 38166
+Fitness: 38585
+Fitness: 38552
+Fitness: 37738
+Fitness: 38883
+Fitness: 38045
+Fitness: 38496
+Fitness: 38240
+Fitness: 38476
+Fitness: 37985
+Fitness: 38792
+Fitness: 38787
+Fitness: 38523
+Fitness: 38500
+Fitness: 38724
+Fitness: 38440
+Fitness: 39130
+-------------
+Runs: 100
+Mean Fitness: 38624.590000, SD: 545.865077
+
+
+----------------------------------------------
+Running TSP BlackBox Generational
+File name: d493.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\d493\BlackBox_Generational\
+Results: 
+Fitness: 38782
+Fitness: 38381
+Fitness: 39715
+Fitness: 39118
+Fitness: 39358
+Fitness: 39821
+Fitness: 39062
+Fitness: 39836
+Fitness: 39796
+Fitness: 38529
+Fitness: 39174
+Fitness: 38133
+Fitness: 39054
+Fitness: 39207
+Fitness: 38878
+Fitness: 37757
+Fitness: 39109
+Fitness: 40183
+Fitness: 39541
+Fitness: 39530
+Fitness: 38323
+Fitness: 38829
+Fitness: 39043
+Fitness: 39856
+Fitness: 39237
+Fitness: 38495
+Fitness: 38898
+Fitness: 39106
+Fitness: 38463
+Fitness: 39155
+Fitness: 39338
+Fitness: 39586
+Fitness: 37919
+Fitness: 39227
+Fitness: 39388
+Fitness: 39100
+Fitness: 39233
+Fitness: 38824
+Fitness: 38889
+Fitness: 38742
+Fitness: 38849
+Fitness: 38767
+Fitness: 38984
+Fitness: 39489
+Fitness: 39497
+Fitness: 39675
+Fitness: 39409
+Fitness: 39073
+Fitness: 39097
+Fitness: 38314
+Fitness: 39060
+Fitness: 38272
+Fitness: 38335
+Fitness: 39546
+Fitness: 39089
+Fitness: 38856
+Fitness: 39410
+Fitness: 39539
+Fitness: 39848
+Fitness: 38835
+Fitness: 39047
+Fitness: 38980
+Fitness: 38583
+Fitness: 40907
+Fitness: 38012
+Fitness: 39057
+Fitness: 39447
+Fitness: 38638
+Fitness: 39290
+Fitness: 38587
+Fitness: 40081
+Fitness: 38619
+Fitness: 39217
+Fitness: 39493
+Fitness: 37930
+Fitness: 38579
+Fitness: 39613
+Fitness: 38982
+Fitness: 38752
+Fitness: 38824
+Fitness: 39617
+Fitness: 39063
+Fitness: 39813
+Fitness: 39079
+Fitness: 38505
+Fitness: 38586
+Fitness: 38144
+Fitness: 37910
+Fitness: 39225
+Fitness: 38633
+Fitness: 39239
+Fitness: 39230
+Fitness: 37925
+Fitness: 38303
+Fitness: 38887
+Fitness: 40212
+Fitness: 37764
+Fitness: 38968
+Fitness: 39338
+Fitness: 38607
+-------------
+Runs: 100
+Mean Fitness: 39022.450000, SD: 575.023136
+
+
+----------------------------------------------
+Running TSP GrayBox Hybrid (LK+GPX)
+File name: d493.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\d493\GrayBox_GPX\
+Results: 
+Fitness: 35405
+Fitness: 35445
+Fitness: 35274
+Fitness: 35375
+Fitness: 35398
+Fitness: 35239
+Fitness: 35379
+Fitness: 35374
+Fitness: 35397
+Fitness: 35157
+Fitness: 35227
+Fitness: 35626
+Fitness: 35219
+Fitness: 35364
+Fitness: 35405
+Fitness: 35260
+Fitness: 35294
+Fitness: 35339
+Fitness: 35574
+Fitness: 35453
+Fitness: 35508
+Fitness: 35280
+Fitness: 35406
+Fitness: 35313
+Fitness: 35548
+Fitness: 35504
+Fitness: 35282
+Fitness: 35440
+Fitness: 35299
+Fitness: 35276
+Fitness: 35385
+Fitness: 35404
+Fitness: 35454
+Fitness: 35278
+Fitness: 35296
+Fitness: 35292
+Fitness: 35516
+Fitness: 35340
+Fitness: 35538
+Fitness: 35406
+Fitness: 35196
+Fitness: 35405
+Fitness: 35511
+Fitness: 35485
+Fitness: 35460
+Fitness: 35416
+Fitness: 35413
+Fitness: 35270
+Fitness: 35276
+Fitness: 35381
+Fitness: 35467
+Fitness: 35258
+Fitness: 35318
+Fitness: 35515
+Fitness: 35295
+Fitness: 35451
+Fitness: 35463
+Fitness: 35432
+Fitness: 35373
+Fitness: 35388
+Fitness: 35272
+Fitness: 35344
+Fitness: 35370
+Fitness: 35341
+Fitness: 35163
+Fitness: 35205
+Fitness: 35509
+Fitness: 35452
+Fitness: 35312
+Fitness: 35328
+Fitness: 35377
+Fitness: 35327
+Fitness: 35390
+Fitness: 35406
+Fitness: 35380
+Fitness: 35334
+Fitness: 35533
+Fitness: 35253
+Fitness: 35639
+Fitness: 35388
+Fitness: 35270
+Fitness: 35420
+Fitness: 35307
+Fitness: 35569
+Fitness: 35314
+Fitness: 35407
+Fitness: 35446
+Fitness: 35357
+Fitness: 35156
+Fitness: 35429
+Fitness: 35515
+Fitness: 35450
+Fitness: 35337
+Fitness: 35392
+Fitness: 35263
+Fitness: 35371
+Fitness: 35355
+Fitness: 35226
+Fitness: 35493
+Fitness: 35213
+-------------
+Runs: 100
+Mean Fitness: 35373.550000, SD: 102.859844
+Mean number of 2 cost components: 0.671444, SD: 0.946306
+Mean number of sub-tour choices: 1.098778, SD: 1.381754
+
+
+----------------------------------------------
+Running TSP Gray Box GPX Chained
+File name: d493.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\d493\GrayBox_GPX_Chained\
+Results: 
+Fitness: 35389
+Fitness: 35405
+Fitness: 35534
+Fitness: 35339
+Fitness: 35469
+Fitness: 35428
+Fitness: 35377
+Fitness: 35781
+Fitness: 35265
+Fitness: 35302
+Fitness: 35466
+Fitness: 35451
+Fitness: 35482
+Fitness: 35476
+Fitness: 35418
+Fitness: 35191
+Fitness: 35382
+Fitness: 35333
+Fitness: 35536
+Fitness: 35507
+Fitness: 35519
+Fitness: 35339
+Fitness: 35273
+Fitness: 35408
+Fitness: 35429
+Fitness: 35625
+Fitness: 35426
+Fitness: 35237
+Fitness: 35284
+Fitness: 35663
+Fitness: 35325
+Fitness: 35607
+Fitness: 35477
+Fitness: 35425
+Fitness: 35653
+Fitness: 35546
+Fitness: 35548
+Fitness: 35493
+Fitness: 35284
+Fitness: 35400
+Fitness: 35695
+Fitness: 35461
+Fitness: 35299
+Fitness: 35566
+Fitness: 35463
+Fitness: 35538
+Fitness: 35303
+Fitness: 35354
+Fitness: 35448
+Fitness: 35459
+Fitness: 35301
+Fitness: 35388
+Fitness: 35047
+Fitness: 35593
+Fitness: 35357
+Fitness: 35347
+Fitness: 35502
+Fitness: 35273
+Fitness: 35286
+Fitness: 35407
+Fitness: 35342
+Fitness: 35413
+Fitness: 35494
+Fitness: 35430
+Fitness: 35473
+Fitness: 35400
+Fitness: 35309
+Fitness: 35538
+Fitness: 35205
+Fitness: 35363
+Fitness: 35518
+Fitness: 35355
+Fitness: 35537
+Fitness: 35734
+Fitness: 35564
+Fitness: 35196
+Fitness: 35453
+Fitness: 35414
+Fitness: 35241
+Fitness: 35419
+Fitness: 35412
+Fitness: 35409
+Fitness: 35351
+Fitness: 35291
+Fitness: 35301
+Fitness: 35359
+Fitness: 35329
+Fitness: 35296
+Fitness: 35413
+Fitness: 35291
+Fitness: 35536
+Fitness: 35429
+Fitness: 35515
+Fitness: 35378
+Fitness: 35419
+Fitness: 35110
+Fitness: 35314
+Fitness: 35321
+Fitness: 35622
+Fitness: 35473
+-------------
+Runs: 100
+Mean Fitness: 35415.460000, SD: 126.816672
+Mean number of 2 cost components: 1.076667, SD: 1.124332
+Mean number of sub-tour choices: 1.702222, SD: 1.598261
+
+
+----------------------------------------------
+Running TSP Gray Box PX Chained
+File name: d493.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\d493\GrayBox_PX_Chained\
+Results: 
+Fitness: 35182
+Fitness: 35475
+Fitness: 35338
+Fitness: 35228
+Fitness: 35608
+Fitness: 35439
+Fitness: 35517
+Fitness: 35335
+Fitness: 35493
+Fitness: 35180
+Fitness: 35509
+Fitness: 35485
+Fitness: 35241
+Fitness: 35080
+Fitness: 35318
+Fitness: 35633
+Fitness: 35326
+Fitness: 35269
+Fitness: 35254
+Fitness: 35446
+Fitness: 35351
+Fitness: 35419
+Fitness: 35486
+Fitness: 35398
+Fitness: 35418
+Fitness: 35537
+Fitness: 35446
+Fitness: 35347
+Fitness: 35402
+Fitness: 35374
+Fitness: 35362
+Fitness: 35462
+Fitness: 35499
+Fitness: 35429
+Fitness: 35498
+Fitness: 35295
+Fitness: 35398
+Fitness: 35397
+Fitness: 35421
+Fitness: 35221
+Fitness: 35447
+Fitness: 35553
+Fitness: 35401
+Fitness: 35460
+Fitness: 35416
+Fitness: 35450
+Fitness: 35487
+Fitness: 35590
+Fitness: 35488
+Fitness: 35435
+Fitness: 35318
+Fitness: 35318
+Fitness: 35593
+Fitness: 35495
+Fitness: 35103
+Fitness: 35637
+Fitness: 35492
+Fitness: 35279
+Fitness: 35411
+Fitness: 35285
+Fitness: 35511
+Fitness: 35461
+Fitness: 35114
+Fitness: 35266
+Fitness: 35392
+Fitness: 35356
+Fitness: 35276
+Fitness: 35462
+Fitness: 35340
+Fitness: 35324
+Fitness: 35253
+Fitness: 35415
+Fitness: 35444
+Fitness: 35402
+Fitness: 35276
+Fitness: 35541
+Fitness: 35258
+Fitness: 35748
+Fitness: 35388
+Fitness: 35414
+Fitness: 35283
+Fitness: 35523
+Fitness: 35579
+Fitness: 35432
+Fitness: 35219
+Fitness: 35402
+Fitness: 35358
+Fitness: 35267
+Fitness: 35401
+Fitness: 35558
+Fitness: 35273
+Fitness: 35354
+Fitness: 35475
+Fitness: 35388
+Fitness: 35218
+Fitness: 35420
+Fitness: 35316
+Fitness: 35420
+Fitness: 35314
+Fitness: 35390
+-------------
+Runs: 100
+Mean Fitness: 35394.050000, SD: 120.179730
+Mean number of 2 cost components: 0.947667, SD: 1.099816
+Mean number of sub-tour choices: 1.257444, SD: 1.221133
+
+
+----------------------------------------------
+Running TSP BlackBox
+File name: att532.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\att532\BlackBox\
+Results: 
+Fitness: 99407
+Fitness: 95743
+Fitness: 96485
+Fitness: 95507
+Fitness: 97473
+Fitness: 95970
+Fitness: 95804
+Fitness: 97284
+Fitness: 98768
+Fitness: 100246
+Fitness: 94677
+Fitness: 95534
+Fitness: 97183
+Fitness: 100835
+Fitness: 98738
+Fitness: 95928
+Fitness: 98374
+Fitness: 96534
+Fitness: 95785
+Fitness: 98941
+Fitness: 96198
+Fitness: 95520
+Fitness: 95742
+Fitness: 94471
+Fitness: 96933
+Fitness: 96367
+Fitness: 96846
+Fitness: 97446
+Fitness: 98994
+Fitness: 94732
+Fitness: 95942
+Fitness: 95375
+Fitness: 95207
+Fitness: 96332
+Fitness: 96430
+Fitness: 96543
+Fitness: 95702
+Fitness: 95165
+Fitness: 95664
+Fitness: 96293
+Fitness: 96215
+Fitness: 97498
+Fitness: 97869
+Fitness: 96529
+Fitness: 96619
+Fitness: 96433
+Fitness: 94652
+Fitness: 95313
+Fitness: 95785
+Fitness: 97300
+Fitness: 97750
+Fitness: 97258
+Fitness: 96965
+Fitness: 93518
+Fitness: 97660
+Fitness: 96503
+Fitness: 94417
+Fitness: 96704
+Fitness: 95861
+Fitness: 94852
+Fitness: 96901
+Fitness: 97328
+Fitness: 95227
+Fitness: 97486
+Fitness: 97469
+Fitness: 96117
+Fitness: 95762
+Fitness: 98576
+Fitness: 93713
+Fitness: 96241
+Fitness: 95783
+Fitness: 96843
+Fitness: 95581
+Fitness: 97076
+Fitness: 95014
+Fitness: 95662
+Fitness: 96995
+Fitness: 96000
+Fitness: 96469
+Fitness: 99913
+Fitness: 97280
+Fitness: 96569
+Fitness: 96683
+Fitness: 100841
+Fitness: 97324
+Fitness: 96373
+Fitness: 98298
+Fitness: 96400
+Fitness: 95624
+Fitness: 94570
+Fitness: 96106
+Fitness: 97379
+Fitness: 97006
+Fitness: 95112
+Fitness: 96474
+Fitness: 96842
+Fitness: 94233
+Fitness: 96612
+Fitness: 97166
+Fitness: 94568
+-------------
+Runs: 100
+Mean Fitness: 96544.350000, SD: 1401.782461
+
+
+----------------------------------------------
+Running TSP BlackBox Generational
+File name: att532.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\att532\BlackBox_Generational\
+Results: 
+Fitness: 97217
+Fitness: 96416
+Fitness: 98567
+Fitness: 97736
+Fitness: 94945
+Fitness: 96618
+Fitness: 97174
+Fitness: 96128
+Fitness: 95460
+Fitness: 97758
+Fitness: 96220
+Fitness: 97869
+Fitness: 97313
+Fitness: 96211
+Fitness: 99863
+Fitness: 96359
+Fitness: 99180
+Fitness: 99971
+Fitness: 96284
+Fitness: 98374
+Fitness: 96231
+Fitness: 99388
+Fitness: 98483
+Fitness: 96141
+Fitness: 96215
+Fitness: 97189
+Fitness: 97263
+Fitness: 98733
+Fitness: 97593
+Fitness: 98811
+Fitness: 98143
+Fitness: 98087
+Fitness: 97306
+Fitness: 97523
+Fitness: 99981
+Fitness: 98791
+Fitness: 98265
+Fitness: 97438
+Fitness: 97335
+Fitness: 98487
+Fitness: 95721
+Fitness: 97413
+Fitness: 97852
+Fitness: 97153
+Fitness: 95835
+Fitness: 98113
+Fitness: 96228
+Fitness: 96034
+Fitness: 96742
+Fitness: 95986
+Fitness: 96706
+Fitness: 96122
+Fitness: 96283
+Fitness: 98443
+Fitness: 101216
+Fitness: 95659
+Fitness: 98379
+Fitness: 98175
+Fitness: 99237
+Fitness: 95614
+Fitness: 98028
+Fitness: 95967
+Fitness: 96170
+Fitness: 97970
+Fitness: 99559
+Fitness: 97668
+Fitness: 97695
+Fitness: 98278
+Fitness: 97398
+Fitness: 96860
+Fitness: 95428
+Fitness: 96520
+Fitness: 97713
+Fitness: 98722
+Fitness: 97182
+Fitness: 95536
+Fitness: 97805
+Fitness: 96516
+Fitness: 95742
+Fitness: 97484
+Fitness: 96985
+Fitness: 95598
+Fitness: 99129
+Fitness: 95501
+Fitness: 97254
+Fitness: 98321
+Fitness: 97034
+Fitness: 101375
+Fitness: 98408
+Fitness: 99921
+Fitness: 96649
+Fitness: 97200
+Fitness: 95631
+Fitness: 97192
+Fitness: 96364
+Fitness: 94637
+Fitness: 99444
+Fitness: 96992
+Fitness: 97208
+Fitness: 98755
+-------------
+Runs: 100
+Mean Fitness: 97398.160000, SD: 1343.259325
+
+
+----------------------------------------------
+Running TSP GrayBox Hybrid (LK+GPX)
+File name: att532.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\att532\GrayBox_GPX\
+Results: 
+Fitness: 87524
+Fitness: 87392
+Fitness: 87494
+Fitness: 87558
+Fitness: 87607
+Fitness: 87871
+Fitness: 87188
+Fitness: 87423
+Fitness: 87605
+Fitness: 87406
+Fitness: 87169
+Fitness: 87572
+Fitness: 87650
+Fitness: 87469
+Fitness: 87123
+Fitness: 87251
+Fitness: 87648
+Fitness: 87270
+Fitness: 87520
+Fitness: 87856
+Fitness: 87563
+Fitness: 87463
+Fitness: 87247
+Fitness: 87263
+Fitness: 87378
+Fitness: 88311
+Fitness: 87493
+Fitness: 87284
+Fitness: 87420
+Fitness: 87493
+Fitness: 87553
+Fitness: 87300
+Fitness: 87337
+Fitness: 87234
+Fitness: 87481
+Fitness: 87790
+Fitness: 87379
+Fitness: 87697
+Fitness: 87384
+Fitness: 87620
+Fitness: 87349
+Fitness: 87653
+Fitness: 87356
+Fitness: 87380
+Fitness: 87495
+Fitness: 87447
+Fitness: 87316
+Fitness: 87248
+Fitness: 87290
+Fitness: 87634
+Fitness: 87457
+Fitness: 87731
+Fitness: 87705
+Fitness: 87309
+Fitness: 87635
+Fitness: 87747
+Fitness: 87424
+Fitness: 87563
+Fitness: 87369
+Fitness: 87512
+Fitness: 87351
+Fitness: 87470
+Fitness: 87282
+Fitness: 87485
+Fitness: 87782
+Fitness: 87052
+Fitness: 87492
+Fitness: 87349
+Fitness: 87362
+Fitness: 87862
+Fitness: 87556
+Fitness: 87409
+Fitness: 87892
+Fitness: 87461
+Fitness: 87638
+Fitness: 87446
+Fitness: 87289
+Fitness: 87815
+Fitness: 87909
+Fitness: 87210
+Fitness: 87511
+Fitness: 87317
+Fitness: 87765
+Fitness: 87120
+Fitness: 87530
+Fitness: 87366
+Fitness: 87319
+Fitness: 87686
+Fitness: 87556
+Fitness: 87506
+Fitness: 87102
+Fitness: 87316
+Fitness: 87341
+Fitness: 87473
+Fitness: 87838
+Fitness: 87644
+Fitness: 87538
+Fitness: 87180
+Fitness: 87489
+Fitness: 87533
+-------------
+Runs: 100
+Mean Fitness: 87481.480000, SD: 208.380828
+Mean number of 2 cost components: 0.703444, SD: 0.944545
+Mean number of sub-tour choices: 1.152222, SD: 1.383854
+
+
+----------------------------------------------
+Running TSP Gray Box GPX Chained
+File name: att532.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\att532\GrayBox_GPX_Chained\
+Results: 
+Fitness: 87424
+Fitness: 87902
+Fitness: 87465
+Fitness: 87417
+Fitness: 87751
+Fitness: 87392
+Fitness: 87743
+Fitness: 87481
+Fitness: 87866
+Fitness: 88025
+Fitness: 88258
+Fitness: 87443
+Fitness: 87451
+Fitness: 87484
+Fitness: 87792
+Fitness: 87501
+Fitness: 88000
+Fitness: 87329
+Fitness: 87686
+Fitness: 87590
+Fitness: 88150
+Fitness: 88059
+Fitness: 87472
+Fitness: 87637
+Fitness: 87172
+Fitness: 87626
+Fitness: 87818
+Fitness: 87671
+Fitness: 87532
+Fitness: 87553
+Fitness: 87502
+Fitness: 87294
+Fitness: 87572
+Fitness: 87845
+Fitness: 87265
+Fitness: 87812
+Fitness: 87833
+Fitness: 88016
+Fitness: 87670
+Fitness: 88302
+Fitness: 87352
+Fitness: 87618
+Fitness: 87468
+Fitness: 87358
+Fitness: 87302
+Fitness: 88275
+Fitness: 87583
+Fitness: 87026
+Fitness: 87756
+Fitness: 88285
+Fitness: 87245
+Fitness: 87392
+Fitness: 87070
+Fitness: 87773
+Fitness: 87890
+Fitness: 87558
+Fitness: 87610
+Fitness: 87665
+Fitness: 87682
+Fitness: 87437
+Fitness: 87422
+Fitness: 87418
+Fitness: 87369
+Fitness: 87293
+Fitness: 87620
+Fitness: 87585
+Fitness: 87955
+Fitness: 87033
+Fitness: 87980
+Fitness: 87408
+Fitness: 87380
+Fitness: 87296
+Fitness: 87020
+Fitness: 87269
+Fitness: 86924
+Fitness: 87184
+Fitness: 87628
+Fitness: 87620
+Fitness: 87688
+Fitness: 87523
+Fitness: 87585
+Fitness: 87170
+Fitness: 87085
+Fitness: 87398
+Fitness: 87413
+Fitness: 87917
+Fitness: 87210
+Fitness: 86994
+Fitness: 87624
+Fitness: 87205
+Fitness: 87524
+Fitness: 87468
+Fitness: 87479
+Fitness: 87603
+Fitness: 87092
+Fitness: 87555
+Fitness: 87567
+Fitness: 87237
+Fitness: 87066
+Fitness: 87225
+-------------
+Runs: 100
+Mean Fitness: 87541.780000, SD: 302.160705
+Mean number of 2 cost components: 0.883667, SD: 1.026710
+Mean number of sub-tour choices: 1.432778, SD: 1.486283
+
+
+----------------------------------------------
+Running TSP Gray Box PX Chained
+File name: att532.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\att532\GrayBox_PX_Chained\
+Results: 
+Fitness: 87350
+Fitness: 87306
+Fitness: 87345
+Fitness: 87412
+Fitness: 87389
+Fitness: 87547
+Fitness: 87298
+Fitness: 87275
+Fitness: 87631
+Fitness: 87686
+Fitness: 87900
+Fitness: 87747
+Fitness: 87595
+Fitness: 87508
+Fitness: 87560
+Fitness: 87197
+Fitness: 87322
+Fitness: 87368
+Fitness: 87586
+Fitness: 87321
+Fitness: 87314
+Fitness: 87759
+Fitness: 87690
+Fitness: 87335
+Fitness: 87896
+Fitness: 87212
+Fitness: 87935
+Fitness: 87482
+Fitness: 87500
+Fitness: 87176
+Fitness: 87558
+Fitness: 87715
+Fitness: 88165
+Fitness: 87424
+Fitness: 87057
+Fitness: 87238
+Fitness: 87161
+Fitness: 87490
+Fitness: 87442
+Fitness: 87434
+Fitness: 87155
+Fitness: 87751
+Fitness: 86967
+Fitness: 87539
+Fitness: 87401
+Fitness: 87279
+Fitness: 87411
+Fitness: 87415
+Fitness: 87518
+Fitness: 87171
+Fitness: 87443
+Fitness: 87623
+Fitness: 87817
+Fitness: 87740
+Fitness: 87607
+Fitness: 87610
+Fitness: 87420
+Fitness: 87442
+Fitness: 88272
+Fitness: 87320
+Fitness: 87535
+Fitness: 87614
+Fitness: 87196
+Fitness: 87058
+Fitness: 88104
+Fitness: 88032
+Fitness: 87581
+Fitness: 88016
+Fitness: 87338
+Fitness: 87629
+Fitness: 87238
+Fitness: 87589
+Fitness: 87949
+Fitness: 87363
+Fitness: 87206
+Fitness: 87515
+Fitness: 87520
+Fitness: 87508
+Fitness: 87263
+Fitness: 87642
+Fitness: 87970
+Fitness: 87814
+Fitness: 87730
+Fitness: 87082
+Fitness: 87530
+Fitness: 87783
+Fitness: 87699
+Fitness: 87784
+Fitness: 87640
+Fitness: 87258
+Fitness: 87166
+Fitness: 87513
+Fitness: 87261
+Fitness: 87352
+Fitness: 87870
+Fitness: 87105
+Fitness: 87266
+Fitness: 87291
+Fitness: 87531
+Fitness: 87505
+-------------
+Runs: 100
+Mean Fitness: 87502.730000, SD: 262.128894
+Mean number of 2 cost components: 0.765889, SD: 1.002870
+Mean number of sub-tour choices: 1.099889, SD: 1.239408
+
+
+----------------------------------------------
+Running TSP BlackBox
+File name: d657.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\d657\BlackBox\
+Results: 
+Fitness: 54551
+Fitness: 54968
+Fitness: 53688
+Fitness: 54079
+Fitness: 54196
+Fitness: 54604
+Fitness: 54168
+Fitness: 56705
+Fitness: 54936
+Fitness: 55597
+Fitness: 54261
+Fitness: 54685
+Fitness: 53528
+Fitness: 55673
+Fitness: 55639
+Fitness: 54971
+Fitness: 54751
+Fitness: 54934
+Fitness: 54596
+Fitness: 53585
+Fitness: 53973
+Fitness: 54638
+Fitness: 54726
+Fitness: 54154
+Fitness: 53888
+Fitness: 55720
+Fitness: 56057
+Fitness: 55189
+Fitness: 55556
+Fitness: 55069
+Fitness: 54551
+Fitness: 54570
+Fitness: 54926
+Fitness: 55278
+Fitness: 54815
+Fitness: 54873
+Fitness: 55171
+Fitness: 55361
+Fitness: 56233
+Fitness: 55476
+Fitness: 55312
+Fitness: 54194
+Fitness: 54276
+Fitness: 53899
+Fitness: 54471
+Fitness: 55415
+Fitness: 55365
+Fitness: 54871
+Fitness: 54531
+Fitness: 54651
+Fitness: 54574
+Fitness: 54766
+Fitness: 54680
+Fitness: 53458
+Fitness: 55260
+Fitness: 54732
+Fitness: 53978
+Fitness: 55249
+Fitness: 54751
+Fitness: 54473
+Fitness: 54932
+Fitness: 54394
+Fitness: 55178
+Fitness: 55457
+Fitness: 54796
+Fitness: 54813
+Fitness: 54491
+Fitness: 55895
+Fitness: 54609
+Fitness: 54468
+Fitness: 54992
+Fitness: 55582
+Fitness: 55009
+Fitness: 54183
+Fitness: 55096
+Fitness: 54707
+Fitness: 55218
+Fitness: 55856
+Fitness: 54854
+Fitness: 54676
+Fitness: 54913
+Fitness: 55215
+Fitness: 55119
+Fitness: 55204
+Fitness: 54138
+Fitness: 54446
+Fitness: 54619
+Fitness: 53502
+Fitness: 54413
+Fitness: 56331
+Fitness: 54756
+Fitness: 54381
+Fitness: 53695
+Fitness: 55593
+Fitness: 54668
+Fitness: 54425
+Fitness: 54442
+Fitness: 54573
+Fitness: 55195
+Fitness: 55279
+-------------
+Runs: 100
+Mean Fitness: 54813.580000, SD: 622.294515
+
+
+----------------------------------------------
+Running TSP BlackBox Generational
+File name: d657.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\d657\BlackBox_Generational\
+Results: 
+Fitness: 55895
+Fitness: 54605
+Fitness: 54665
+Fitness: 55659
+Fitness: 55654
+Fitness: 55077
+Fitness: 55098
+Fitness: 55676
+Fitness: 55333
+Fitness: 54476
+Fitness: 56296
+Fitness: 54758
+Fitness: 56190
+Fitness: 55002
+Fitness: 55981
+Fitness: 54341
+Fitness: 56071
+Fitness: 55689
+Fitness: 55134
+Fitness: 54446
+Fitness: 54141
+Fitness: 56168
+Fitness: 55683
+Fitness: 55226
+Fitness: 55737
+Fitness: 55337
+Fitness: 54265
+Fitness: 55783
+Fitness: 55325
+Fitness: 55289
+Fitness: 54719
+Fitness: 55145
+Fitness: 55390
+Fitness: 54625
+Fitness: 55662
+Fitness: 55449
+Fitness: 55437
+Fitness: 56178
+Fitness: 54345
+Fitness: 55627
+Fitness: 55462
+Fitness: 55149
+Fitness: 56242
+Fitness: 55196
+Fitness: 54253
+Fitness: 55361
+Fitness: 55268
+Fitness: 54610
+Fitness: 55612
+Fitness: 54170
+Fitness: 55114
+Fitness: 54388
+Fitness: 54541
+Fitness: 54348
+Fitness: 56401
+Fitness: 54436
+Fitness: 55714
+Fitness: 54571
+Fitness: 54326
+Fitness: 56201
+Fitness: 54724
+Fitness: 55673
+Fitness: 55359
+Fitness: 55495
+Fitness: 54803
+Fitness: 55236
+Fitness: 55652
+Fitness: 55689
+Fitness: 55420
+Fitness: 55178
+Fitness: 56114
+Fitness: 55089
+Fitness: 55639
+Fitness: 55952
+Fitness: 54601
+Fitness: 55369
+Fitness: 55413
+Fitness: 55297
+Fitness: 54381
+Fitness: 54532
+Fitness: 55211
+Fitness: 54662
+Fitness: 54760
+Fitness: 54520
+Fitness: 56410
+Fitness: 55149
+Fitness: 55601
+Fitness: 55585
+Fitness: 55046
+Fitness: 54400
+Fitness: 54969
+Fitness: 55727
+Fitness: 54936
+Fitness: 55193
+Fitness: 54905
+Fitness: 55345
+Fitness: 54404
+Fitness: 55283
+Fitness: 56832
+Fitness: 54468
+-------------
+Runs: 100
+Mean Fitness: 55219.620000, SD: 602.695110
+
+
+----------------------------------------------
+Running TSP GrayBox Hybrid (LK+GPX)
+File name: d657.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\d657\GrayBox_GPX\
+Results: 
+Fitness: 49352
+Fitness: 49486
+Fitness: 49574
+Fitness: 49647
+Fitness: 49451
+Fitness: 49512
+Fitness: 49514
+Fitness: 49354
+Fitness: 49310
+Fitness: 49335
+Fitness: 49548
+Fitness: 49725
+Fitness: 49601
+Fitness: 49671
+Fitness: 49245
+Fitness: 49599
+Fitness: 49425
+Fitness: 49363
+Fitness: 49490
+Fitness: 49475
+Fitness: 49502
+Fitness: 49668
+Fitness: 49652
+Fitness: 49639
+Fitness: 49137
+Fitness: 49365
+Fitness: 49477
+Fitness: 49473
+Fitness: 49579
+Fitness: 49479
+Fitness: 49342
+Fitness: 49329
+Fitness: 49571
+Fitness: 49428
+Fitness: 49591
+Fitness: 49410
+Fitness: 49406
+Fitness: 49530
+Fitness: 49500
+Fitness: 49578
+Fitness: 49348
+Fitness: 49621
+Fitness: 49474
+Fitness: 49595
+Fitness: 49380
+Fitness: 49373
+Fitness: 49347
+Fitness: 49598
+Fitness: 49437
+Fitness: 49711
+Fitness: 49214
+Fitness: 49620
+Fitness: 49435
+Fitness: 49357
+Fitness: 49667
+Fitness: 49378
+Fitness: 49291
+Fitness: 49520
+Fitness: 49434
+Fitness: 49328
+Fitness: 49333
+Fitness: 49355
+Fitness: 49432
+Fitness: 49427
+Fitness: 49507
+Fitness: 49600
+Fitness: 49456
+Fitness: 49354
+Fitness: 49135
+Fitness: 49527
+Fitness: 49441
+Fitness: 49487
+Fitness: 49379
+Fitness: 49446
+Fitness: 49524
+Fitness: 49617
+Fitness: 49557
+Fitness: 49453
+Fitness: 49544
+Fitness: 49313
+Fitness: 49368
+Fitness: 49516
+Fitness: 49293
+Fitness: 49329
+Fitness: 49307
+Fitness: 49356
+Fitness: 49250
+Fitness: 49501
+Fitness: 49225
+Fitness: 49474
+Fitness: 49508
+Fitness: 49659
+Fitness: 49240
+Fitness: 49709
+Fitness: 49408
+Fitness: 49665
+Fitness: 49431
+Fitness: 49494
+Fitness: 49439
+Fitness: 49410
+-------------
+Runs: 100
+Mean Fitness: 49459.300000, SD: 129.191370
+Mean number of 2 cost components: 0.755333, SD: 1.010789
+Mean number of sub-tour choices: 1.219556, SD: 1.442150
+
+
+----------------------------------------------
+Running TSP Gray Box GPX Chained
+File name: d657.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\d657\GrayBox_GPX_Chained\
+Results: 
+Fitness: 49435
+Fitness: 49330
+Fitness: 49143
+Fitness: 49513
+Fitness: 49349
+Fitness: 49279
+Fitness: 49357
+Fitness: 49471
+Fitness: 49727
+Fitness: 49589
+Fitness: 49472
+Fitness: 49580
+Fitness: 49701
+Fitness: 49567
+Fitness: 49174
+Fitness: 49429
+Fitness: 49497
+Fitness: 49588
+Fitness: 49424
+Fitness: 49378
+Fitness: 49358
+Fitness: 49443
+Fitness: 49793
+Fitness: 49497
+Fitness: 49423
+Fitness: 49254
+Fitness: 49537
+Fitness: 49319
+Fitness: 49584
+Fitness: 49420
+Fitness: 49377
+Fitness: 49613
+Fitness: 49300
+Fitness: 49547
+Fitness: 49518
+Fitness: 49687
+Fitness: 49714
+Fitness: 49454
+Fitness: 49103
+Fitness: 49497
+Fitness: 49465
+Fitness: 49259
+Fitness: 49920
+Fitness: 49302
+Fitness: 49395
+Fitness: 49697
+Fitness: 49515
+Fitness: 49461
+Fitness: 49650
+Fitness: 49411
+Fitness: 49733
+Fitness: 49452
+Fitness: 49348
+Fitness: 49196
+Fitness: 49502
+Fitness: 49187
+Fitness: 49397
+Fitness: 49640
+Fitness: 49526
+Fitness: 49338
+Fitness: 49714
+Fitness: 49596
+Fitness: 49589
+Fitness: 49557
+Fitness: 49341
+Fitness: 49793
+Fitness: 50106
+Fitness: 49372
+Fitness: 49234
+Fitness: 49378
+Fitness: 49410
+Fitness: 49469
+Fitness: 49423
+Fitness: 49634
+Fitness: 49376
+Fitness: 49247
+Fitness: 49608
+Fitness: 49413
+Fitness: 49518
+Fitness: 49582
+Fitness: 49531
+Fitness: 49513
+Fitness: 49329
+Fitness: 49621
+Fitness: 49343
+Fitness: 49729
+Fitness: 49681
+Fitness: 49329
+Fitness: 49555
+Fitness: 49208
+Fitness: 49516
+Fitness: 49512
+Fitness: 49202
+Fitness: 49456
+Fitness: 49588
+Fitness: 49264
+Fitness: 49377
+Fitness: 49990
+Fitness: 49498
+Fitness: 49376
+-------------
+Runs: 100
+Mean Fitness: 49478.130000, SD: 177.713908
+Mean number of 2 cost components: 0.898444, SD: 1.085213
+Mean number of sub-tour choices: 1.451889, SD: 1.549737
+
+
+----------------------------------------------
+Running TSP Gray Box PX Chained
+File name: d657.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\d657\GrayBox_PX_Chained\
+Results: 
+Fitness: 49475
+Fitness: 49388
+Fitness: 49611
+Fitness: 49439
+Fitness: 49360
+Fitness: 49571
+Fitness: 49552
+Fitness: 49535
+Fitness: 49291
+Fitness: 49408
+Fitness: 49735
+Fitness: 49316
+Fitness: 49352
+Fitness: 49647
+Fitness: 49350
+Fitness: 49398
+Fitness: 49448
+Fitness: 49324
+Fitness: 49432
+Fitness: 49629
+Fitness: 49408
+Fitness: 49619
+Fitness: 49521
+Fitness: 49434
+Fitness: 49510
+Fitness: 49402
+Fitness: 49257
+Fitness: 49437
+Fitness: 49466
+Fitness: 49298
+Fitness: 49445
+Fitness: 49467
+Fitness: 49282
+Fitness: 49517
+Fitness: 49151
+Fitness: 49456
+Fitness: 49484
+Fitness: 49293
+Fitness: 49512
+Fitness: 49647
+Fitness: 49393
+Fitness: 49764
+Fitness: 49480
+Fitness: 49299
+Fitness: 49520
+Fitness: 49402
+Fitness: 49548
+Fitness: 49229
+Fitness: 49598
+Fitness: 49638
+Fitness: 49623
+Fitness: 49594
+Fitness: 49628
+Fitness: 49433
+Fitness: 49473
+Fitness: 49289
+Fitness: 49471
+Fitness: 49407
+Fitness: 49310
+Fitness: 49418
+Fitness: 49500
+Fitness: 49345
+Fitness: 49245
+Fitness: 49451
+Fitness: 49387
+Fitness: 49345
+Fitness: 49476
+Fitness: 49557
+Fitness: 49443
+Fitness: 49637
+Fitness: 49483
+Fitness: 49543
+Fitness: 49776
+Fitness: 49593
+Fitness: 49637
+Fitness: 49683
+Fitness: 49314
+Fitness: 49604
+Fitness: 49183
+Fitness: 49563
+Fitness: 49562
+Fitness: 49444
+Fitness: 49528
+Fitness: 49500
+Fitness: 49308
+Fitness: 49437
+Fitness: 49417
+Fitness: 49472
+Fitness: 49351
+Fitness: 49493
+Fitness: 49268
+Fitness: 49442
+Fitness: 49761
+Fitness: 49653
+Fitness: 49770
+Fitness: 49690
+Fitness: 49344
+Fitness: 49317
+Fitness: 49498
+Fitness: 49388
+-------------
+Runs: 100
+Mean Fitness: 49467.920000, SD: 135.595625
+Mean number of 2 cost components: 0.775889, SD: 1.062752
+Mean number of sub-tour choices: 1.094444, SD: 1.261468
+
+
+----------------------------------------------
+Running TSP BlackBox
+File name: u1817.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\u1817\BlackBox\
+Results: 
+Fitness: 67066
+Fitness: 66118
+Fitness: 67788
+Fitness: 66065
+Fitness: 67643
+Fitness: 66490
+Fitness: 67969
+Fitness: 66796
+Fitness: 66516
+Fitness: 67666
+Fitness: 65449
+Fitness: 66938
+Fitness: 66527
+Fitness: 66650
+Fitness: 65205
+Fitness: 67030
+Fitness: 66186
+Fitness: 66517
+Fitness: 65493
+Fitness: 67272
+Fitness: 67171
+Fitness: 67868
+Fitness: 67431
+Fitness: 66411
+Fitness: 66681
+Fitness: 68667
+Fitness: 66673
+Fitness: 67234
+Fitness: 66971
+Fitness: 66449
+Fitness: 66754
+Fitness: 67025
+Fitness: 67431
+Fitness: 67187
+Fitness: 66373
+Fitness: 66798
+Fitness: 66174
+Fitness: 66625
+Fitness: 65755
+Fitness: 66288
+Fitness: 66356
+Fitness: 67541
+Fitness: 66130
+Fitness: 66653
+Fitness: 65033
+Fitness: 66373
+Fitness: 66892
+Fitness: 68827
+Fitness: 66779
+Fitness: 67877
+Fitness: 66683
+Fitness: 65817
+Fitness: 66588
+Fitness: 65968
+Fitness: 67940
+Fitness: 67417
+Fitness: 65822
+Fitness: 65793
+Fitness: 67168
+Fitness: 66210
+Fitness: 66484
+Fitness: 66322
+Fitness: 67855
+Fitness: 65637
+Fitness: 66222
+Fitness: 65870
+Fitness: 65676
+Fitness: 65936
+Fitness: 67493
+Fitness: 66571
+Fitness: 66777
+Fitness: 66380
+Fitness: 66744
+Fitness: 66971
+Fitness: 67031
+Fitness: 67159
+Fitness: 67445
+Fitness: 65854
+Fitness: 66312
+Fitness: 67871
+Fitness: 67190
+Fitness: 66484
+Fitness: 67412
+Fitness: 66078
+Fitness: 66226
+Fitness: 66352
+Fitness: 67155
+Fitness: 66203
+Fitness: 66780
+Fitness: 66725
+Fitness: 65887
+Fitness: 67140
+Fitness: 67599
+Fitness: 66738
+Fitness: 66835
+Fitness: 67644
+Fitness: 66386
+Fitness: 66566
+Fitness: 66289
+Fitness: 65980
+-------------
+Runs: 100
+Mean Fitness: 66714.960000, SD: 709.986942
+
+
+----------------------------------------------
+Running TSP GrayBox Hybrid (LK+GPX)
+File name: u1817.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\u1817\GrayBox_GPX\
+Results: 
+Fitness: 58670
+Fitness: 58504
+Fitness: 58569
+Fitness: 58838
+Fitness: 58496
+Fitness: 59077
+Fitness: 58674
+Fitness: 58507
+Fitness: 58951
+Fitness: 58642
+Fitness: 58622
+Fitness: 58213
+Fitness: 58530
+Fitness: 58273
+Fitness: 58577
+Fitness: 58938
+Fitness: 59086
+Fitness: 58708
+Fitness: 58689
+Fitness: 58585
+Fitness: 58473
+Fitness: 59152
+Fitness: 59017
+Fitness: 58308
+Fitness: 58572
+Fitness: 58346
+Fitness: 58238
+Fitness: 58956
+Fitness: 58576
+Fitness: 59354
+Fitness: 58577
+Fitness: 58576
+Fitness: 58555
+Fitness: 58348
+Fitness: 58621
+Fitness: 58524
+Fitness: 58817
+Fitness: 58223
+Fitness: 58703
+Fitness: 58515
+Fitness: 58153
+Fitness: 58441
+Fitness: 58496
+Fitness: 58579
+Fitness: 59355
+Fitness: 58559
+Fitness: 58436
+Fitness: 58567
+Fitness: 58988
+Fitness: 59127
+Fitness: 58672
+Fitness: 58742
+Fitness: 58551
+Fitness: 58548
+Fitness: 58461
+Fitness: 58264
+Fitness: 58378
+Fitness: 58666
+Fitness: 58480
+Fitness: 58971
+Fitness: 58675
+Fitness: 58488
+Fitness: 58913
+Fitness: 58069
+Fitness: 58749
+Fitness: 58744
+Fitness: 58491
+Fitness: 58585
+Fitness: 58560
+Fitness: 58632
+Fitness: 58829
+Fitness: 58504
+Fitness: 58181
+Fitness: 58760
+Fitness: 59093
+Fitness: 58393
+Fitness: 58292
+Fitness: 58916
+Fitness: 58568
+Fitness: 58637
+Fitness: 58538
+Fitness: 58401
+Fitness: 58912
+Fitness: 58663
+Fitness: 58157
+Fitness: 58817
+Fitness: 58601
+Fitness: 58649
+Fitness: 58377
+Fitness: 59237
+Fitness: 58219
+Fitness: 58492
+Fitness: 58560
+Fitness: 58398
+Fitness: 58525
+Fitness: 58437
+Fitness: 58389
+Fitness: 58874
+Fitness: 58536
+Fitness: 58563
+-------------
+Runs: 100
+Mean Fitness: 58614.580000, SD: 261.716609
+Mean number of 2 cost components: 1.956667, SD: 2.293399
+Mean number of sub-tour choices: 2.616556, SD: 2.610571
+
+
+----------------------------------------------
+Running TSP Gray Box GPX Chained
+File name: u1817.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\u1817\GrayBox_GPX_Chained\
+Results: 
+Fitness: 58681
+Fitness: 58587
+Fitness: 59062
+Fitness: 58545
+Fitness: 58602
+Fitness: 58803
+Fitness: 58908
+Fitness: 58543
+Fitness: 58600
+Fitness: 58235
+Fitness: 58349
+Fitness: 58628
+Fitness: 58962
+Fitness: 58421
+Fitness: 58253
+Fitness: 58688
+Fitness: 58809
+Fitness: 58931
+Fitness: 58442
+Fitness: 58949
+Fitness: 59014
+Fitness: 58842
+Fitness: 58619
+Fitness: 58357
+Fitness: 58611
+Fitness: 58660
+Fitness: 58376
+Fitness: 58764
+Fitness: 58719
+Fitness: 58650
+Fitness: 58132
+Fitness: 58689
+Fitness: 58856
+Fitness: 58941
+Fitness: 59594
+Fitness: 58948
+Fitness: 58695
+Fitness: 58856
+Fitness: 59051
+Fitness: 58966
+Fitness: 59177
+Fitness: 58665
+Fitness: 58851
+Fitness: 58506
+Fitness: 59066
+Fitness: 58947
+Fitness: 58815
+Fitness: 58870
+Fitness: 58884
+Fitness: 58938
+Fitness: 59111
+Fitness: 58715
+Fitness: 58535
+Fitness: 58905
+Fitness: 58593
+Fitness: 58675
+Fitness: 58876
+Fitness: 58583
+Fitness: 58762
+Fitness: 58797
+Fitness: 58836
+Fitness: 58628
+Fitness: 58497
+Fitness: 58729
+Fitness: 58965
+Fitness: 58402
+Fitness: 58612
+Fitness: 58394
+Fitness: 58576
+Fitness: 58516
+Fitness: 58480
+Fitness: 58771
+Fitness: 58699
+Fitness: 58698
+Fitness: 58954
+Fitness: 58600
+Fitness: 59067
+Fitness: 59146
+Fitness: 58665
+Fitness: 59148
+Fitness: 58818
+Fitness: 58548
+Fitness: 58624
+Fitness: 58765
+Fitness: 58626
+Fitness: 58403
+Fitness: 58454
+Fitness: 58894
+Fitness: 58496
+Fitness: 58971
+Fitness: 58770
+Fitness: 58864
+Fitness: 58503
+Fitness: 58851
+Fitness: 58873
+Fitness: 58851
+Fitness: 58443
+Fitness: 58731
+Fitness: 58363
+Fitness: 58718
+-------------
+Runs: 100
+Mean Fitness: 58725.580000, SD: 236.207289
+Mean number of 2 cost components: 2.728111, SD: 2.362007
+Mean number of sub-tour choices: 3.720778, SD: 2.785544
+
+
+----------------------------------------------
+Running TSP Gray Box PX Chained
+File name: u1817.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\u1817\GrayBox_PX_Chained\
+Results: 
+Fitness: 58787
+Fitness: 58667
+Fitness: 58675
+Fitness: 58910
+Fitness: 58436
+Fitness: 58767
+Fitness: 58553
+Fitness: 58648
+Fitness: 58834
+Fitness: 58656
+Fitness: 58531
+Fitness: 58703
+Fitness: 58788
+Fitness: 58690
+Fitness: 58984
+Fitness: 58756
+Fitness: 58449
+Fitness: 58857
+Fitness: 59001
+Fitness: 59067
+Fitness: 58792
+Fitness: 58610
+Fitness: 58444
+Fitness: 58470
+Fitness: 58915
+Fitness: 58264
+Fitness: 58721
+Fitness: 58190
+Fitness: 58827
+Fitness: 58926
+Fitness: 58655
+Fitness: 58419
+Fitness: 58380
+Fitness: 58601
+Fitness: 58741
+Fitness: 58657
+Fitness: 58958
+Fitness: 58835
+Fitness: 58771
+Fitness: 58428
+Fitness: 58769
+Fitness: 58658
+Fitness: 58602
+Fitness: 58352
+Fitness: 58838
+Fitness: 58806
+Fitness: 58588
+Fitness: 58337
+Fitness: 58400
+Fitness: 58547
+Fitness: 58601
+Fitness: 58536
+Fitness: 58899
+Fitness: 58301
+Fitness: 59000
+Fitness: 59353
+Fitness: 58359
+Fitness: 58799
+Fitness: 58870
+Fitness: 58440
+Fitness: 58374
+Fitness: 58823
+Fitness: 58615
+Fitness: 57886
+Fitness: 58989
+Fitness: 59048
+Fitness: 58647
+Fitness: 58949
+Fitness: 58731
+Fitness: 58976
+Fitness: 58526
+Fitness: 58860
+Fitness: 58631
+Fitness: 59137
+Fitness: 58684
+Fitness: 58496
+Fitness: 58199
+Fitness: 58621
+Fitness: 58561
+Fitness: 58596
+Fitness: 59243
+Fitness: 58725
+Fitness: 58408
+Fitness: 59423
+Fitness: 59160
+Fitness: 58432
+Fitness: 58702
+Fitness: 58486
+Fitness: 58182
+Fitness: 58178
+Fitness: 58951
+Fitness: 58635
+Fitness: 58325
+Fitness: 58757
+Fitness: 58940
+Fitness: 58554
+Fitness: 58922
+Fitness: 58692
+Fitness: 58655
+Fitness: 58258
+-------------
+Runs: 100
+Mean Fitness: 58673.950000, SD: 265.052613
+Mean number of 2 cost components: 2.932000, SD: 2.422955
+Mean number of sub-tour choices: 2.323444, SD: 1.706050
+
+
+----------------------------------------------
+Running TSP BlackBox
+File name: pcb3038.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\pcb3038BlackBox\
+Results: 
+Fitness: 159118
+Fitness: 157195
+Fitness: 158082
+Fitness: 158626
+Fitness: 159216
+Fitness: 158308
+Fitness: 157727
+Fitness: 158688
+Fitness: 157267
+Fitness: 157189
+Fitness: 156568
+Fitness: 157803
+Fitness: 158852
+Fitness: 159400
+Fitness: 159571
+Fitness: 157823
+Fitness: 159136
+Fitness: 159653
+Fitness: 157096
+Fitness: 158317
+Fitness: 159028
+Fitness: 157307
+Fitness: 158597
+Fitness: 159578
+Fitness: 160021
+Fitness: 158660
+Fitness: 159708
+Fitness: 158846
+Fitness: 157862
+Fitness: 158526
+Fitness: 158749
+Fitness: 157601
+Fitness: 160065
+Fitness: 158749
+Fitness: 161251
+Fitness: 159351
+Fitness: 158071
+Fitness: 158090
+Fitness: 158853
+Fitness: 159031
+Fitness: 158225
+Fitness: 158280
+Fitness: 157508
+Fitness: 158977
+Fitness: 160190
+Fitness: 158540
+Fitness: 160197
+Fitness: 158089
+Fitness: 157759
+Fitness: 156091
+Fitness: 159356
+Fitness: 159047
+Fitness: 157454
+Fitness: 158382
+Fitness: 159607
+Fitness: 157615
+Fitness: 158097
+Fitness: 157512
+Fitness: 157834
+Fitness: 158013
+Fitness: 156506
+Fitness: 157945
+Fitness: 158253
+Fitness: 157991
+-------------
+Runs: 64
+Mean Fitness: 158453.859375, SD: 975.121160
+
+
+----------------------------------------------
+Running TSP GrayBox Hybrid (LK+GPX)
+File name: pcb3038.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\pcb3038GrayBox_GPX\
+Results: 
+Fitness: 140854
+Fitness: 140993
+Fitness: 140933
+Fitness: 141401
+Fitness: 141047
+Fitness: 140582
+Fitness: 140924
+Fitness: 140787
+Fitness: 140928
+Fitness: 141101
+Fitness: 141183
+Fitness: 141296
+Fitness: 140924
+Fitness: 141034
+Fitness: 140909
+Fitness: 140797
+Fitness: 141195
+Fitness: 141104
+Fitness: 141080
+Fitness: 141012
+Fitness: 141211
+Fitness: 140983
+Fitness: 140890
+Fitness: 140974
+Fitness: 141368
+Fitness: 141273
+Fitness: 140991
+Fitness: 140944
+Fitness: 141011
+Fitness: 141296
+Fitness: 140819
+Fitness: 140613
+Fitness: 141339
+Fitness: 140879
+Fitness: 141160
+Fitness: 140785
+Fitness: 141292
+Fitness: 141123
+Fitness: 140792
+Fitness: 141365
+Fitness: 140846
+Fitness: 141296
+Fitness: 141187
+Fitness: 140740
+Fitness: 140852
+Fitness: 140940
+Fitness: 140597
+Fitness: 141037
+Fitness: 141187
+Fitness: 141959
+Fitness: 141122
+Fitness: 140834
+Fitness: 141048
+Fitness: 141531
+Fitness: 140181
+Fitness: 140636
+Fitness: 140709
+Fitness: 141008
+Fitness: 140796
+Fitness: 140771
+Fitness: 141088
+Fitness: 140759
+Fitness: 141394
+Fitness: 140992
+-------------
+Runs: 64
+Mean Fitness: 141010.968750, SD: 266.995551
+Mean number of 2 cost components: 2.766493, SD: 3.006270
+Mean number of sub-tour choices: 3.494444, SD: 3.277338
+
+
+----------------------------------------------
+Running TSP Gray Box GPX Chained
+File name: pcb3038.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\pcb3038GrayBox_GPX_Chained\
+Results: 
+Fitness: 141136
+Fitness: 141545
+Fitness: 140326
+Fitness: 140774
+Fitness: 140795
+Fitness: 140755
+Fitness: 140992
+Fitness: 141049
+Fitness: 141150
+Fitness: 140847
+Fitness: 141191
+Fitness: 140725
+Fitness: 140916
+Fitness: 140954
+Fitness: 140816
+Fitness: 140889
+Fitness: 140712
+Fitness: 140893
+Fitness: 141225
+Fitness: 140796
+Fitness: 141431
+Fitness: 141224
+Fitness: 141097
+Fitness: 140332
+Fitness: 140842
+Fitness: 141422
+Fitness: 141137
+Fitness: 140971
+Fitness: 141065
+Fitness: 141102
+Fitness: 141364
+Fitness: 140644
+Fitness: 141315
+Fitness: 141381
+Fitness: 140379
+Fitness: 140975
+Fitness: 141482
+Fitness: 141158
+Fitness: 141516
+Fitness: 140979
+Fitness: 141487
+Fitness: 141165
+Fitness: 141322
+Fitness: 141639
+Fitness: 140627
+Fitness: 141580
+Fitness: 140904
+Fitness: 141221
+Fitness: 140605
+Fitness: 140810
+Fitness: 141710
+Fitness: 140984
+Fitness: 140965
+Fitness: 141145
+Fitness: 141025
+Fitness: 140898
+Fitness: 141150
+Fitness: 141790
+Fitness: 141172
+Fitness: 141348
+Fitness: 141676
+Fitness: 140755
+Fitness: 140801
+Fitness: 140962
+-------------
+Runs: 64
+Mean Fitness: 141063.171875, SD: 326.146706
+Mean number of 2 cost components: 2.889931, SD: 2.880014
+Mean number of sub-tour choices: 3.857986, SD: 3.308339
+
+
+----------------------------------------------
+Running TSP Gray Box PX Chained
+File name: pcb3038.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\pcb3038GrayBox_PX_Chained\
+Results: 
+Fitness: 141161
+Fitness: 141593
+Fitness: 141124
+Fitness: 140970
+Fitness: 141436
+Fitness: 141076
+Fitness: 140328
+Fitness: 141060
+Fitness: 141189
+Fitness: 140925
+Fitness: 140421
+Fitness: 141173
+Fitness: 140646
+Fitness: 141403
+Fitness: 141294
+Fitness: 140635
+Fitness: 141873
+Fitness: 141378
+Fitness: 141453
+Fitness: 141045
+Fitness: 140682
+Fitness: 141631
+Fitness: 141042
+Fitness: 141606
+Fitness: 141218
+Fitness: 140836
+Fitness: 140922
+Fitness: 141786
+Fitness: 142168
+Fitness: 140859
+Fitness: 141963
+Fitness: 141324
+Fitness: 141344
+Fitness: 141455
+Fitness: 140932
+Fitness: 141586
+Fitness: 140814
+Fitness: 141317
+Fitness: 140950
+Fitness: 141338
+Fitness: 140940
+Fitness: 141351
+Fitness: 141467
+Fitness: 140196
+Fitness: 141317
+Fitness: 140861
+Fitness: 141708
+Fitness: 140815
+Fitness: 141644
+Fitness: 140915
+Fitness: 141194
+Fitness: 141691
+Fitness: 141046
+Fitness: 141097
+Fitness: 140665
+Fitness: 141190
+Fitness: 140584
+Fitness: 141411
+Fitness: 141397
+Fitness: 141067
+Fitness: 141288
+Fitness: 141077
+Fitness: 140734
+Fitness: 141353
+-------------
+Runs: 64
+Mean Fitness: 141171.312500, SD: 387.960850
+Mean number of 2 cost components: 3.597917, SD: 2.947008
+Mean number of sub-tour choices: 2.368576, SD: 1.661790
+
+
+----------------------------------------------
+Running TSP BlackBox
+File name: rl5915.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\rl5915\BlackBox\
+Results: 
+Fitness: 670456
+Fitness: 663945
+Fitness: 656814
+Fitness: 655380
+Fitness: 660337
+Fitness: 655477
+Fitness: 663076
+Fitness: 660351
+Fitness: 659896
+Fitness: 659493
+Fitness: 656241
+Fitness: 663570
+Fitness: 668970
+Fitness: 660485
+Fitness: 662575
+Fitness: 655589
+Fitness: 660485
+Fitness: 654040
+Fitness: 653959
+Fitness: 661099
+Fitness: 666637
+Fitness: 660036
+Fitness: 664230
+Fitness: 657496
+Fitness: 664044
+Fitness: 656718
+Fitness: 667748
+Fitness: 673828
+Fitness: 663595
+Fitness: 657545
+Fitness: 660972
+Fitness: 657048
+-------------
+Runs: 32
+Mean Fitness: 661004.218750, SD: 4798.603161
+
+
+----------------------------------------------
+Running TSP GrayBox Hybrid (LK+GPX)
+File name: rl5915.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\rl5915\GrayBox_GPX\
+Results: 
+Fitness: 583093
+Fitness: 581082
+Fitness: 581975
+Fitness: 580834
+Fitness: 586085
+Fitness: 580391
+Fitness: 578545
+Fitness: 578808
+Fitness: 579745
+Fitness: 580373
+Fitness: 580218
+Fitness: 580479
+Fitness: 578369
+Fitness: 579999
+Fitness: 584333
+Fitness: 581590
+Fitness: 580826
+Fitness: 581312
+Fitness: 577287
+Fitness: 578115
+Fitness: 581885
+Fitness: 579235
+Fitness: 590144
+Fitness: 582627
+Fitness: 591795
+Fitness: 589968
+Fitness: 578082
+Fitness: 580349
+Fitness: 581853
+Fitness: 580336
+Fitness: 582427
+Fitness: 579240
+-------------
+Runs: 32
+Mean Fitness: 581606.250000, SD: 3434.612906
+Mean number of 2 cost components: 3.215278, SD: 3.882588
+Mean number of sub-tour choices: 3.921528, SD: 4.143782
+
+
+----------------------------------------------
+Running TSP Gray Box GPX Chained
+File name: rl5915.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\rl5915\GrayBox_GPX_Chained\
+Results: 
+Fitness: 583767
+Fitness: 580857
+Fitness: 591866
+Fitness: 578392
+Fitness: 581915
+Fitness: 580209
+Fitness: 579472
+Fitness: 579460
+Fitness: 579960
+Fitness: 582772
+Fitness: 580742
+Fitness: 581512
+Fitness: 579018
+Fitness: 578651
+Fitness: 579980
+Fitness: 579442
+Fitness: 583905
+Fitness: 583956
+Fitness: 579515
+Fitness: 581194
+Fitness: 579470
+Fitness: 580939
+Fitness: 580631
+Fitness: 586465
+Fitness: 577107
+Fitness: 583473
+Fitness: 580984
+Fitness: 578976
+Fitness: 579670
+Fitness: 582151
+Fitness: 579340
+Fitness: 582041
+-------------
+Runs: 32
+Mean Fitness: 581182.250000, SD: 2733.969001
+Mean number of 2 cost components: 3.695139, SD: 3.695922
+Mean number of sub-tour choices: 4.694792, SD: 4.079536
+
+
+----------------------------------------------
+Running TSP Gray Box PX Chained
+File name: rl5915.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\rl5915\GrayBox_PX_Chained\
+Results: 
+Fitness: 578408
+Fitness: 583177
+Fitness: 584547
+Fitness: 577201
+Fitness: 579213
+Fitness: 582410
+Fitness: 579847
+Fitness: 581283
+Fitness: 582986
+Fitness: 579910
+Fitness: 580900
+Fitness: 580782
+Fitness: 579127
+Fitness: 584601
+Fitness: 581878
+Fitness: 576046
+Fitness: 578692
+Fitness: 580242
+Fitness: 582962
+Fitness: 586899
+Fitness: 580756
+Fitness: 581138
+Fitness: 589757
+Fitness: 584166
+Fitness: 585787
+Fitness: 582798
+Fitness: 583047
+Fitness: 583094
+Fitness: 581329
+Fitness: 583041
+Fitness: 584345
+Fitness: 579423
+-------------
+Runs: 32
+Mean Fitness: 581868.500000, SD: 2805.755914
+Mean number of 2 cost components: 4.702778, SD: 3.842542
+Mean number of sub-tour choices: 2.225694, SD: 1.533571
+
+
+----------------------------------------------
+Running TSP BlackBox
+File name: usa13509.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\usa13509\BlackBox\
+Results: 
+Fitness: 22628641
+Fitness: 22796694
+Fitness: 22710592
+Fitness: 22794118
+Fitness: 22593402
+Fitness: 22821741
+Fitness: 22742735
+Fitness: 22679188
+-------------
+Runs: 8
+Mean Fitness: 22720888.875000, SD: 77753.527548
+
+
+----------------------------------------------
+Running TSP GrayBox Hybrid (LK+GPX)
+File name: usa13509.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\usa13509\GrayBox_GPX\
+Results: 
+Fitness: 20595236
+Fitness: 20501779
+Fitness: 20502122
+Fitness: 20690002
+Fitness: 20505271
+Fitness: 20502568
+Fitness: 20521614
+Fitness: 20461677
+-------------
+Runs: 8
+Mean Fitness: 20535033.625000, SD: 68309.662356
+Mean number of 2 cost components: 6.940278, SD: 10.016405
+Mean number of sub-tour choices: 7.711111, SD: 10.182632
+
+
+----------------------------------------------
+Running TSP Gray Box GPX Chained
+File name: usa13509.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\usa13509\GrayBox_GPX_Chained\
+Results: 
+Fitness: 20534342
+Fitness: 20484074
+Fitness: 20550357
+Fitness: 20483605
+Fitness: 20515143
+Fitness: 20614821
+Fitness: 20634631
+Fitness: 20573295
+-------------
+Runs: 8
+Mean Fitness: 20548783.500000, SD: 52571.178668
+Mean number of 2 cost components: 7.668056, SD: 10.086134
+Mean number of sub-tour choices: 8.766667, SD: 10.599974
+
+
+----------------------------------------------
+Running TSP Gray Box PX Chained
+File name: usa13509.tsp
+Detailed output files in directory: C:\EA\Build\..\OUTPUT\TSP\usa13509\GrayBox_PX_Chained\
+Results: 
+Fitness: 20486995
+Fitness: 20435907
+Fitness: 20438951
+Fitness: 20520850
+Fitness: 20519707
+Fitness: 20426173
+Fitness: 20503302
+Fitness: 20411598
+-------------
+Runs: 8
+Mean Fitness: 20467935.375000, SD: 41650.679391
+Mean number of 2 cost components: 11.154167, SD: 9.049853
+Mean number of sub-tour choices: 2.530556, SD: 1.752509
+
+

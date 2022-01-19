@@ -1,0 +1,70 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf250-1065/uf250-055.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 942
+Iteration: 1, Fitness: 945
+Iteration: 2, Fitness: 946
+Iteration: 4, Fitness: 951
+Iteration: 5, Fitness: 952
+Iteration: 6, Fitness: 959
+Iteration: 7, Fitness: 961
+Iteration: 8, Fitness: 962
+Iteration: 10, Fitness: 966
+Iteration: 11, Fitness: 970
+Iteration: 13, Fitness: 971
+Iteration: 14, Fitness: 975
+Iteration: 15, Fitness: 977
+Iteration: 17, Fitness: 981
+Iteration: 18, Fitness: 986
+Iteration: 21, Fitness: 988
+Iteration: 23, Fitness: 989
+Iteration: 24, Fitness: 990
+Iteration: 26, Fitness: 995
+Iteration: 28, Fitness: 996
+Iteration: 29, Fitness: 1000
+Iteration: 31, Fitness: 1002
+Iteration: 32, Fitness: 1003
+Iteration: 33, Fitness: 1004
+Iteration: 34, Fitness: 1005
+Iteration: 35, Fitness: 1008
+Iteration: 39, Fitness: 1010
+Iteration: 40, Fitness: 1013
+Iteration: 46, Fitness: 1015
+Iteration: 47, Fitness: 1017
+Iteration: 50, Fitness: 1018
+Iteration: 51, Fitness: 1023
+Iteration: 57, Fitness: 1026
+Iteration: 62, Fitness: 1027
+Iteration: 65, Fitness: 1032
+Iteration: 70, Fitness: 1033
+Iteration: 75, Fitness: 1034
+Iteration: 77, Fitness: 1035
+Iteration: 79, Fitness: 1036
+Iteration: 83, Fitness: 1038
+Iteration: 85, Fitness: 1039
+Iteration: 89, Fitness: 1040
+Iteration: 91, Fitness: 1041
+Iteration: 99, Fitness: 1043
+Iteration: 107, Fitness: 1045
+Iteration: 112, Fitness: 1046
+Iteration: 119, Fitness: 1047
+Iteration: 124, Fitness: 1048
+Iteration: 126, Fitness: 1049
+Iteration: 141, Fitness: 1050
+Iteration: 151, Fitness: 1051
+Iteration: 155, Fitness: 1052
+Iteration: 167, Fitness: 1053
+Iteration: 200, Fitness: 1054
+Iteration: 267, Fitness: 1055
+Iteration: 534, Fitness: 1056
+Iteration: 706, Fitness: 1057
+------------------------------- 
+Job Complete 
+Iterations: 3177
+Best Solution Fitness: 1057 
+Not Optimal 
+--------------------------------------------- 

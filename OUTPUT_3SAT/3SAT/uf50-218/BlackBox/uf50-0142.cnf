@@ -1,0 +1,24 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf50-218/uf50-0142.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 204
+Iteration: 3, Fitness: 206
+Iteration: 4, Fitness: 207
+Iteration: 8, Fitness: 209
+Iteration: 9, Fitness: 210
+Iteration: 13, Fitness: 211
+Iteration: 16, Fitness: 212
+Iteration: 17, Fitness: 214
+Iteration: 29, Fitness: 215
+Iteration: 31, Fitness: 216
+Iteration: 46, Fitness: 217
+------------------------------- 
+Job Complete 
+Iterations: 12881
+Best Solution Fitness: 217 
+Not Optimal 
+--------------------------------------------- 

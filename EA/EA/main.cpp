@@ -498,8 +498,8 @@ int main()
     std::filesystem::create_directories(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\");
     Utils::Files::OpenOutputStream(Utils::Files::GetWorkingDirectory() + "..\\OUTPUT\\output.txt");
 
-    //Run3SATJobs();
-    RunTSPJobs();
+    Run3SATJobs();
+    //RunTSPJobs();
 
     Utils::Files::CloseOutputStream();
   }

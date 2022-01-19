@@ -1,0 +1,27 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf200-860/uf200-082.cnf
+Algorithm: Hybrid with No Crossover
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 842
+Iteration: 10, Fitness: 845
+Iteration: 20, Fitness: 846
+Iteration: 70, Fitness: 847
+Iteration: 80, Fitness: 848
+Iteration: 190, Fitness: 849
+Iteration: 290, Fitness: 850
+Iteration: 330, Fitness: 851
+Iteration: 950, Fitness: 852
+Iteration: 1280, Fitness: 853
+Iteration: 1340, Fitness: 854
+Iteration: 2970, Fitness: 855
+Iteration: 2980, Fitness: 856
+Iteration: 3260, Fitness: 857
+------------------------------- 
+Job Complete 
+Iterations: 7441
+Best Solution Fitness: 857 
+Not Optimal 
+--------------------------------------------- 

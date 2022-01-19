@@ -1,0 +1,71 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf225-960/uf225-083.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 833
+Iteration: 1, Fitness: 835
+Iteration: 2, Fitness: 839
+Iteration: 3, Fitness: 841
+Iteration: 4, Fitness: 850
+Iteration: 6, Fitness: 851
+Iteration: 7, Fitness: 856
+Iteration: 8, Fitness: 861
+Iteration: 10, Fitness: 866
+Iteration: 11, Fitness: 869
+Iteration: 12, Fitness: 870
+Iteration: 13, Fitness: 871
+Iteration: 14, Fitness: 872
+Iteration: 15, Fitness: 874
+Iteration: 16, Fitness: 875
+Iteration: 17, Fitness: 884
+Iteration: 19, Fitness: 886
+Iteration: 22, Fitness: 888
+Iteration: 23, Fitness: 892
+Iteration: 25, Fitness: 894
+Iteration: 26, Fitness: 896
+Iteration: 27, Fitness: 897
+Iteration: 28, Fitness: 898
+Iteration: 29, Fitness: 900
+Iteration: 31, Fitness: 907
+Iteration: 36, Fitness: 911
+Iteration: 39, Fitness: 916
+Iteration: 43, Fitness: 917
+Iteration: 47, Fitness: 919
+Iteration: 51, Fitness: 920
+Iteration: 52, Fitness: 923
+Iteration: 55, Fitness: 925
+Iteration: 57, Fitness: 926
+Iteration: 62, Fitness: 928
+Iteration: 64, Fitness: 929
+Iteration: 74, Fitness: 930
+Iteration: 76, Fitness: 931
+Iteration: 80, Fitness: 933
+Iteration: 88, Fitness: 934
+Iteration: 90, Fitness: 935
+Iteration: 92, Fitness: 936
+Iteration: 96, Fitness: 937
+Iteration: 97, Fitness: 938
+Iteration: 103, Fitness: 939
+Iteration: 111, Fitness: 940
+Iteration: 117, Fitness: 942
+Iteration: 121, Fitness: 944
+Iteration: 128, Fitness: 945
+Iteration: 133, Fitness: 948
+Iteration: 158, Fitness: 949
+Iteration: 178, Fitness: 950
+Iteration: 186, Fitness: 951
+Iteration: 238, Fitness: 952
+Iteration: 340, Fitness: 953
+Iteration: 351, Fitness: 954
+Iteration: 356, Fitness: 955
+Iteration: 398, Fitness: 956
+Iteration: 454, Fitness: 957
+------------------------------- 
+Job Complete 
+Iterations: 3525
+Best Solution Fitness: 957 
+Not Optimal 
+--------------------------------------------- 

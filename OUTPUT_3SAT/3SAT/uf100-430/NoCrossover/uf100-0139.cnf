@@ -1,0 +1,17 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf100-430/uf100-0139.cnf
+Algorithm: Hybrid with No Crossover
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 425
+Iteration: 10, Fitness: 426
+Iteration: 40, Fitness: 427
+Iteration: 70, Fitness: 428
+------------------------------- 
+Job Complete 
+Iterations: 24279
+Best Solution Fitness: 428 
+Not Optimal 
+--------------------------------------------- 

@@ -1,0 +1,72 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf200-860/uf200-081.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 759
+Iteration: 1, Fitness: 762
+Iteration: 3, Fitness: 764
+Iteration: 4, Fitness: 769
+Iteration: 5, Fitness: 771
+Iteration: 6, Fitness: 773
+Iteration: 7, Fitness: 777
+Iteration: 8, Fitness: 782
+Iteration: 9, Fitness: 784
+Iteration: 10, Fitness: 785
+Iteration: 12, Fitness: 788
+Iteration: 13, Fitness: 794
+Iteration: 15, Fitness: 795
+Iteration: 18, Fitness: 799
+Iteration: 21, Fitness: 804
+Iteration: 24, Fitness: 806
+Iteration: 25, Fitness: 807
+Iteration: 26, Fitness: 809
+Iteration: 28, Fitness: 811
+Iteration: 31, Fitness: 812
+Iteration: 32, Fitness: 813
+Iteration: 33, Fitness: 816
+Iteration: 36, Fitness: 817
+Iteration: 37, Fitness: 820
+Iteration: 40, Fitness: 821
+Iteration: 41, Fitness: 822
+Iteration: 42, Fitness: 823
+Iteration: 43, Fitness: 824
+Iteration: 45, Fitness: 826
+Iteration: 53, Fitness: 827
+Iteration: 54, Fitness: 828
+Iteration: 58, Fitness: 829
+Iteration: 59, Fitness: 830
+Iteration: 63, Fitness: 831
+Iteration: 66, Fitness: 832
+Iteration: 70, Fitness: 833
+Iteration: 77, Fitness: 834
+Iteration: 82, Fitness: 835
+Iteration: 87, Fitness: 836
+Iteration: 94, Fitness: 837
+Iteration: 106, Fitness: 838
+Iteration: 112, Fitness: 839
+Iteration: 123, Fitness: 840
+Iteration: 125, Fitness: 841
+Iteration: 136, Fitness: 842
+Iteration: 143, Fitness: 843
+Iteration: 168, Fitness: 844
+Iteration: 174, Fitness: 845
+Iteration: 203, Fitness: 846
+Iteration: 228, Fitness: 847
+Iteration: 318, Fitness: 848
+Iteration: 333, Fitness: 849
+Iteration: 371, Fitness: 850
+Iteration: 425, Fitness: 851
+Iteration: 526, Fitness: 852
+Iteration: 691, Fitness: 853
+Iteration: 765, Fitness: 854
+Iteration: 1325, Fitness: 855
+Iteration: 2051, Fitness: 856
+------------------------------- 
+Job Complete 
+Iterations: 3903
+Best Solution Fitness: 856 
+Not Optimal 
+--------------------------------------------- 

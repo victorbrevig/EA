@@ -1,0 +1,47 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf125-538/uf125-044.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 478
+Iteration: 1, Fitness: 480
+Iteration: 2, Fitness: 484
+Iteration: 3, Fitness: 487
+Iteration: 5, Fitness: 488
+Iteration: 6, Fitness: 492
+Iteration: 7, Fitness: 495
+Iteration: 8, Fitness: 496
+Iteration: 10, Fitness: 497
+Iteration: 11, Fitness: 498
+Iteration: 12, Fitness: 500
+Iteration: 13, Fitness: 504
+Iteration: 15, Fitness: 505
+Iteration: 16, Fitness: 507
+Iteration: 17, Fitness: 508
+Iteration: 18, Fitness: 509
+Iteration: 19, Fitness: 510
+Iteration: 21, Fitness: 515
+Iteration: 22, Fitness: 516
+Iteration: 27, Fitness: 517
+Iteration: 29, Fitness: 519
+Iteration: 33, Fitness: 521
+Iteration: 40, Fitness: 522
+Iteration: 42, Fitness: 523
+Iteration: 46, Fitness: 526
+Iteration: 70, Fitness: 527
+Iteration: 83, Fitness: 528
+Iteration: 91, Fitness: 529
+Iteration: 93, Fitness: 531
+Iteration: 109, Fitness: 532
+Iteration: 164, Fitness: 533
+Iteration: 171, Fitness: 535
+Iteration: 219, Fitness: 536
+Iteration: 515, Fitness: 537
+------------------------------- 
+Job Complete 
+Iterations: 6051
+Best Solution Fitness: 537 
+Not Optimal 
+--------------------------------------------- 

@@ -1,0 +1,83 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf250-1065/uf250-069.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 918
+Iteration: 1, Fitness: 924
+Iteration: 2, Fitness: 927
+Iteration: 3, Fitness: 929
+Iteration: 4, Fitness: 934
+Iteration: 5, Fitness: 935
+Iteration: 6, Fitness: 938
+Iteration: 7, Fitness: 940
+Iteration: 8, Fitness: 942
+Iteration: 9, Fitness: 945
+Iteration: 10, Fitness: 946
+Iteration: 11, Fitness: 951
+Iteration: 12, Fitness: 955
+Iteration: 13, Fitness: 956
+Iteration: 15, Fitness: 960
+Iteration: 16, Fitness: 961
+Iteration: 18, Fitness: 965
+Iteration: 20, Fitness: 970
+Iteration: 21, Fitness: 972
+Iteration: 23, Fitness: 975
+Iteration: 24, Fitness: 977
+Iteration: 25, Fitness: 979
+Iteration: 26, Fitness: 982
+Iteration: 30, Fitness: 986
+Iteration: 31, Fitness: 987
+Iteration: 32, Fitness: 989
+Iteration: 34, Fitness: 990
+Iteration: 35, Fitness: 993
+Iteration: 38, Fitness: 994
+Iteration: 39, Fitness: 996
+Iteration: 40, Fitness: 998
+Iteration: 41, Fitness: 1000
+Iteration: 42, Fitness: 1003
+Iteration: 46, Fitness: 1005
+Iteration: 49, Fitness: 1011
+Iteration: 56, Fitness: 1012
+Iteration: 57, Fitness: 1013
+Iteration: 58, Fitness: 1014
+Iteration: 59, Fitness: 1016
+Iteration: 60, Fitness: 1017
+Iteration: 62, Fitness: 1019
+Iteration: 64, Fitness: 1021
+Iteration: 66, Fitness: 1022
+Iteration: 70, Fitness: 1025
+Iteration: 76, Fitness: 1027
+Iteration: 79, Fitness: 1030
+Iteration: 80, Fitness: 1031
+Iteration: 85, Fitness: 1032
+Iteration: 89, Fitness: 1034
+Iteration: 91, Fitness: 1035
+Iteration: 93, Fitness: 1037
+Iteration: 97, Fitness: 1038
+Iteration: 102, Fitness: 1040
+Iteration: 111, Fitness: 1042
+Iteration: 112, Fitness: 1045
+Iteration: 124, Fitness: 1047
+Iteration: 140, Fitness: 1048
+Iteration: 148, Fitness: 1049
+Iteration: 168, Fitness: 1050
+Iteration: 218, Fitness: 1051
+Iteration: 248, Fitness: 1052
+Iteration: 318, Fitness: 1053
+Iteration: 409, Fitness: 1054
+Iteration: 639, Fitness: 1055
+Iteration: 676, Fitness: 1056
+Iteration: 951, Fitness: 1057
+Iteration: 1116, Fitness: 1058
+Iteration: 1541, Fitness: 1059
+Iteration: 1868, Fitness: 1060
+Iteration: 2212, Fitness: 1061
+------------------------------- 
+Job Complete 
+Iterations: 3288
+Best Solution Fitness: 1061 
+Not Optimal 
+--------------------------------------------- 

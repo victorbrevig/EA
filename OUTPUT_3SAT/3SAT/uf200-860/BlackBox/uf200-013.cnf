@@ -1,0 +1,71 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf200-860/uf200-013.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 757
+Iteration: 1, Fitness: 759
+Iteration: 2, Fitness: 761
+Iteration: 3, Fitness: 763
+Iteration: 4, Fitness: 767
+Iteration: 5, Fitness: 769
+Iteration: 6, Fitness: 772
+Iteration: 7, Fitness: 773
+Iteration: 8, Fitness: 778
+Iteration: 9, Fitness: 779
+Iteration: 10, Fitness: 780
+Iteration: 11, Fitness: 783
+Iteration: 12, Fitness: 784
+Iteration: 13, Fitness: 787
+Iteration: 14, Fitness: 790
+Iteration: 15, Fitness: 791
+Iteration: 16, Fitness: 794
+Iteration: 18, Fitness: 796
+Iteration: 19, Fitness: 801
+Iteration: 21, Fitness: 803
+Iteration: 23, Fitness: 804
+Iteration: 25, Fitness: 806
+Iteration: 26, Fitness: 807
+Iteration: 27, Fitness: 809
+Iteration: 28, Fitness: 810
+Iteration: 30, Fitness: 812
+Iteration: 33, Fitness: 814
+Iteration: 34, Fitness: 815
+Iteration: 35, Fitness: 816
+Iteration: 38, Fitness: 820
+Iteration: 44, Fitness: 822
+Iteration: 45, Fitness: 823
+Iteration: 46, Fitness: 824
+Iteration: 47, Fitness: 825
+Iteration: 50, Fitness: 826
+Iteration: 52, Fitness: 827
+Iteration: 54, Fitness: 828
+Iteration: 55, Fitness: 830
+Iteration: 57, Fitness: 833
+Iteration: 58, Fitness: 834
+Iteration: 66, Fitness: 835
+Iteration: 71, Fitness: 836
+Iteration: 73, Fitness: 838
+Iteration: 79, Fitness: 840
+Iteration: 81, Fitness: 842
+Iteration: 92, Fitness: 843
+Iteration: 93, Fitness: 844
+Iteration: 94, Fitness: 845
+Iteration: 102, Fitness: 846
+Iteration: 106, Fitness: 847
+Iteration: 125, Fitness: 848
+Iteration: 130, Fitness: 849
+Iteration: 173, Fitness: 850
+Iteration: 250, Fitness: 851
+Iteration: 281, Fitness: 852
+Iteration: 361, Fitness: 853
+Iteration: 1432, Fitness: 854
+Iteration: 3730, Fitness: 855
+------------------------------- 
+Job Complete 
+Iterations: 3889
+Best Solution Fitness: 855 
+Not Optimal 
+--------------------------------------------- 

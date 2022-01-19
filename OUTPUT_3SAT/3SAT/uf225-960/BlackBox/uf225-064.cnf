@@ -1,0 +1,71 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf225-960/uf225-064.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 831
+Iteration: 2, Fitness: 835
+Iteration: 3, Fitness: 844
+Iteration: 4, Fitness: 853
+Iteration: 7, Fitness: 856
+Iteration: 10, Fitness: 857
+Iteration: 11, Fitness: 865
+Iteration: 14, Fitness: 870
+Iteration: 17, Fitness: 872
+Iteration: 19, Fitness: 877
+Iteration: 20, Fitness: 878
+Iteration: 21, Fitness: 885
+Iteration: 24, Fitness: 886
+Iteration: 25, Fitness: 887
+Iteration: 26, Fitness: 890
+Iteration: 27, Fitness: 893
+Iteration: 30, Fitness: 896
+Iteration: 32, Fitness: 898
+Iteration: 34, Fitness: 900
+Iteration: 37, Fitness: 907
+Iteration: 40, Fitness: 910
+Iteration: 46, Fitness: 912
+Iteration: 47, Fitness: 915
+Iteration: 50, Fitness: 916
+Iteration: 52, Fitness: 919
+Iteration: 53, Fitness: 923
+Iteration: 60, Fitness: 924
+Iteration: 66, Fitness: 925
+Iteration: 68, Fitness: 926
+Iteration: 71, Fitness: 927
+Iteration: 72, Fitness: 929
+Iteration: 73, Fitness: 930
+Iteration: 76, Fitness: 931
+Iteration: 84, Fitness: 934
+Iteration: 91, Fitness: 936
+Iteration: 99, Fitness: 937
+Iteration: 102, Fitness: 938
+Iteration: 114, Fitness: 939
+Iteration: 130, Fitness: 940
+Iteration: 138, Fitness: 941
+Iteration: 146, Fitness: 942
+Iteration: 169, Fitness: 943
+Iteration: 186, Fitness: 944
+Iteration: 196, Fitness: 945
+Iteration: 220, Fitness: 946
+Iteration: 229, Fitness: 947
+Iteration: 246, Fitness: 948
+Iteration: 260, Fitness: 949
+Iteration: 296, Fitness: 950
+Iteration: 451, Fitness: 951
+Iteration: 481, Fitness: 952
+Iteration: 511, Fitness: 953
+Iteration: 533, Fitness: 954
+Iteration: 579, Fitness: 955
+Iteration: 615, Fitness: 956
+Iteration: 651, Fitness: 957
+Iteration: 712, Fitness: 958
+Iteration: 1232, Fitness: 959
+------------------------------- 
+Job Complete 
+Iterations: 3474
+Best Solution Fitness: 959 
+Not Optimal 
+--------------------------------------------- 

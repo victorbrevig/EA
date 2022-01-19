@@ -1,0 +1,72 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf225-960/uf225-029.cnf
+Algorithm: Black-Box Generational 
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 857
+Iteration: 1, Fitness: 858
+Iteration: 2, Fitness: 862
+Iteration: 4, Fitness: 863
+Iteration: 5, Fitness: 866
+Iteration: 6, Fitness: 868
+Iteration: 7, Fitness: 869
+Iteration: 8, Fitness: 870
+Iteration: 9, Fitness: 873
+Iteration: 10, Fitness: 875
+Iteration: 12, Fitness: 878
+Iteration: 13, Fitness: 879
+Iteration: 14, Fitness: 881
+Iteration: 16, Fitness: 884
+Iteration: 18, Fitness: 888
+Iteration: 20, Fitness: 889
+Iteration: 21, Fitness: 893
+Iteration: 22, Fitness: 897
+Iteration: 28, Fitness: 898
+Iteration: 29, Fitness: 899
+Iteration: 30, Fitness: 900
+Iteration: 31, Fitness: 901
+Iteration: 32, Fitness: 902
+Iteration: 33, Fitness: 904
+Iteration: 35, Fitness: 905
+Iteration: 37, Fitness: 907
+Iteration: 41, Fitness: 910
+Iteration: 43, Fitness: 911
+Iteration: 44, Fitness: 912
+Iteration: 46, Fitness: 915
+Iteration: 50, Fitness: 917
+Iteration: 51, Fitness: 919
+Iteration: 55, Fitness: 921
+Iteration: 60, Fitness: 922
+Iteration: 63, Fitness: 923
+Iteration: 65, Fitness: 926
+Iteration: 69, Fitness: 927
+Iteration: 72, Fitness: 928
+Iteration: 78, Fitness: 930
+Iteration: 81, Fitness: 931
+Iteration: 84, Fitness: 932
+Iteration: 85, Fitness: 934
+Iteration: 94, Fitness: 935
+Iteration: 98, Fitness: 936
+Iteration: 102, Fitness: 938
+Iteration: 112, Fitness: 940
+Iteration: 119, Fitness: 941
+Iteration: 130, Fitness: 942
+Iteration: 135, Fitness: 943
+Iteration: 144, Fitness: 944
+Iteration: 150, Fitness: 945
+Iteration: 182, Fitness: 946
+Iteration: 195, Fitness: 947
+Iteration: 213, Fitness: 948
+Iteration: 296, Fitness: 949
+Iteration: 375, Fitness: 950
+Iteration: 532, Fitness: 951
+Iteration: 591, Fitness: 952
+Iteration: 774, Fitness: 953
+------------------------------- 
+Job Complete 
+Iterations: 3477
+Best Solution Fitness: 953 
+Not Optimal 
+--------------------------------------------- 

@@ -1,0 +1,33 @@
+--------------------------------------------- 
+Job start 
+Search space: Permutation 
+Problem: The Travelling Salesman Problem 
+Problem instance: ..\ALL_tsp\att532.tsp
+Algorithm: Hybrid with Chained Partition Crossover
+Population: 10
+Generation: 1
+Generation: 2
+New Best Solution Fitness: 88057
+New Best Solution Fitness: 87776
+Generation: 3
+New Best Solution Fitness: 87755
+New Best Solution Fitness: 87751
+Generation: 4
+New Best Solution Fitness: 87605
+Generation: 5
+Generation: 6
+Generation: 7
+New Best Solution Fitness: 87578
+Generation: 8
+New Best Solution Fitness: 87552
+Generation: 9
+New Best Solution Fitness: 87343
+Generation: 10
+New Best Solution Fitness: 87322
+-------------------------
+Job Complete 
+Iterations: 10
+Mean 2-Cost components: 0.488889 
+Mean sub-tour choices: 0.733333 
+Best Solution Fitness: 87322 
+--------------------------------------------- 

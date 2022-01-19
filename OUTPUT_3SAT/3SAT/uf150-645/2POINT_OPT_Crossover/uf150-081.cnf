@@ -1,0 +1,25 @@
+--------------------------------------------- 
+Job start 
+Search space: Bitstring 
+Problem: Max 3-SAT 
+Problem instance: C:/EA/Build/../ALL_3SAT/uf150-645/uf150-081.cnf
+Algorithm: Hybrid with Two point Crossover improved by local search
+Running Time: 50000 milliseconds
+Iteration: 0, Fitness: 636
+Iteration: 2, Fitness: 637
+Iteration: 3, Fitness: 638
+Iteration: 6, Fitness: 640
+Iteration: 12, Fitness: 641
+Iteration: 15, Fitness: 642
+Iteration: 104, Fitness: 643
+Iteration: 420, Fitness: 644
+------------------------------- 
+Job Complete 
+Iterations: 2075
+Best Solution Fitness: 644 
+Not Optimal 
+------------------------------- 
+Local optimality of 2-point crossover children
+Local optimal count: 3117
+Not local optimal count: 57756
+--------------------------------------------- 

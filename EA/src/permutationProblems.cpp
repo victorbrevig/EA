@@ -186,9 +186,7 @@ namespace PermutationProblems
             TSPpermutation& currentPerm = P1[i];
 
             TSPpermutation::Stats stats;
-            TSPpermutation::Stats stats2;
             std::optional<std::pair<TSPpermutation, TSPpermutation>> optionalChildren;
-            std::optional<std::pair<TSPpermutation, TSPpermutation>> optionalChildren2;
             switch (crossoverVersion)
             {
             case PermutationProblems::PartitionCrossoverVersion::GPX_STANDARD:
